@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 
-import '../../../../gen/colors.gen.dart';
-
 class HomeSectionHeader extends StatelessWidget {
   const HomeSectionHeader({
     super.key,
