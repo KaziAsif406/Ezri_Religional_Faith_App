@@ -17,6 +17,8 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.textStyle,
     this.padding,
+    this.backgroundGradient,
+    this.titleGradient,
   });
 
   final VoidCallback? onPressed;
@@ -29,44 +31,98 @@ class CustomButton extends StatelessWidget {
   final double? width;
   final TextStyle? textStyle;
   final EdgeInsetsGeometry? padding;
+  final Gradient? backgroundGradient;
+  final Gradient? titleGradient;
 
   @override
   Widget build(BuildContext context) {
+    final BorderRadiusGeometry resolvedRadius =
+        borderRadius ?? BorderRadius.circular(12.r);
+    final TextStyle resolvedTextStyle =
+        textStyle ?? TextFontStyle.textStyle10c513B26HelveticaNeue400;
+
     return SizedBox(
       width: width ?? double.infinity,
       height: height ?? 50.h,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? AppColors.allPrimaryColor,
-          foregroundColor: foregroundColor ?? AppColors.allPrimaryColor,
-          disabledBackgroundColor:
-              (backgroundColor ?? AppColors.allPrimaryColor)
-                  .withValues(alpha: 0.5),
-          disabledForegroundColor:
-              (foregroundColor ?? AppColors.allPrimaryColor).withValues(alpha: 0.5),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(12.r),
-          ),
-          padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: backgroundGradient,
+          borderRadius: resolvedRadius,
         ),
-        child: isLoading
-            ? SizedBox(
-                width: 20.w,
-                height: 20.h,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.w,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    foregroundColor ?? AppColors.allPrimaryColor,
+        child: ElevatedButton(
+          onPressed: isLoading ? null : onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundGradient != null
+                ? Colors.transparent
+                : (backgroundColor ?? AppColors.allPrimaryColor),
+            foregroundColor: foregroundColor ?? AppColors.allPrimaryColor,
+            disabledBackgroundColor:
+                (backgroundColor ?? AppColors.allPrimaryColor)
+                    .withValues(alpha: 0.5),
+            disabledForegroundColor:
+                (foregroundColor ?? AppColors.allPrimaryColor)
+                    .withValues(alpha: 0.5),
+            shadowColor: Colors.transparent,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: resolvedRadius,
+            ),
+            padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w),
+          ),
+          child: isLoading
+              ? SizedBox(
+                  width: 20.w,
+                  height: 20.h,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.w,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      foregroundColor ?? AppColors.allPrimaryColor,
+                    ),
                   ),
+                )
+              : _CustomButtonTitle(
+                  title: title,
+                  textStyle: resolvedTextStyle,
+                  titleGradient: titleGradient,
                 ),
-              )
-            : Text(
-                title,
-                style: textStyle ?? TextFontStyle.textStyle10c513B26HelveticaNeue400,
-                textAlign: TextAlign.center,
-              ),
+        ),
+      ),
+    );
+  }
+}
+
+class _CustomButtonTitle extends StatelessWidget {
+  const _CustomButtonTitle({
+    required this.title,
+    required this.textStyle,
+    required this.titleGradient,
+  });
+
+  final String title;
+  final TextStyle textStyle;
+  final Gradient? titleGradient;
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget text = Text(
+      title,
+      style: textStyle,
+      textAlign: TextAlign.center,
+    );
+
+    if (titleGradient == null) {
+      return text;
+    }
+
+    return ShaderMask(
+      shaderCallback: (Rect bounds) {
+        return titleGradient!.createShader(bounds);
+      },
+      blendMode: BlendMode.srcIn,
+      child: Text(
+        title,
+        style: textStyle.copyWith(color: Colors.white),
+        textAlign: TextAlign.center,
       ),
     );
   }
@@ -84,41 +140,58 @@ Widget customButton({
   double? width,
   TextStyle? textStyle,
   EdgeInsetsGeometry? padding,
+  Gradient? backgroundGradient,
+  Gradient? titleGradient,
 }) {
+  final BorderRadiusGeometry resolvedRadius =
+      borderRadius ?? BorderRadius.circular(12.r);
+  final TextStyle resolvedTextStyle =
+      textStyle ?? TextFontStyle.textStyle10c513B26HelveticaNeue400;
+
   return SizedBox(
     width: width ?? double.infinity,
     height: height ?? 50.h,
-    child: ElevatedButton(
-      onPressed: isLoading ? null : onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: backgroundColor ?? AppColors.allPrimaryColor,
-        foregroundColor: foregroundColor ?? AppColors.allPrimaryColor,
-        disabledBackgroundColor: (backgroundColor ?? AppColors.allPrimaryColor)
-            .withValues(alpha: 0.5),
-        disabledForegroundColor:
-            (foregroundColor ?? AppColors.allPrimaryColor).withValues(alpha: 0.5),
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: borderRadius ?? BorderRadius.circular(12.r),
-        ),
-        padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w),
+    child: DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: backgroundGradient,
+        borderRadius: resolvedRadius,
       ),
-      child: isLoading
-          ? SizedBox(
-              width: 20.w,
-              height: 20.h,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.w,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  foregroundColor ?? AppColors.allPrimaryColor,
+      child: ElevatedButton(
+        onPressed: isLoading ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: backgroundGradient != null
+              ? Colors.transparent
+              : (backgroundColor ?? AppColors.allPrimaryColor),
+          foregroundColor: foregroundColor ?? AppColors.allPrimaryColor,
+          disabledBackgroundColor: (backgroundColor ?? AppColors.allPrimaryColor)
+              .withValues(alpha: 0.5),
+          disabledForegroundColor:
+              (foregroundColor ?? AppColors.allPrimaryColor)
+                  .withValues(alpha: 0.5),
+          shadowColor: Colors.transparent,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: resolvedRadius,
+          ),
+          padding: padding ?? EdgeInsets.symmetric(horizontal: 16.w),
+        ),
+        child: isLoading
+            ? SizedBox(
+                width: 20.w,
+                height: 20.h,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.w,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    foregroundColor ?? AppColors.allPrimaryColor,
+                  ),
                 ),
+              )
+            : _CustomButtonTitle(
+                title: title,
+                textStyle: resolvedTextStyle,
+                titleGradient: titleGradient,
               ),
-            )
-          : Text(
-              title,
-              style: textStyle ?? TextFontStyle.textStyle10c513B26HelveticaNeue400,
-              textAlign: TextAlign.center,
-            ),
+      ),
     ),
   );
 }

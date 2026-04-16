@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:template_flutter/common_widgets/custom_button.dart';
+import 'package:template_flutter/constants/text_font_style.dart';
 
 import '../../../../gen/colors.gen.dart';
 
 class HomeSectionCard extends StatelessWidget {
   const HomeSectionCard({
     super.key,
-    required this.icon,
+    required this.backgroundColor,
+    required this.imagePath,
     required this.title,
     required this.description,
     required this.buttonLabel,
@@ -17,7 +19,8 @@ class HomeSectionCard extends StatelessWidget {
     this.elevatedButton = false,
   });
 
-  final IconData icon;
+  final Color backgroundColor;
+  final String imagePath;
   final String title;
   final String description;
   final String buttonLabel;
@@ -28,84 +31,71 @@ class HomeSectionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.fromLTRB(18.w, 24.h, 18.w, 20.h),
+      width: 390.w,
+      // height: 300.h,
+      padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 24.h),
       decoration: BoxDecoration(
-        color: AppColors.allPrimaryColor.withValues(alpha: 0.55),
-        borderRadius: BorderRadius.circular(28.r),
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(24.r),
         border: Border.all(
-          color: AppColors.c8C7C68.withValues(alpha: 0.22),
+          color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
           width: 1.w,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.c1C1919.withValues(alpha: 0.10),
+            blurRadius: 12.r,
+            offset: Offset(0, 6.h),
+          ),
+        ],
       ),
       child: Column(
         children: [
-          Container(
-            width: 84.w,
-            height: 84.w,
-            decoration: BoxDecoration(
-              color: AppColors.allPrimaryColor.withValues(alpha: 0.75),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              icon,
-              color: AppColors.cA29783,
-              size: 40.sp,
-            ),
+          Image.asset(
+            imagePath,
+            width: 64.sp,
+            height: 64.sp,
           ),
-          SizedBox(height: 24.h),
+          SizedBox(height: 12.h),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppColors.c8C7C68,
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w500,
-              height: 1.18,
+            style: TextFontStyle.textStyle20c8C7C68HelveticaNeue500.copyWith(
+              fontWeight: FontWeight.w900,
+              height: 1.2,
+              letterSpacing: 0,
             ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 4.h),
           Text(
             description,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppColors.c99907A,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w300,
-              height: 1.2,
-            ),
+            style: TextFontStyle.textStyle14c99907AHelveticaNeue400,
           ),
-          SizedBox(height: 24.h),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(34.r),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: buttonGradient,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: buttonShadowColor,
-                  blurRadius: elevatedButton ? 22.r : 18.r,
-                  offset: Offset(0, elevatedButton ? 14.h : 10.h),
-                ),
+          SizedBox(height: 16.h),
+          CustomButton(
+            onPressed: () {},
+            title: buttonLabel,
+            width: 247.w,
+            height: 52.h,
+            backgroundGradient: LinearGradient(
+              colors: buttonGradient
+                  .map((color) => color)
+                  .toList(),
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            titleGradient: const LinearGradient(
+              colors: [
+                Color(0xFFFFFFFF),
+                Color(0xFFF5EDD7),
               ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            child: CustomButton(
-              onPressed: () {},
-              title: buttonLabel,
-              height: 54.h,
-              backgroundColor: Colors.transparent,
-              foregroundColor: AppColors.cF5EDD7,
-              borderRadius: BorderRadius.circular(34.r),
-              textStyle: TextStyle(
-                color: AppColors.cF5EDD7,
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w500,
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 18.w),
-            ),
+            borderRadius: BorderRadius.circular(34.r),
+            textStyle: TextFontStyle.textStyle16cFFFFFFHelveticaNeue500,
+            padding: EdgeInsets.symmetric(horizontal: 18.w),
           ),
         ],
       ),

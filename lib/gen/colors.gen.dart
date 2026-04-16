@@ -21,7 +21,7 @@ class AppColors {
   static const Color c174870 = Color(0xFF174870);
 
   /// Color: #FF183F69
-  static const Color c183F69 = Color(0xFF183F69);
+  static const Color c183F69 = Color.fromARGB(255, 233, 250, 77);
 
   /// Color: #FF184069
   static const Color c184069 = Color(0xFF184069);
