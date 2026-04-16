@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/constants/text_font_style.dart';
 
 import '../../../../gen/colors.gen.dart';
 
@@ -25,22 +26,12 @@ class HomeSectionHeader extends StatelessWidget {
       children: [
         Text(
           titlePrefix,
-          style: TextStyle(
-            color: AppColors.c8C7C68,
-            fontSize: 28.sp,
-            fontWeight: FontWeight.w300,
-            height: 1.05,
-          ),
+          style: TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
         ),
         SizedBox(width: 8.w),
         Text(
           titleHighlight,
-          style: TextStyle(
-            color: AppColors.allsecondaryColor,
-            fontSize: 28.sp,
-            fontWeight: FontWeight.w500,
-            height: 1.05,
-          ),
+          style: TextFontStyle.textStyle24c3B230EHelveticaNeue700,
         ),
         const Spacer(),
         if (hasAction)
@@ -48,10 +39,7 @@ class HomeSectionHeader extends StatelessWidget {
             onTap: onActionTap,
             child: Text(
               actionText!,
-              style: TextStyle(
-                color: AppColors.allsecondaryColor,
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w600,
+              style: TextFontStyle.textStyle18c3B230EHelveticaNeue700.copyWith(
                 decoration: TextDecoration.underline,
                 decorationThickness: 1.8,
               ),
