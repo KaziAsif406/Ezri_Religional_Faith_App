@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/constants/text_font_style.dart';
 
 import '../../../../gen/colors.gen.dart';
 
@@ -8,57 +11,67 @@ class HomeActionTile extends StatelessWidget {
     super.key,
     required this.label,
     required this.imagePath,
+    this.iconSize,
   });
 
   final String label;
   final String imagePath;
+  final double? iconSize;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
-      child: Container(
-        width: 124.w,
-        height: 136.w,
-        decoration: BoxDecoration(
-          color: AppColors.allsecondaryColor.withValues(alpha: 0.32),
-          borderRadius: BorderRadius.circular(24.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.10),
-              blurRadius: 22.r,
-              offset: Offset(0, 12.h),
+    final BorderRadius tileRadius = BorderRadius.circular(24.r);
+
+    return ClipRRect(
+      borderRadius: tileRadius,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+        child: Container(
+          height: 135.h,
+          width: 124.w,
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
+          decoration: BoxDecoration(
+            color: AppColors.allsecondaryColor.withValues(alpha: 0.30),
+            borderRadius: tileRadius,
+            border: Border.all(
+              color: AppColors.cF5EDD7.withValues(alpha: 0.15),
+              width: 1.w,
             ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 72.w,
-              height: 72.w,
-              decoration: BoxDecoration(
-                color: AppColors.allsecondaryColor.withValues(alpha: 0.92),
-                shape: BoxShape.circle,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                height: 52.h,
+                width: 52.w,
+                decoration: BoxDecoration(
+                  color: AppColors.allsecondaryColor,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.c1C1919.withValues(alpha: 0.30),
+                      blurRadius: 8.r,
+                      offset: Offset(0, 6.h),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Image.asset(
+                    imagePath,
+                    height: iconSize ?? 20.h,
+                    width: iconSize ?? 20.w,
+                    fit: BoxFit.contain,
+                  ),
+                ),
               ),
-              child: Image.asset(
-                imagePath,
-                width: 20.sp,
-                height: 20.sp,
+              SizedBox(height: 10.h),
+              Text(
+                label,
+                style: TextFontStyle.textStyle14cF5EDD7HelveticaNeue400,
+                textAlign: TextAlign.center,
               ),
-            ),
-            SizedBox(height: 18.h),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: AppColors.cF5EDD7,
-                fontSize: 17.sp,
-                fontWeight: FontWeight.w400,
-                height: 1.18,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

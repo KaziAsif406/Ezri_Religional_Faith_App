@@ -88,8 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Positioned(
                   top: 190.h,
-                  left: 20.w,
-                  right: 20.w,
+                  left: 15.w,
+                  right: 15.w,
                   child: Row(
                     children: [
                       Expanded(
@@ -98,14 +98,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           imagePath: 'assets/icons/add_entry.png',
                         ),
                       ),
-                      UIHelper.horizontalSpace(12.w),
+                      UIHelper.horizontalSpace(9.w),
                       Expanded(
                         child: HomeActionTile(
                           label: 'Ezri\nChat',
                           imagePath: 'assets/icons/chat.png',
                         ),
                       ),
-                      UIHelper.horizontalSpace(12.w),
+                      UIHelper.horizontalSpace(9.w),
                       Expanded(
                         child: HomeActionTile(
                           label: 'Community\nLight',
@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(22.w, 20.h, 22.w, 0),
+              padding: EdgeInsets.fromLTRB(22.w, 17.h, 22.w, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
