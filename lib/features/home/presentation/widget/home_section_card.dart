@@ -17,6 +17,7 @@ class HomeSectionCard extends StatelessWidget {
     required this.buttonGradient,
     required this.buttonShadowColor,
     this.elevatedButton = false,
+    this.onButtonTap,
   });
 
   final Color backgroundColor;
@@ -27,6 +28,7 @@ class HomeSectionCard extends StatelessWidget {
   final List<Color> buttonGradient;
   final Color buttonShadowColor;
   final bool elevatedButton;
+  final VoidCallback? onButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class HomeSectionCard extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           CustomButton(
-            onPressed: () {},
+            onPressed: onButtonTap ?? () {},
             title: buttonLabel,
             width: 247.w,
             height: 52.h,

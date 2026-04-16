@@ -4,6 +4,7 @@ import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
 
 import '../../../gen/colors.gen.dart';
+import 'add_faith_anchor.dart';
 import 'widget/home_action_tile.dart';
 import 'widget/home_section_card.dart';
 import 'widget/home_section_header.dart';
@@ -139,6 +140,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       AppColors.allsecondaryColor.withValues(alpha: 0.20),
                     ],
                     buttonShadowColor: AppColors.c8C7C68.withValues(alpha: 0.35),
+                    onButtonTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const AddFaithAnchorScreen(),
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: 28.h),
                   const HomeSectionHeader(

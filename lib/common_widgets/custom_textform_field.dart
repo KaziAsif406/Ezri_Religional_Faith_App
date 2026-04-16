@@ -1,39 +1,157 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/constants/text_font_style.dart';
+import '/gen/colors.gen.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
-    required this.controller,
-    required this.hintText,
-    required this.labelText,
+    this.height,
+    this.width,
+    this.label,
+    this.labelStyle,
+    this.hintText,
+    this.controller,
     this.validator,
-    this.isPassword = false,
+    this.obscureText = false,
     this.prefixIcon,
-    this.textInputAction,  this.keyboardType,
+    this.suffixIcon,
+    this.onChanged,
+    this.keyboardType = TextInputType.text,
+    this.maxLines = 1,
+    this.minLines,
+    this.contentPadding,
+    this.focusNode,
   });
 
-  final TextEditingController controller;
-  final String hintText;
-  final String labelText;
+  final String? label;
+  final TextStyle? labelStyle;
+  final double? height;
+  final double? width;
+  final String? hintText;
+  final TextEditingController? controller;
   final String? Function(String?)? validator;
-  final bool isPassword;
-  final IconData? prefixIcon;
-  final TextInputAction? textInputAction;
-  final TextInputType? keyboardType;
+  final bool obscureText;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final Function(String)? onChanged;
+  final TextInputType keyboardType;
+  final int maxLines;
+  final int? minLines;
+  final EdgeInsetsGeometry? contentPadding;
+  final FocusNode? focusNode;
+
+  @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool _obscureText;
+
+  double? get _effectiveHeight => widget.height?.h;
+  double? get _effectiveWidth => widget.width?.w;
+
+  @override
+  void initState() {
+    super.initState();
+    _obscureText = widget.obscureText;
+  }
+
+  void _toggleObscure() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      validator: validator,
-      obscureText: isPassword,
-      textInputAction: textInputAction,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        hintText: hintText,
-        labelText: labelText,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        // Add other decoration properties as per your UIHelper
+    return SizedBox(
+      height: _effectiveHeight,
+      width: _effectiveWidth,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.label != null && widget.label!.isNotEmpty) ...[
+            Text(
+              widget.label!,
+              style: widget.labelStyle ?? 
+              TextFontStyle.textStyle14c8C7C68HelveticaNeue400,
+            ),
+            SizedBox(height: 8.h),
+          ],
+          TextFormField(
+            controller: widget.controller,
+            validator: widget.validator,
+            obscureText: _obscureText,
+            onChanged: widget.onChanged,
+            keyboardType: widget.keyboardType,
+            maxLines: widget.obscureText ? 1 : widget.maxLines,
+            minLines: widget.minLines,
+            focusNode: widget.focusNode,
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              hintStyle: TextFontStyle.textStyle14c8C7C68HelveticaNeue300,
+              prefixIcon: widget.prefixIcon,
+              suffixIcon: widget.obscureText
+                  ? GestureDetector(
+                      onTap: _toggleObscure,
+                      child: Image.asset(
+                        _obscureText
+                            ? 'assets/icons/eye_off.png'
+                            : 'assets/icons/eye_on.png',
+                        width: 12.w,
+                        height: 12.h,
+                      )
+                    )
+                  : widget.suffixIcon,
+              contentPadding: widget.contentPadding ??
+                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+              filled: true,
+              fillColor: AppColors.allPrimaryColor,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: BorderSide(
+                  color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: BorderSide(
+                  color: AppColors.allsecondaryColor.withValues(alpha: 0.2),
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: BorderSide(
+                  color: AppColors.allsecondaryColor.withValues(alpha: 0.2),
+                  width: 2,
+                ),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: const BorderSide(
+                  color: AppColors.allsecondaryColor,
+                ),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                  width: 2,
+                ),
+              ),
+              errorStyle: TextStyle(
+                fontSize: 12.sp,
+                color: Colors.red,
+              ),
+            ),
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: AppColors.allsecondaryColor,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ],
       ),
     );
   }
