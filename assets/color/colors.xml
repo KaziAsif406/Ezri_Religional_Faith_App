@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<colors>
+    <color name="allPrimaryColor">#FF3A1222</color>
+    <color name="secondaryColor">#FFFFFF</color>
+    <color name="scaffoldColor">#FFfbfbfb</color>
+    <color name="cFFFFFF">#FFFFFFFF</color>
+    <color name="cFCFCFC">#FFFCFCFC</color>
+    <color name="c202020">#FF202020</color>
+    <color name="c383838">#FF383838</color>
+    <color name="c606060">#FF606060</color>
+    <color name="c949494">#FF949494</color>
+    <color name="cE8E8E8">#FFE8E8E8</color>
+    <color name="cFF3A1222">#FF3A1222</color>
+    <color name="cFF6B6B6B">#FF6B6B6B</color>
+    <color name="c172B4D">#FF172B4D</color>
+    <color name="c4CAF50">#FF4CAF50</color>
+    <color name="cF44336">#FFF44336</color>
+    <color name="cFFD700">#FFFFD700</color>
+    <color name="c000000">#FF000000</color>
+    <color name="cF5F5F5">#FFF5F5F5</color>
+</colors>
