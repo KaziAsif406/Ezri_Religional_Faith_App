@@ -70,6 +70,15 @@ flutter:
       fonts:
         - asset:  assets/fonts/DMSans-Regular.ttf
   
-    - family: Open Sans
+    - family: OpenSans
       fonts:
         - asset:  assets/fonts/OpenSans-Regular.ttf
+
+    - family: HelveticaNeue
+      fonts:
+      - asset: assets/fonts/HelveticaNeueLight.ttf
+        weight: 300
+      - asset: assets/fonts/HelveticaNeueRegular.ttf
+        weight: 400
+      - asset: assets/fonts/HelveticaNeueMedium.ttf
+        weight: 500

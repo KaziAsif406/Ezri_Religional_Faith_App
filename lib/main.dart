@@ -68,9 +68,9 @@ class UtillScreenMobile extends StatelessWidget {
                   unselectedWidgetColor: Colors.white,
                   primarySwatch: CustomTheme.kToDark,
                   useMaterial3: false,
-                  scaffoldBackgroundColor: AppColors.cFFFFFF,
+                  scaffoldBackgroundColor: AppColors.scaffoldColor,
                   appBarTheme: const AppBarTheme(
-                      backgroundColor: AppColors.cFFFFFF, elevation: 0)),
+                      backgroundColor: AppColors.allPrimaryColor, elevation: 0)),
               debugShowCheckedModeBanner: false,
               builder: (context, widget) {
                 return MediaQuery(data: MediaQuery.of(context), child: widget!);

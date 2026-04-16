@@ -39,12 +39,12 @@ class CustomButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? AppColors.allPrimaryColor,
-          foregroundColor: foregroundColor ?? AppColors.cFFFFFF,
+          foregroundColor: foregroundColor ?? AppColors.allPrimaryColor,
           disabledBackgroundColor:
               (backgroundColor ?? AppColors.allPrimaryColor)
                   .withValues(alpha: 0.5),
           disabledForegroundColor:
-              (foregroundColor ?? AppColors.cFFFFFF).withValues(alpha: 0.5),
+              (foregroundColor ?? AppColors.allPrimaryColor).withValues(alpha: 0.5),
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: borderRadius ?? BorderRadius.circular(12.r),
@@ -58,13 +58,13 @@ class CustomButton extends StatelessWidget {
                 child: CircularProgressIndicator(
                   strokeWidth: 2.w,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    foregroundColor ?? AppColors.cFFFFFF,
+                    foregroundColor ?? AppColors.allPrimaryColor,
                   ),
                 ),
               )
             : Text(
                 title,
-                style: textStyle ?? TextFontStyle.textStyle16cFFFFFFDMSans600,
+                style: textStyle ?? TextFontStyle.textStyle10c513B26HelveticaNeue400,
                 textAlign: TextAlign.center,
               ),
       ),
@@ -92,11 +92,11 @@ Widget customButton({
       onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor ?? AppColors.allPrimaryColor,
-        foregroundColor: foregroundColor ?? AppColors.cFFFFFF,
+        foregroundColor: foregroundColor ?? AppColors.allPrimaryColor,
         disabledBackgroundColor: (backgroundColor ?? AppColors.allPrimaryColor)
             .withValues(alpha: 0.5),
         disabledForegroundColor:
-            (foregroundColor ?? AppColors.cFFFFFF).withValues(alpha: 0.5),
+            (foregroundColor ?? AppColors.allPrimaryColor).withValues(alpha: 0.5),
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: borderRadius ?? BorderRadius.circular(12.r),
@@ -110,13 +110,13 @@ Widget customButton({
               child: CircularProgressIndicator(
                 strokeWidth: 2.w,
                 valueColor: AlwaysStoppedAnimation<Color>(
-                  foregroundColor ?? AppColors.cFFFFFF,
+                  foregroundColor ?? AppColors.allPrimaryColor,
                 ),
               ),
             )
           : Text(
               title,
-              style: textStyle ?? TextFontStyle.textStyle16cFFFFFFDMSans600,
+              style: textStyle ?? TextFontStyle.textStyle10c513B26HelveticaNeue400,
               textAlign: TextAlign.center,
             ),
     ),

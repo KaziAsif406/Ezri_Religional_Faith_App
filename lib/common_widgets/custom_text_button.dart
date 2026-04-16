@@ -35,7 +35,7 @@ class CustomTexButton extends StatelessWidget {
           ),
           child: Text(
             title,
-            style: textStyle ?? TextFontStyle.textStyle14cFF3A1222DMSans600,
+            style: textStyle ?? TextFontStyle.textStyle10c513B26HelveticaNeue400,
           ),
         ),
       ),

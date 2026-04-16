@@ -79,7 +79,7 @@ void showMaterialDialog(
             title: Text(
               "Do you want to exit the app?",
               textAlign: TextAlign.center,
-              style: TextFontStyle.textStylec11c606060DMSans400,
+              style: TextFontStyle.textStyle10c513B26HelveticaNeue400,
             ),
             actions: <Widget>[
               customeButton(

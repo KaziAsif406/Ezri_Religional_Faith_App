@@ -24,7 +24,7 @@ class NoDataWidget extends StatelessWidget {
     this.imagePath,
     this.icon,
     this.iconSize = 80,
-    this.iconColor = AppColors.c949494,
+    this.iconColor = AppColors.allPrimaryColor,
     this.showActionButton = false,
     this.actionText = 'Try Again',
     this.onActionPressed,
@@ -64,7 +64,7 @@ class NoDataWidget extends StatelessWidget {
           // Title
           Text(
             title,
-            style: TextFontStyle.textStyle18c202020DMSans600,
+            style: TextFontStyle.textStyle10c513B26HelveticaNeue400,
             textAlign: TextAlign.center,
           ),
           
@@ -73,7 +73,7 @@ class NoDataWidget extends StatelessWidget {
           // Subtitle
           Text(
             subtitle,
-            style: TextFontStyle.textStyle14c606060DMSans400.copyWith(
+            style: TextFontStyle.textStyle10c513B26HelveticaNeue400.copyWith(
               height: 1.5,
             ),
             textAlign: TextAlign.center,
@@ -89,7 +89,7 @@ class NoDataWidget extends StatelessWidget {
                 onPressed: onActionPressed,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.allPrimaryColor,
-                  foregroundColor: AppColors.cFFFFFF,
+                  foregroundColor: AppColors.allPrimaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.r),
                   ),
@@ -97,7 +97,7 @@ class NoDataWidget extends StatelessWidget {
                 ),
                 child: Text(
                   actionText,
-                  style: TextFontStyle.textStyle14cFFFFFFDMSans600,
+                  style: TextFontStyle.textStyle10c513B26HelveticaNeue400,
                 ),
               ),
             ),

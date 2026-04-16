@@ -31,11 +31,11 @@ class CustomRichTextButton extends StatelessWidget {
           children: [
             TextSpan(
               text: additionalText,
-              style: TextFontStyle.textStyle14c606060DMSans400,
+              style: TextFontStyle.textStyle10c513B26HelveticaNeue400,
             ),
             TextSpan(
               text: buttonText,
-              style: TextFontStyle.textStyle14cFF3A1222DMSans600
+              style: TextFontStyle.textStyle10c513B26HelveticaNeue400
             ),
           ],
         ),

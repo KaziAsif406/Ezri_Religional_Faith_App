@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: backgroundColor ?? AppColors.cFFFFFF,
+      backgroundColor: backgroundColor ?? AppColors.c15AB09,
       elevation: elevation ?? 0,
       centerTitle: centerTitle,
       automaticallyImplyLeading: false,
@@ -47,7 +47,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 icon: Icon(
                   Icons.arrow_back_ios,
                   size: 20.sp,
-                  color: AppColors.c202020,
+                  color: AppColors.c15AB09,
                 ),
                 onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
                 padding: EdgeInsets.zero,
@@ -58,7 +58,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           (titleText != null
               ? Text(
                   titleText!,
-                  style: TextFontStyle.textStyle18c172B4DDMSans500,
+                  style: TextFontStyle.textStyle10c513B26HelveticaNeue400,
                 )
               : null),
       actions: actions ?? (isSuffix ? [_buildSuffixButton()] : null),
@@ -71,7 +71,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Icon(
         Icons.more_vert,
         size: 24.sp,
-        color: AppColors.c202020,
+        color: AppColors.c15AB09,
       ),
     );
   }
