@@ -3,9 +3,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:template_flutter/features/home/presentation/add_faith_anchor.dart';
-import '../features/auth/presentation/login.dart';
-import '../features/auth/presentation/signup.dart';
-import '../features/user_profile/presentation/profile.dart';
+// import '../features/auth/presentation/login.dart';
+// import '../features/auth/presentation/signup.dart';
+// import '../features/user_profile/presentation/profile.dart';
 
 final class Routes {
   static final Routes _routes = Routes._internal();
