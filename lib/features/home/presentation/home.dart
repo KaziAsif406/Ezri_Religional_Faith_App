@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/helpers/all_routes.dart';
+import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
 
 import '../../../gen/colors.gen.dart';
@@ -140,11 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                     buttonShadowColor: AppColors.c8C7C68.withValues(alpha: 0.35),
                     onButtonTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute<void>(
-                          builder: (_) => const AddFaithAnchorScreen(),
-                        ),
-                      );
+                      NavigationService.navigateTo(Routes.addFaithAnchor);
                     },
                   ),
                   SizedBox(height: 28.h),
