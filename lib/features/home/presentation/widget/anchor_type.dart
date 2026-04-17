@@ -65,17 +65,17 @@ class _AnchorTypeChip extends StatelessWidget {
 			onTap: onTap,
 			child: AnimatedContainer(
 				duration: const Duration(milliseconds: 220),
-				height: 66.h,
+				height: 56.h,
 				decoration: BoxDecoration(
 					color: isSelected
-							? AppColors.allPrimaryColor.withValues(alpha: 0.82)
-							: AppColors.allPrimaryColor.withValues(alpha: 0.42),
+							? AppColors.cA28367.withValues(alpha: 0.42)
+							: AppColors.cF5F6F5.withValues(alpha: 0.24),
 					borderRadius: BorderRadius.circular(34.r),
 					border: Border.all(
 						color: isSelected
-								? AppColors.c99907A.withValues(alpha: 0.55)
+								? AppColors.c352619.withValues(alpha: 0.30)
 								: AppColors.c99907A.withValues(alpha: 0.16),
-						width: 1.2.w,
+						width: 1.w,
 					),
 					boxShadow: isSelected
 							? [
@@ -90,7 +90,7 @@ class _AnchorTypeChip extends StatelessWidget {
 				alignment: Alignment.center,
 				child: Text(
 					label,
-					style: TextFontStyle.textStyle20c3B230EHelveticaNeue500.copyWith(
+					style: TextFontStyle.textStyle16c796956HelveticaNeue400.copyWith(
 						color: isSelected
 								? AppColors.allsecondaryColor
 								: AppColors.c685E4A,

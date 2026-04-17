@@ -14,14 +14,9 @@ class AddFaithAnchorScreen extends StatefulWidget {
 }
 
 class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
-	final TextEditingController _referenceController =
-			TextEditingController(text: 'Philippians 4:13');
-	final TextEditingController _contentController = TextEditingController(
-		text: 'I can do all things through Christ who strengthens me.',
-	);
-	final TextEditingController _noteController = TextEditingController(
-		text: 'This reminds me to rely on His strength when I feel weak.',
-	);
+	final TextEditingController _referenceController = TextEditingController();
+	final TextEditingController _contentController = TextEditingController();
+	final TextEditingController _noteController = TextEditingController();
 
 	AnchorTypeOption _selectedType = AnchorTypeOption.quote;
 	bool _isPersonalNoteEnabled = true;
@@ -50,7 +45,6 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
 		return Scaffold(
 			backgroundColor: AppColors.scaffoldColor,
 			body: SingleChildScrollView(
-				physics: const BouncingScrollPhysics(),
 				child: Column(
 					children: [
 						SizedBox(
