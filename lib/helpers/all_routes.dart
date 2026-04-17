@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:template_flutter/features/home/presentation/add_faith_anchor.dart';
+import 'package:template_flutter/features/home/presentation/add_sacred_entry.dart';
 // import '../features/auth/presentation/login.dart';
 // import '../features/auth/presentation/signup.dart';
 // import '../features/user_profile/presentation/profile.dart';
@@ -30,6 +31,7 @@ final class Routes {
   static const String navigationScreen = '/NavigationScreen';
   static const String profile = '/Profile';
   static const String addFaithAnchor = '/add_faith_anchor';
+  static const String addSacredEntry = '/add_sacred_entry';
 }
 
 final class RouteGenerator {
@@ -51,6 +53,12 @@ final class RouteGenerator {
             ? CupertinoPageRoute(builder: (context) => const AddFaithAnchorScreen())
             : _FadedTransitionRoute(
                 widget: const AddFaithAnchorScreen(), settings: settings);
+
+      case Routes.addSacredEntry:
+        return defaultTargetPlatform == TargetPlatform.iOS
+            ? CupertinoPageRoute(builder: (context) => const AddSacredEntryScreen())
+            : _FadedTransitionRoute(
+                widget: const AddSacredEntryScreen(), settings: settings);
 
       // case Routes.signUpScreen:
       //   return defaultTargetPlatform == TargetPlatform.iOS
