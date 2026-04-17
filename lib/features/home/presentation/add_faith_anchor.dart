@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
+import 'package:template_flutter/common_widgets/custom_textform_field.dart';
+import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 
 import '../../../gen/colors.gen.dart';
-import 'widget/anchor_type.dart';
+
+enum AnchorTypeOption { verse, quote, affirmation }
 
 class AddFaithAnchorScreen extends StatefulWidget {
   const AddFaithAnchorScreen({super.key});
@@ -102,8 +105,30 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                     style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400,
                   ),
                   SizedBox(height: 12.h),
-                  AnchorTypeSelector(
-                    selectedType: _selectedType,
+                  SelectorWidget<AnchorTypeOption>(
+                    selectedValue: _selectedType,
+                    selectedButtonGradient: LinearGradient(
+                      colors: [
+                        Color.fromARGB(255, 247, 246, 244).withValues(alpha: 0.22),
+                        Color.fromARGB(255, 175, 168, 155).withValues(alpha: 0.22),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                    options: const [
+                      SelectorOption<AnchorTypeOption>(
+                        value: AnchorTypeOption.verse,
+                        label: 'Verse',
+                      ),
+                      SelectorOption<AnchorTypeOption>(
+                        value: AnchorTypeOption.quote,
+                        label: 'Quote',
+                      ),
+                      SelectorOption<AnchorTypeOption>(
+                        value: AnchorTypeOption.affirmation,
+                        label: 'Affirmation',
+                      ),
+                    ],
                     onChanged: (AnchorTypeOption value) {
                       setState(() {
                         _selectedType = value;
@@ -111,116 +136,80 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                     },
                   ),
                   SizedBox(height: 26.h),
-                  Text(
-                    'Referance',
-                    style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400
-                        .copyWith(
-                      fontSize: 17.sp,
-                    ),
+                  CustomTextFormField(
+                    label: 'Reference',
+                    hintText: 'Add scripture reference',
+                    maxLines: 1,
+                    controller: _referenceController,
+                    useCardStyle: true,
+                    cardBackgroundColor: AppColors.allPrimaryColor,
+                    cardBorderRadius: BorderRadius.circular(20.r),
+                    cardPadding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 14.h),
+                    contentPadding: EdgeInsets.zero,
                   ),
-                  SizedBox(height: 12.h),
-                  _FormInputCard(
-                    minHeight: 78.h,
-                    child: TextField(
-                      controller: _referenceController,
-                      style: TextFontStyle.textStyle20c3B230EHelveticaNeue400,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        isCollapsed: true,
-                      ),
+                  SizedBox(height: 24.h),
+                  CustomTextFormField(
+                    label: 'Content',
+                    hintText: 'Write the faith anchor content',
+                    controller: _contentController,
+                    maxLines: 4,
+                    onChanged: (_) => setState(() {}),
+                    useCardStyle: true,
+                    cardBackgroundColor: AppColors.allPrimaryColor,
+                    cardBorderRadius: BorderRadius.circular(20.r),
+                    cardPadding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 14.h),
+                    contentPadding: EdgeInsets.zero,
+                    footerRight: Text(
+                      '$contentWords/200 words',
+                      style: TextFontStyle.textStyle14c8C7C68HelveticaNeue400
+                          .copyWith(fontSize: 16.sp),
                     ),
                   ),
                   SizedBox(height: 24.h),
-                  Text(
-                    'Content',
-                    style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400
-                        .copyWith(
-                      fontSize: 17.sp,
-                    ),
-                  ),
-                  SizedBox(height: 12.h),
-                  _FormInputCard(
-                    minHeight: 140.h,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        TextField(
-                          controller: _contentController,
-                          maxLines: 3,
-                          onChanged: (_) => setState(() {}),
-                          style:
-                              TextFontStyle.textStyle20c3B230EHelveticaNeue400,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            isCollapsed: true,
-                          ),
-                        ),
-                        SizedBox(height: 18.h),
-                        Text(
-                          '$contentWords/200 words',
-                          style: TextFontStyle
-                              .textStyle14c8C7C68HelveticaNeue400
-                              .copyWith(fontSize: 16.sp),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 24.h),
-                  Row(
+                  Stack(
                     children: [
-                      Text(
-                        'Personal note',
-                        style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400
-                            .copyWith(
-                          fontSize: 17.sp,
-                        ),
+                      Row(
+                        children: [
+                          const Spacer(),
+                          SizedBox(
+                            width: 90.w,
+                            child: Switch(
+                              value: _isPersonalNoteEnabled,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  _isPersonalNoteEnabled = value;
+                                });
+                              },
+                              activeThumbColor: AppColors.cE5EAEB,
+                              activeTrackColor: AppColors.allsecondaryColor
+                                  .withValues(alpha: 0.95),
+                              inactiveThumbColor: AppColors.c99907A,
+                              inactiveTrackColor: AppColors.allPrimaryColor,
+                            ),
+                          ),
+                        ],
                       ),
-                      const Spacer(),
-                      SizedBox(
-                        width: 90.w,
-                        child: Switch(
-                          value: _isPersonalNoteEnabled,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _isPersonalNoteEnabled = value;
-                            });
-                          },
-                          activeThumbColor: AppColors.cE5EAEB,
-                          activeTrackColor: AppColors.allsecondaryColor
-                              .withValues(alpha: 0.95),
-                          inactiveThumbColor: AppColors.c99907A,
-                          inactiveTrackColor: AppColors.allPrimaryColor,
+                      SizedBox(height: 8.h),
+                      CustomTextFormField(
+                        label: 'Personal note',
+                        hintText: 'Add a private reflection',
+                        controller: _noteController,
+                        enabled: _isPersonalNoteEnabled,
+                        maxLines: 3,
+                        minLines: 3,
+                        onChanged: (_) => setState(() {}),
+                        useCardStyle: true,
+                        cardBackgroundColor: AppColors.allPrimaryColor,
+                        cardBorderRadius: BorderRadius.circular(20.r),
+                        cardPadding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 14.h),
+                        contentPadding: EdgeInsets.zero,
+                        footerRight: Text(
+                          '$noteWords/96 words',
+                          style: TextFontStyle.textStyle14c8C7C68HelveticaNeue400
+                              .copyWith(fontSize: 16.sp),
                         ),
                       ),
                     ],
-                  ),
-                  SizedBox(height: 8.h),
-                  _FormInputCard(
-                    minHeight: 140.h,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        TextField(
-                          enabled: _isPersonalNoteEnabled,
-                          controller: _noteController,
-                          maxLines: 3,
-                          onChanged: (_) => setState(() {}),
-                          style:
-                              TextFontStyle.textStyle20c3B230EHelveticaNeue400,
-                          decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            isCollapsed: true,
-                          ),
-                        ),
-                        SizedBox(height: 18.h),
-                        Text(
-                          '$noteWords/96 words',
-                          style: TextFontStyle
-                              .textStyle14c8C7C68HelveticaNeue400
-                              .copyWith(fontSize: 16.sp),
-                        ),
-                      ],
-                    ),
                   ),
                   SizedBox(height: 38.h),
                   CustomButton(
@@ -254,34 +243,6 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _FormInputCard extends StatelessWidget {
-  const _FormInputCard({
-    required this.child,
-    required this.minHeight,
-  });
-
-  final Widget child;
-  final double minHeight;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      constraints: BoxConstraints(minHeight: minHeight),
-      padding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 14.h),
-      decoration: BoxDecoration(
-        color: AppColors.allPrimaryColor.withValues(alpha: 0.58),
-        borderRadius: BorderRadius.circular(26.r),
-        border: Border.all(
-          color: AppColors.c99907A.withValues(alpha: 0.18),
-          width: 1.w,
-        ),
-      ),
-      child: child,
     );
   }
 }
