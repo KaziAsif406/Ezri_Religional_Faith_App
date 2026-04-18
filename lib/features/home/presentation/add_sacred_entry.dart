@@ -556,7 +556,7 @@ class _RoundActionButton extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: filled
-              ? AppColors.allPrimaryColor.withValues(alpha: 0.86)
+              ? AppColors.allPrimaryColor
               : AppColors.allPrimaryColor.withValues(alpha: 0.56),
           border: Border.all(
             color: AppColors.c99907A.withValues(alpha: 0.18),
