@@ -107,6 +107,8 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                   SizedBox(height: 12.h),
                   SelectorWidget<AnchorTypeOption>(
                     selectedValue: _selectedType,
+                    selectedBorderColor: AppColors.allPrimaryColor.withValues(alpha: 0.85),
+                    unselectedBorderColor: AppColors.c99907A.withValues(alpha: 0.00),
                     selectedButtonGradient: LinearGradient(
                       colors: [
                         Color.fromARGB(255, 247, 246, 244).withValues(alpha: 0.22),
@@ -135,7 +137,7 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                       });
                     },
                   ),
-                  SizedBox(height: 26.h),
+                  // SizedBox(height: 26.h),
                   CustomTextFormField(
                     label: 'Reference',
                     hintText: 'Add scripture reference',

@@ -26,7 +26,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
 
   SacredTypeOption _selectedType = SacredTypeOption.reflection;
   bool _promptEnabled = false;
-  DateTime _selectedDate = DateTime(2025, 8, 25);
+  DateTime _selectedDate = DateTime(2024, 6, 15);
 
   @override
   void dispose() {
@@ -71,7 +71,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
         child: Column(
           children: <Widget>[
             Stack(
-              children: <Widget>[
+              children: [
                 SizedBox(
                   height: 220.h,
                   width: double.infinity,
@@ -80,45 +80,29 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                Container(
-                  height: 220.h,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[
-                        AppColors.c352619.withValues(alpha: 0.15),
-                        AppColors.scaffoldColor.withValues(alpha: 0.04),
-                        AppColors.scaffoldColor.withValues(alpha: 0.72),
-                        AppColors.scaffoldColor,
-                      ],
-                      stops: const <double>[0.0, 0.48, 0.82, 1.0],
-                    ),
-                  ),
-                ),
                 Positioned(
-                  top: 64.h,
-                  left: 20.w,
-                  right: 20.w,
+                  top: 70.h,
+                  left: 24.w,
+                  right: 24.w,
                   child: Row(
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () => NavigationService.goBack,
+                    children: [
+                     GestureDetector(
+                        onTap: () => Navigator.of(context).pop(),
                         child: Container(
                           width: 58.w,
                           height: 58.w,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: AppColors.cF5EDD7.withValues(alpha: 0.55),
-                              width: 1.8.w,
+                              color: AppColors.cF5EDD7.withValues(alpha: 0.75),
+                              width: 1.6.w,
                             ),
-                            color: AppColors.cF5EDD7.withValues(alpha: 0.08),
+                            color: const Color.fromARGB(17, 255, 255, 255),
                           ),
                           child: Icon(
                             Icons.arrow_back_ios_new_rounded,
-                            size: 20.sp,
                             color: AppColors.cF5EDD7,
+                            size: 22.sp,
                           ),
                         ),
                       ),
@@ -126,9 +110,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       Expanded(
                         child: Text(
                           'New Sacred Entry',
-                          style: TextFontStyle
-                              .textStyle28cFFFFFFHelveticaNeue700
-                              .copyWith(fontSize: 28.sp),
+                          style: TextFontStyle.textStyle28cFFFFFFHelveticaNeue700,
                         ),
                       ),
                     ],
@@ -137,24 +119,71 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
               ],
             ),
             Transform.translate(
-              offset: Offset(0, -8.h),
+              offset: Offset(0, -25.h),
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     _SectionTitle(
                       lightText: 'Select',
                       darkText: 'Date',
                     ),
-                    SizedBox(height: 18.h),
+                    SizedBox(height: 12.h),
+
+                    // CustomTextFormField(
+                    //   controller: TextEditingController(
+                    //     text: _formattedDate(_selectedDate),
+                    //   ),
+                    //   useCardStyle: true,
+                    //   height: 90.h,
+                    //   cardBackgroundColor:
+                    //       AppColors.allPrimaryColor.withValues(alpha: 0.72),
+                    //   cardBorderColor:
+                    //       AppColors.c99907A.withValues(alpha: 0.18),
+                    //   cardBorderRadius: BorderRadius.circular(20.r),
+                    //   cardPadding: EdgeInsets.fromLTRB(20.w, 8.h, 8.w, 8.h),
+                    //   // contentPadding: EdgeInsets.zero,
+                    //   suffixIcon: Positioned(
+                    //     top: 0.h,
+                    //     right: 0.w,
+                    //     child: GestureDetector(
+                    //       onTap: () {
+                    //         // Handle date picker tap
+                    //       },
+                    //       child: Container(
+                    //         width: 44.w,
+                    //         height: 44.w,
+                    //         decoration: BoxDecoration(
+                    //           shape: BoxShape.circle,
+                    //           color:
+                    //               AppColors.cF5F6F5.withValues(alpha: 0.12),
+                    //           boxShadow: [
+                    //             BoxShadow(
+                    //               color: AppColors.c1C1919
+                    //                   .withValues(alpha: 0.10),
+                    //               blurRadius: 5.r,
+                    //               offset: Offset(0, 4.h),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         child: Icon(
+                    //           Icons.calendar_month_outlined,
+                    //           size: 22.sp,
+                    //           color: AppColors.c513B26,
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+
                     _RoundedInputShell(
                       child: Row(
-                        children: <Widget>[
+                        children: [
                           Text(
                             _formattedDate(_selectedDate),
                             style: TextFontStyle
-                                .textStyle14c3B230EHelveticaNeue400
+                                .textStyle14c3B230EHelveticaNeue300
                                 .copyWith(
                               fontSize: 16.sp,
                               color: AppColors.c685E4A,
@@ -164,17 +193,17 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                           GestureDetector(
                             onTap: () {},
                             child: Container(
-                              width: 48.w,
-                              height: 48.w,
+                              width: 44.w,
+                              height: 44.w,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color:
-                                    AppColors.cF5F6F5.withValues(alpha: 0.85),
-                                boxShadow: <BoxShadow>[
+                                    AppColors.allPrimaryColor,
+                                boxShadow: [
                                   BoxShadow(
                                     color: AppColors.c1C1919
-                                        .withValues(alpha: 0.12),
-                                    blurRadius: 14.r,
+                                        .withValues(alpha: 0.20),
+                                    blurRadius: 8.r,
                                     offset: Offset(0, 4.h),
                                   ),
                                 ],
@@ -189,17 +218,18 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 36.h),
+                    SizedBox(height: 28.h),
                     _SectionTitle(
                       lightText: 'Sacred',
                       darkText: 'Type',
                     ),
-                    SizedBox(height: 18.h),
+                    SizedBox(height: 12.h),
                     SelectorWidget<SacredTypeOption>(
                       selectedValue: _selectedType,
                       height: 64.h,
+                      // width: double.infinity,
                       spacing: 14.w,
-                      borderRadius: BorderRadius.circular(34.r),
+                      borderRadius: BorderRadius.circular(24.r),
                       horizontalPadding: 12.w,
                       selectedButtonGradient: LinearGradient(
                         begin: Alignment.topCenter,
@@ -217,18 +247,9 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                           AppColors.allPrimaryColor.withValues(alpha: 0.44),
                         ],
                       ),
-                      selectedBorderGradient: LinearGradient(
-                        colors: <Color>[
-                          AppColors.c352619.withValues(alpha: 0.44),
-                          AppColors.c352619.withValues(alpha: 0.44),
-                        ],
-                      ),
-                      unselectedBorderGradient: LinearGradient(
-                        colors: <Color>[
-                          AppColors.c99907A.withValues(alpha: 0.22),
-                          AppColors.c99907A.withValues(alpha: 0.22),
-                        ],
-                      ),
+                      selectedBorderColor: AppColors.allsecondaryColor,
+                      unselectedBorderColor: AppColors.c99907A.withValues(alpha: 0.22),
+
                       selectedTextStyle: TextFontStyle
                           .textStyle16c796956HelveticaNeue400
                           .copyWith(
@@ -298,7 +319,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                                   _promptEnabled = value;
                                 });
                               },
-                              activeColor: AppColors.cE5EAEB,
+                              activeThumbColor: AppColors.cE5EAEB,
                               activeTrackColor: AppColors.allsecondaryColor
                                   .withValues(alpha: 0.45),
                               inactiveThumbColor: AppColors.cF5F6F5,
@@ -489,14 +510,15 @@ class _RoundedInputShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 60.h,
       width: double.infinity,
-      constraints: BoxConstraints(minHeight: 88.h),
-      padding: EdgeInsets.fromLTRB(30.w, 14.h, 14.w, 14.h),
+      // constraints: BoxConstraints(minHeight: 60.h),
+      padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 8.h),
       decoration: BoxDecoration(
-        color: AppColors.allPrimaryColor.withValues(alpha: 0.74),
-        borderRadius: BorderRadius.circular(36.r),
+        color: AppColors.allPrimaryColor,
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(
-          color: AppColors.c99907A.withValues(alpha: 0.14),
+          color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
           width: 1.w,
         ),
       ),

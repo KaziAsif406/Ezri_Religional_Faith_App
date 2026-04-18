@@ -12,8 +12,8 @@ class SelectorOption<T> {
     this.onTap,
     this.selectedButtonGradient,
     this.unselectedButtonGradient,
-    this.selectedBorderGradient,
-    this.unselectedBorderGradient,
+    this.selectedBorderColor,
+    this.unselectedBorderColor,
   });
 
   final T value;
@@ -22,8 +22,8 @@ class SelectorOption<T> {
   final VoidCallback? onTap;
   final Gradient? selectedButtonGradient;
   final Gradient? unselectedButtonGradient;
-  final Gradient? selectedBorderGradient;
-  final Gradient? unselectedBorderGradient;
+  final Color? selectedBorderColor;
+  final Color? unselectedBorderColor;
 }
 
 class SelectorWidget<T> extends StatelessWidget {
@@ -33,7 +33,7 @@ class SelectorWidget<T> extends StatelessWidget {
     required this.selectedValue,
     required this.onChanged,
     this.height,
-    this.width,
+    // this.width,
     this.spacing,
     this.borderRadius,
     this.horizontalPadding,
@@ -45,15 +45,16 @@ class SelectorWidget<T> extends StatelessWidget {
     this.unselectedTextColor,
     this.selectedButtonGradient,
     this.unselectedButtonGradient,
-    this.selectedBorderGradient,
-    this.unselectedBorderGradient,
+    this.selectedBorderColor,
+    this.unselectedBorderColor,
+    this.isScrollable = false,
   });
 
   final List<SelectorOption<T>> options;
   final T selectedValue;
   final ValueChanged<T> onChanged;
   final double? height;
-  final double? width;
+  // final double? width;
   final double? spacing;
   final BorderRadius? borderRadius;
   final double? horizontalPadding;
@@ -65,30 +66,34 @@ class SelectorWidget<T> extends StatelessWidget {
   final Color? unselectedTextColor;
   final Gradient? selectedButtonGradient;
   final Gradient? unselectedButtonGradient;
-  final Gradient? selectedBorderGradient;
-  final Gradient? unselectedBorderGradient;
+  final Color? selectedBorderColor;
+  final Color? unselectedBorderColor;
+  final bool isScrollable;
 
   @override
   Widget build(BuildContext context) {
     final double resolvedSpacing = spacing ?? 12.w;
 
-    return Row(
-      children: List<Widget>.generate(options.length, (int index) {
-        final SelectorOption<T> option = options[index];
-        final bool isSelected = option.value == selectedValue;
-
-        return Expanded(
-          child: Padding(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List<Widget>.generate(options.length, (int index) {
+          final SelectorOption<T> option = options[index];
+          final bool isSelected = option.value == selectedValue;
+      
+          return Padding(
             padding: EdgeInsets.only(
-              left: index == 0 ? 0 : resolvedSpacing / 2,
+              left: index == 0 ? 0 : 12.w,
               right: index == options.length - 1 ? 0 : resolvedSpacing / 2,
+              top: 4.h,
+              bottom: 20.h,
             ),
             child: _SelectorButton(
               label: option.label,
               leading: option.leading,
               isSelected: isSelected,
               height: height ?? 56.h,
-              width: width ?? 112.w,
+              // width: width ?? 122.w,
               borderRadius: borderRadius ?? BorderRadius.circular(34.r),
               horizontalPadding: horizontalPadding ?? 14.w,
               borderWidth: borderWidth ?? 1.w,
@@ -106,18 +111,17 @@ class SelectorWidget<T> extends StatelessWidget {
                   ? (option.selectedButtonGradient ?? selectedButtonGradient)
                   : (option.unselectedButtonGradient ??
                       unselectedButtonGradient),
-              borderGradient: isSelected
-                  ? (option.selectedBorderGradient ?? selectedBorderGradient)
-                  : (option.unselectedBorderGradient ??
-                      unselectedBorderGradient),
+              borderColor: isSelected
+                  ? (option.selectedBorderColor ?? selectedBorderColor)
+                  : (option.unselectedBorderColor ?? unselectedBorderColor),
               onTap: () {
                 option.onTap?.call();
                 onChanged(option.value);
               },
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }
@@ -127,7 +131,7 @@ class _SelectorButton extends StatelessWidget {
     required this.label,
     required this.isSelected,
     required this.height,
-    required this.width,
+    // required this.width,
     required this.borderRadius,
     required this.horizontalPadding,
     required this.borderWidth,
@@ -137,14 +141,14 @@ class _SelectorButton extends StatelessWidget {
     required this.onTap,
     this.leading,
     this.buttonGradient,
-    this.borderGradient, 
+    this.borderColor, 
   });
 
   final String label;
   final Widget? leading;
   final bool isSelected;
   final double height;
-  final double width;
+  // final double width;
   final BorderRadius borderRadius;
   final double horizontalPadding;
   final double borderWidth;
@@ -153,81 +157,70 @@ class _SelectorButton extends StatelessWidget {
   final Color textColor;
   final VoidCallback onTap;
   final Gradient? buttonGradient;
-  final Gradient? borderGradient;
+  final Color? borderColor;
 
   @override
-  Widget build(BuildContext context) {
-    final Gradient resolvedBorderGradient = borderGradient ??
-        LinearGradient(
-          colors: [
-            isSelected
-                ? AppColors.c352619.withValues(alpha: 0.30)
-                : AppColors.c99907A.withValues(alpha: 0.16),
-            isSelected
-                ? AppColors.c352619.withValues(alpha: 0.30)
-                : AppColors.c99907A.withValues(alpha: 0.16),
-          ],
-        );
+Widget build(BuildContext context) {
+  final Color resolvedBorderColor = borderColor ??
+      AppColors.allsecondaryColor; // Default to transparent if no border color is provided
 
-    final Gradient resolvedButtonGradient = buttonGradient ??
-        LinearGradient(
-          colors: [
-            isSelected
-                ? AppColors.c8F96A0.withValues(alpha: 0.22)
-                : AppColors.cF5F6F5.withValues(alpha: 0.24),
-            isSelected
-                ? AppColors.c8F96A0.withValues(alpha: 0.22)
-                : AppColors.cF5F6F5.withValues(alpha: 0.24),
-          ],
-        );
+  final Gradient resolvedButtonGradient = buttonGradient ??
+      LinearGradient(
+        colors: [
+          isSelected
+              ? AppColors.c8F96A0.withValues(alpha: 0.12)
+              : AppColors.cF5F6F5.withValues(alpha: 0.14),
+          isSelected
+              ? AppColors.c8F96A0.withValues(alpha: 0.32)
+              : AppColors.cF5F6F5.withValues(alpha: 0.34),
+        ],
+      );
 
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: animationDuration,
-        height: height,
-        decoration: BoxDecoration(
-          gradient: resolvedBorderGradient,
-          borderRadius: borderRadius,
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: AppColors.c1C1919.withValues(alpha: 0.12),
-                    blurRadius: 12.r,
-                    offset: Offset(0, 7.h),
-                  ),
-                ]
-              : null,
+  return GestureDetector(
+    onTap: onTap,
+    child: AnimatedContainer(
+      duration: animationDuration,
+      height: height,
+      padding: EdgeInsets.all(20.w),
+      decoration: BoxDecoration(
+        gradient: resolvedButtonGradient,
+        borderRadius: borderRadius,
+        border: Border.all(
+          color: resolvedBorderColor,
+          width: borderWidth,
         ),
-        child: Padding(
-          padding: EdgeInsets.all(borderWidth),
-          child: AnimatedContainer(
-            duration: animationDuration,
-            decoration: BoxDecoration(
-              gradient: resolvedButtonGradient,
-              borderRadius: borderRadius,
-            ),
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (leading != null) ...[
-                  leading!,
-                  SizedBox(width: 1.w),
-                ],
-                Flexible(
-                  child: Text(
-                    label,
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyle.copyWith(
-                      color: textColor,
-                      fontWeight:
-                          isSelected ? FontWeight.w500 : FontWeight.w400,
-                    ),
-                  ),
+        boxShadow: isSelected
+            ? [
+                BoxShadow(
+                  color: AppColors.c1C1919.withValues(alpha: 0.12),
+                  blurRadius: 3.r,
+                  offset: Offset(0, 1.h),
                 ),
-              ],
-            ),
+              ]
+            : null,
+      ),
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: borderRadius,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+        child: Row(
+          mainAxisSize: MainAxisSize.min, // ⭐ IMPORTANT
+          children: [
+            if (leading != null) ...[
+              leading!,
+              SizedBox(width: 6.w),
+            ],
+            Text(
+              label,
+              style: textStyle.copyWith(
+                color: textColor,
+                fontWeight:
+                    isSelected ? FontWeight.w500 : FontWeight.w400,
+                ),
+              ),
+            ],
           ),
         ),
       ),
