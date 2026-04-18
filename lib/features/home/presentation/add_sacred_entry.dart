@@ -8,7 +8,7 @@ import 'package:template_flutter/helpers/navigation_service.dart';
 
 import '../../../gen/colors.gen.dart';
 
-enum SacredTypeOption { reflection, memoryVerses, scripture }
+enum SacredTypeOption { reflection, memoryVerses, journaling, bibleReading, prayer, fasting }
 
 class AddSacredEntryScreen extends StatefulWidget {
   const AddSacredEntryScreen({super.key});
@@ -268,28 +268,31 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                         SelectorOption<SacredTypeOption>(
                           value: SacredTypeOption.reflection,
                           label: 'Reflection',
-                          leading: Icon(
-                            Icons.psychology_alt_rounded,
-                            color: AppColors.cDF0F24.withValues(alpha: 0.62),
-                            size: 18.sp,
+                          leading: Image.asset(
+                            'assets/icons/reflection.png',
+                            width: 36.w,
+                            height: 36.h,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         SelectorOption<SacredTypeOption>(
                           value: SacredTypeOption.memoryVerses,
                           label: 'Memory Verses',
-                          leading: Icon(
-                            Icons.alarm_rounded,
-                            color: AppColors.c6B2F45.withValues(alpha: 0.72),
-                            size: 18.sp,
+                          leading: Image.asset(
+                            'assets/icons/memory.png',
+                            width: 36.w,
+                            height: 36.h,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         SelectorOption<SacredTypeOption>(
-                          value: SacredTypeOption.scripture,
-                          label: 'Scripture',
-                          leading: Icon(
-                            Icons.menu_book_rounded,
-                            color: AppColors.c513B26.withValues(alpha: 0.88),
-                            size: 18.sp,
+                          value: SacredTypeOption.journaling,
+                          label: 'Journaling',
+                          leading: Image.asset(
+                            'assets/icons/journaling.png',
+                            width: 36.w,
+                            height: 36.h,
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ],
@@ -331,7 +334,9 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    const _WavySeparator(),
+                    const _WavySeparator(
+                      
+                    ),
                     SizedBox(height: 26.h),
                     _SectionTitle(
                       lightText: 'Sacred',
@@ -339,6 +344,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     ),
                     SizedBox(height: 16.h),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         _RoundActionButton(
                           icon: Icons.mic_none_rounded,
@@ -647,7 +653,7 @@ class _WavySeparator extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 12.h,
+      height: 5.h,
       child: CustomPaint(
         painter: _WavyLinePainter(),
       ),
@@ -661,7 +667,7 @@ class _WavyLinePainter extends CustomPainter {
     final Paint paint = Paint()
       ..color = AppColors.cF5EDD7.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.2.w;
+      ..strokeWidth = 1.5.w;
 
     final Path path = Path();
     const double waves = 15;
