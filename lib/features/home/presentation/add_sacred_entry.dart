@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
@@ -312,20 +313,20 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                           ),
                         ),
                         SizedBox(
-                          width: 118.w,
+                          width: 48.w,
                           child: Transform.scale(
-                            scale: 1.06,
-                            child: Switch(
+                            scale: 1.0,
+                            child: CupertinoSwitch(
                               value: _promptEnabled,
                               onChanged: (bool value) {
                                 setState(() {
                                   _promptEnabled = value;
                                 });
                               },
-                              activeThumbColor: AppColors.cE5EAEB,
+                              
                               activeTrackColor: AppColors.allsecondaryColor
                                   .withValues(alpha: 0.45),
-                              inactiveThumbColor: AppColors.cF5F6F5,
+                              inactiveThumbColor: AppColors.allPrimaryColor,
                               inactiveTrackColor:
                                   AppColors.c99907A.withValues(alpha: 0.45),
                             ),
@@ -344,8 +345,8 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     ),
                     SizedBox(height: 16.h),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         _RoundActionButton(
                           icon: Icons.mic_none_rounded,
                           onTap: () {},
@@ -362,12 +363,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     SizedBox(height: 20.h),
                     Text(
                       'What are you grateful for today?',
-                      style: TextFontStyle.textStyle14c3B230EHelveticaNeue400
-                          .copyWith(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.c352619,
-                      ),
+                      style: TextFontStyle.textStyle14c3B230EHelveticaNeue400,
                     ),
                     SizedBox(height: 14.h),
                     CustomTextFormField(
@@ -377,11 +373,11 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       onChanged: (_) => setState(() {}),
                       useCardStyle: true,
                       cardBackgroundColor:
-                          AppColors.allPrimaryColor.withValues(alpha: 0.72),
+                          AppColors.allPrimaryColor,
                       cardBorderColor:
-                          AppColors.c99907A.withValues(alpha: 0.18),
-                      cardBorderRadius: BorderRadius.circular(26.r),
-                      cardPadding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 12.h),
+                          AppColors.c99907A.withValues(alpha: 0.48),
+                      cardBorderRadius: BorderRadius.circular(24.r),
+                      cardPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
                       contentPadding: EdgeInsets.zero,
                       footerLeft: const _TextEditingFooterButtons(),
                       footerRight: Text(
@@ -395,48 +391,45 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     SizedBox(height: 26.h),
                     Text(
                       'Verses',
-                      style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400
-                          .copyWith(
-                        fontSize: 18.sp,
-                        color: AppColors.c8C7C68,
-                      ),
+                      style: TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
                     ),
                     SizedBox(height: 14.h),
                     _RoundedInputShell(
                       child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: TextField(
-                              controller: _verseController,
-                              decoration: InputDecoration(
-                                hintText: 'Attach verse',
-                                hintStyle: TextFontStyle
-                                    .textStyle14c3B230EHelveticaNeue400
-                                    .copyWith(
-                                  fontSize: 16.sp,
-                                  color:
-                                      AppColors.c513B26.withValues(alpha: 0.82),
-                                ),
-                                border: InputBorder.none,
-                                isCollapsed: true,
-                              ),
-                              style: TextFontStyle
-                                  .textStyle14c3B230EHelveticaNeue400
-                                  .copyWith(fontSize: 16.sp),
+                        children: [
+                          Text(
+                            'Attach a Verse',
+                            style: TextFontStyle
+                                .textStyle14c3B230EHelveticaNeue300
+                                .copyWith(
+                              fontSize: 16.sp,
+                              color: AppColors.c685E4A,
                             ),
                           ),
-                          SizedBox(width: 12.w),
-                          Container(
-                            width: 48.w,
-                            height: 48.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.cF5F6F5.withValues(alpha: 0.66),
-                            ),
-                            child: Icon(
-                              Icons.link_rounded,
-                              color: AppColors.c513B26,
-                              size: 20.sp,
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              width: 44.w,
+                              height: 44.w,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color:
+                                    AppColors.allPrimaryColor,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.c1C1919
+                                        .withValues(alpha: 0.20),
+                                    blurRadius: 8.r,
+                                    offset: Offset(0, 4.h),
+                                  ),
+                                ],
+                              ),
+                              child: Icon(
+                                Icons.attach_file_rounded,
+                                size: 22.sp,
+                                color: AppColors.c513B26,
+                              ),
                             ),
                           ),
                         ],
@@ -446,8 +439,8 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     CustomButton(
                       onPressed: () {},
                       title: 'Save Entry',
-                      height: 62.h,
-                      borderRadius: BorderRadius.circular(36.r),
+                      height: 60.h,
+                      borderRadius: BorderRadius.circular(5555.r),
                       backgroundGradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -457,11 +450,9 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                         ],
                       ),
                       textStyle: TextFontStyle
-                          .textStyle20cFFFFFFHelveticaNeue700
+                          .textStyle16cFFFFFFHelveticaNeue500
                           .copyWith(
-                        fontSize: 20.sp,
                         color: AppColors.cF5EDD7,
-                        fontWeight: FontWeight.w600,
                       ),
                     ),
                     SizedBox(height: 42.h),
@@ -519,7 +510,7 @@ class _RoundedInputShell extends StatelessWidget {
       height: 60.h,
       width: double.infinity,
       // constraints: BoxConstraints(minHeight: 60.h),
-      padding: EdgeInsets.fromLTRB(20.w, 8.h, 20.w, 8.h),
+      padding: EdgeInsets.fromLTRB(20.w, 8.h, 5.w, 8.h),
       decoration: BoxDecoration(
         color: AppColors.allPrimaryColor,
         borderRadius: BorderRadius.circular(20.r),
@@ -600,7 +591,7 @@ class _TextEditingFooterButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
+      children: [
         _FooterCircleButton(
           label: 'B',
           style: TextFontStyle.textStyle14c3B230EHelveticaNeue500,
@@ -637,7 +628,14 @@ class _FooterCircleButton extends StatelessWidget {
       height: 34.w,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.cF5F6F5.withValues(alpha: 0.54),
+        color: const Color.fromARGB(255, 230, 225, 213).withValues(alpha: 0.84),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.c1C1919.withValues(alpha: 0.10),
+            blurRadius: 4.r,
+            offset: Offset(0, 5.h),
+          ),
+        ],
       ),
       child: Center(
         child: Text(label, style: style.copyWith(fontSize: 14.sp)),
