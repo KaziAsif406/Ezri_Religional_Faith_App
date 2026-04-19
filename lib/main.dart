@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:auto_animated/auto_animated.dart';
-import 'package:template_flutter/features/home/presentation/home.dart';
-// import 'package:template_flutter/navigation_screen.dart';
+import 'package:template_flutter/navigation_screen.dart';
 // import '../../../loading_screen.dart';
 // import 'constants/custome_theme.dart';
 import 'gen/colors.gen.dart';
@@ -56,7 +55,7 @@ class UtillScreenMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
+      designSize: const Size(430, 932),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (_, child) {
@@ -78,7 +77,7 @@ class UtillScreenMobile extends StatelessWidget {
               },
               navigatorKey: NavigationService.navigatorKey,
               onGenerateRoute: RouteGenerator.generateRoute,
-              home: const HomeScreen()),
+              home: const NavigationScreen()),
         );
       },
     );

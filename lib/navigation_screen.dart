@@ -1,146 +1,237 @@
-// import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// import 'gen/colors.gen.dart';
+import 'features/home/presentation/home.dart';
+import 'gen/colors.gen.dart';
 
-// class NavigationScreen extends StatefulWidget {
-// 	const NavigationScreen({super.key});
+class NavigationScreen extends StatefulWidget {
+  const NavigationScreen({super.key});
 
-// 	@override
-// 	State<NavigationScreen> createState() => _NavigationScreenState();
-// }
+  @override
+  State<NavigationScreen> createState() => _NavigationScreenState();
+}
 
-// class _NavigationScreenState extends State<NavigationScreen> {
-// 	int _currentIndex = 1;
+class _NavigationScreenState extends State<NavigationScreen> {
+  int _currentIndex = 1;
 
-// 	@override
-// 	Widget build(BuildContext context) {
-// 		return Scaffold(
-// 			extendBody: true,
-// 			backgroundColor: AppColors.scaffoldColor,
-// 			body: IndexedStack(
-// 				index: _currentIndex,
-// 				children: const [
-// 					_NavPage(title: 'Word'),
-// 					_NavPage(title: 'Home'),
-// 					_NavPage(title: 'Journey'),
-// 				],
-// 			),
-// 			bottomNavigationBar: Container(
-//                 decoration: BoxDecoration(
-//                     color: AppColors.cA19782.withValues(alpha: 0.0),
-//                 ),
-// 				child: CurvedNavigationBar(
-// 					index: _currentIndex,
-// 					height: 75,
-// 					backgroundColor: AppColors.scaffoldColor.withValues(alpha: 0.0),
-// 					color: AppColors.cA19782,
-// 					buttonBackgroundColor: AppColors.allsecondaryColor,
-// 					animationCurve: Curves.easeOutCubic,
-// 					animationDuration: const Duration(milliseconds: 300),
-// 					onTap: (int index) {
-// 						setState(() {
-// 							_currentIndex = index;
-// 						});
-// 					},
-// 					items: <Widget>[
-// 						_NavBarItem(
-// 							iconPath: 'assets/icons/word.png',
-// 							label: 'Word',
-// 							selected: _currentIndex == 0,
-// 						),
-// 						_NavBarItem(
-// 							iconPath: 'assets/icons/menu.png',
-// 							label: 'Home',
-// 							selected: _currentIndex == 1,
-// 							extraLarge: true,
-// 						),
-// 						_NavBarItem(
-// 							iconPath: 'assets/icons/journey.png',
-// 							label: 'Journey',
-// 							selected: _currentIndex == 2,
-// 						),
-// 					],
-// 				),
-// 			),
-// 		);
-// 	}
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBody: true,
+      backgroundColor: AppColors.scaffoldColor,
+      body: IndexedStack(
+        index: _currentIndex,
+        children: const [
+          _NavPage(title: 'Word'),
+          HomeScreen(),
+          _NavPage(title: 'Journey'),
+        ],
+      ),
+      bottomNavigationBar: _BottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+    );
+  }
+}
 
-// class _NavPage extends StatelessWidget {
-// 	final String title;
+class _BottomNavBar extends StatelessWidget {
+  final int currentIndex;
+  final ValueChanged<int> onTap;
 
-// 	const _NavPage({required this.title});
+  const _BottomNavBar({
+    required this.currentIndex,
+    required this.onTap,
+  });
 
-// 	@override
-// 	Widget build(BuildContext context) {
-// 		return ColoredBox(
-// 			color: AppColors.scaffoldColor,
-// 			child: Center(
-// 				child: Text(
-// 					title,
-// 					style: TextStyle(
-// 						color: AppColors.allsecondaryColor.withValues(alpha: 0.5),
-// 						fontSize: 18.sp,
-// 						fontWeight: FontWeight.w400,
-// 					),
-// 				),
-// 			),
-// 		);
-// 	}
-// }
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 132.h,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Image.asset(
+              'assets/images/bottom_nav.png',
+              width: 1.sw,
+              height: 96.h,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Positioned(
+            left: 35.w,
+            right: 35.w,
+            bottom: 25.h,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 28.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _RegularNavButton(
+                    iconPath: 'assets/icons/word.png',
+                    label: 'Word',
+                    selected: currentIndex == 0,
+                    onTap: () => onTap(0),
+                  ),
+                  SizedBox(width: 72.w),
+                  _RegularNavButton(
+                    iconPath: 'assets/icons/journey.png',
+                    label: 'Journey',
+                    selected: currentIndex == 2,
+                    onTap: () => onTap(2),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 4.h,
+            left: 0,
+            right: 0,
+            child: _CenterNavButton(
+              iconPath: 'assets/icons/menu.png',
+              selected: currentIndex == 1,
+              onTap: () => onTap(1),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-// class _NavBarItem extends StatelessWidget {
-// 	final String iconPath;
-// 	final String label;
-// 	final bool selected;
-// 	final bool extraLarge;
+class _NavPage extends StatelessWidget {
+  final String title;
 
-// 	const _NavBarItem({
-// 		required this.iconPath,
-// 		required this.label,
-// 		required this.selected,
-// 		this.extraLarge = false,
-// 	});
+  const _NavPage({required this.title});
 
-// 	@override
-// 	Widget build(BuildContext context) {
-// 		final Color foregroundColor = selected
-// 			? Colors.white
-// 			: AppColors.allsecondaryColor.withValues(alpha: 0.78);
-// 		final Color textColor = selected
-// 			? Colors.white
-// 			: AppColors.allsecondaryColor.withValues(alpha: 0.76);
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: AppColors.scaffoldColor,
+      child: Center(
+        child: Text(
+          title,
+          style: TextStyle(
+            color: AppColors.allsecondaryColor.withValues(alpha: 0.5),
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-// 		return Column(
-// 			mainAxisSize: MainAxisSize.min,
-// 			mainAxisAlignment: MainAxisAlignment.center,
-// 			children: [
-// 				SizedBox(
-// 							width: selected && extraLarge ? 48.w : 24.w,
-// 							height: selected && extraLarge ? 48.w : 24.w,
-// 					child: Center(
-// 						child: Image.asset(
-// 							iconPath,
-// 									width: selected && extraLarge ? 30.w : 21.w,
-// 									height: selected && extraLarge ? 30.w : 21.w,
-// 							color: foregroundColor,
-// 							colorBlendMode: BlendMode.srcIn,
-// 						),
-// 					),
-// 				),
-// 						SizedBox(height: selected && extraLarge ? 6.h : 2.h),
-// 				Text(
-// 					label,
-// 					style: TextStyle(
-// 						color: textColor,
-// 								fontSize: selected && extraLarge ? 12.sp : selected ? 10.sp : 16.sp,
-// 						fontWeight: FontWeight.w400,
-// 						height: 1,
-// 					),
-// 				),
-// 			],
-// 		);
-// 	}
-// }
+class _RegularNavButton extends StatelessWidget {
+  final String iconPath;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _RegularNavButton({
+    required this.iconPath,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final Color foregroundColor = selected
+        ? AppColors.allsecondaryColor
+        : AppColors.allsecondaryColor.withValues(alpha: 0.50);
+    final Color textColor = selected
+        ? AppColors.allsecondaryColor
+        : AppColors.allsecondaryColor.withValues(alpha: 0.55);
+
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            iconPath,
+            width: 28.w,
+            height: 28.h,
+            color: foregroundColor,
+            colorBlendMode: BlendMode.srcIn,
+          ),
+          SizedBox(height: 6.h),
+          Text(
+            label,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w400,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CenterNavButton extends StatelessWidget {
+  final String iconPath;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _CenterNavButton({
+    required this.iconPath,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final Color bgColor =
+        selected ? AppColors.allsecondaryColor : AppColors.cA19782;
+    final Color iconColor =
+        selected ? Colors.white : AppColors.allsecondaryColor;
+
+    return Center(
+      child: GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.opaque,
+        child: Container(
+          width: 78.w,
+          height: 78.h,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: bgColor,
+            border: Border.all(
+              color: AppColors.allPrimaryColor.withValues(alpha: 0.45),
+              width: 2.w,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color.fromARGB(255, 44, 44, 44).withValues(alpha: 0.25),
+                blurRadius: 9.r,
+                offset: Offset(0, 8.h),
+              ),
+            ],
+          ),
+          child: Center(
+            child: Image.asset(
+              iconPath,
+              width: 30.w,
+              height: 30.w,
+              color: iconColor,
+              colorBlendMode: BlendMode.srcIn,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
