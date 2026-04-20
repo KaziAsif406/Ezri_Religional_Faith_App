@@ -5,74 +5,61 @@ import '/constants/text_font_style.dart';
 import '/gen/colors.gen.dart';
 
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final Widget? title;
+class CustomAppBar extends StatelessWidget {
   final String? titleText;
-  final bool showBackArrow;
-  final VoidCallback? onBackPressed;
-  final List<Widget>? actions;
-  final bool isSuffix;
-  final bool centerTitle;
-  final Color? backgroundColor;
-  final double? elevation;
-  final Widget? leading;
 
   const CustomAppBar({
     super.key,
-    this.title,
     this.titleText,
-    this.showBackArrow = false,
-    this.onBackPressed,
-    this.actions,
-    this.isSuffix = false,
-    this.centerTitle = false,
-    this.backgroundColor,
-    this.elevation,
-    this.leading,
   });
 
-  @override
-  Size get preferredSize => Size.fromHeight(56.h);
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      backgroundColor: backgroundColor ?? AppColors.c15AB09,
-      elevation: elevation ?? 0,
-      centerTitle: centerTitle,
-      automaticallyImplyLeading: false,
-      leading: showBackArrow
-          ? (leading ??
-              IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 20.sp,
-                  color: AppColors.c15AB09,
+    return Stack(
+      children: [
+        Image.asset(
+          'assets/images/header_1.png',
+          fit: BoxFit.cover,
+        ),
+        Positioned(
+          top: 70.h,
+          left: 24.w,
+          right: 24.w,
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(
+                  width: 58.w,
+                  height: 58.w,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.cF5EDD7.withValues(alpha: 0.75),
+                      width: 1.6.w,
+                    ),
+                    color: const Color.fromARGB(17, 255, 255, 255),
+                  ),
+                  child: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: AppColors.cF5EDD7,
+                    size: 22.sp,
+                  ),
                 ),
-                onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ))
-          : null,
-      title: title ??
-          (titleText != null
-              ? Text(
-                  titleText!,
-                  style: TextFontStyle.textStyle10c513B26HelveticaNeue400,
-                )
-              : null),
-      actions: actions ?? (isSuffix ? [_buildSuffixButton()] : null),
-    );
-  }
-
-  Widget _buildSuffixButton() {
-    return Padding(
-      padding: EdgeInsets.only(right: 16.w),
-      child: Icon(
-        Icons.more_vert,
-        size: 24.sp,
-        color: AppColors.c15AB09,
-      ),
+              ),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: Text(
+                  titleText ?? '',
+                  style:
+                      TextFontStyle.textStyle28cFFFFFFHelveticaNeue700,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

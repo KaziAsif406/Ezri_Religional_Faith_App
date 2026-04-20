@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
@@ -50,50 +51,8 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Stack(
-              children: [
-                Image.asset(
-                  'assets/images/header_1.png',
-                  fit: BoxFit.cover,
-                ),
-                Positioned(
-                  top: 70.h,
-                  left: 24.w,
-                  right: 24.w,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).pop(),
-                        child: Container(
-                          width: 58.w,
-                          height: 58.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: AppColors.cF5EDD7.withValues(alpha: 0.75),
-                              width: 1.6.w,
-                            ),
-                            color: const Color.fromARGB(17, 255, 255, 255),
-                          ),
-                          child: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: AppColors.cF5EDD7,
-                            size: 22.sp,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 16.w),
-                      Expanded(
-                        child: Text(
-                          'Edit Faith Anchor',
-                          style:
-                              TextFontStyle.textStyle28cFFFFFFHelveticaNeue700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            CustomAppBar(
+              titleText: 'Edit Faith Anchor',
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(20.w, 0, 20.w, 28.h),
