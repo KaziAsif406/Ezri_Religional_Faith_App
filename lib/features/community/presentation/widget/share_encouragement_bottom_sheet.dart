@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+// import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
@@ -37,7 +37,6 @@ class _ShareEncouragementBottomSheetState extends State<ShareEncouragementBottom
   @override
   Widget build(BuildContext context) {
     final int words = _wordCount(_entryController.text);
-    final bottomInset = MediaQuery.of(context).padding.bottom;
 
 
     return SafeArea(
