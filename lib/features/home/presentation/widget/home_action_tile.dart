@@ -30,10 +30,10 @@ class HomeActionTile extends StatelessWidget {
         onTap: () {
           if (label == 'Add\nEntry') {
             NavigationService.navigateTo(Routes.addSacredEntry);
-          } else if (label == 'Ezr\nChat') {
+          } else if (label == 'Ezri\nChat') {
             // To be added
-          } else if (label == 'Communit\nChat') {
-            //To be added
+          } else if (label == 'Community\nLight') {
+            NavigationService.navigateTo(Routes.communityScreen);
           }
         },
         child: BackdropFilter(

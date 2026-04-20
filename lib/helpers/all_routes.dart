@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:template_flutter/features/community/presentation/community_screen.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/add_faith_anchor.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/add_sacred_entry.dart';
 // import '../features/auth/presentation/login.dart';
@@ -32,6 +33,7 @@ final class Routes {
   static const String profile = '/Profile';
   static const String addFaithAnchor = '/add_faith_anchor';
   static const String addSacredEntry = '/add_sacred_entry';
+  static const String communityScreen = '/community_screen';
 }
 
 final class RouteGenerator {
@@ -59,6 +61,12 @@ final class RouteGenerator {
             ? CupertinoPageRoute(builder: (context) => const AddSacredEntryScreen())
             : _FadedTransitionRoute(
                 widget: const AddSacredEntryScreen(), settings: settings);
+
+      case Routes.communityScreen:
+        return defaultTargetPlatform == TargetPlatform.iOS
+            ? CupertinoPageRoute(builder: (context) => const CommunityScreen())
+            : _FadedTransitionRoute(
+                widget: const CommunityScreen(), settings: settings);
 
       // case Routes.signUpScreen:
       //   return defaultTargetPlatform == TargetPlatform.iOS

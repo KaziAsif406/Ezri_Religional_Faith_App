@@ -87,53 +87,6 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       darkText: 'Date',
                     ),
                     SizedBox(height: 12.h),
-
-                    // CustomTextFormField(
-                    //   controller: TextEditingController(
-                    //     text: _formattedDate(_selectedDate),
-                    //   ),
-                    //   useCardStyle: true,
-                    //   height: 90.h,
-                    //   cardBackgroundColor:
-                    //       AppColors.allPrimaryColor.withValues(alpha: 0.72),
-                    //   cardBorderColor:
-                    //       AppColors.c99907A.withValues(alpha: 0.18),
-                    //   cardBorderRadius: BorderRadius.circular(20.r),
-                    //   cardPadding: EdgeInsets.fromLTRB(20.w, 8.h, 8.w, 8.h),
-                    //   // contentPadding: EdgeInsets.zero,
-                    //   suffixIcon: Positioned(
-                    //     top: 0.h,
-                    //     right: 0.w,
-                    //     child: GestureDetector(
-                    //       onTap: () {
-                    //         // Handle date picker tap
-                    //       },
-                    //       child: Container(
-                    //         width: 44.w,
-                    //         height: 44.w,
-                    //         decoration: BoxDecoration(
-                    //           shape: BoxShape.circle,
-                    //           color:
-                    //               AppColors.cF5F6F5.withValues(alpha: 0.12),
-                    //           boxShadow: [
-                    //             BoxShadow(
-                    //               color: AppColors.c1C1919
-                    //                   .withValues(alpha: 0.10),
-                    //               blurRadius: 5.r,
-                    //               offset: Offset(0, 4.h),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //         child: Icon(
-                    //           Icons.calendar_month_outlined,
-                    //           size: 22.sp,
-                    //           color: AppColors.c513B26,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-
                     _RoundedInputShell(
                       child: Row(
                         children: [
