@@ -4,6 +4,7 @@ import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/encouragement_card.dart';
 import 'package:template_flutter/features/home/presentation/widget/home_section_card.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
+import 'package:template_flutter/helpers/ui_helpers.dart';
 
 class StackedCardsScreen extends StatelessWidget {
   const StackedCardsScreen({super.key});
@@ -30,7 +31,7 @@ class CommunitySwipeCardDeck extends StatefulWidget {
 }
 
 class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
-  static const int _maxVisibleCards = 4;
+  static const int _maxVisibleCards = 3;
 
   final List<_EncouragementStackItem> _cards =
       List<_EncouragementStackItem>.from(_initialCards);
@@ -69,55 +70,58 @@ class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
         _cards.length < _maxVisibleCards ? _cards.length : _maxVisibleCards;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
-      child: SizedBox(
-        height: 220.h,
-        child: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.topCenter,
-          children: List<Widget>.generate(visibleCount, (int stackOrder) {
-            // Render back cards first and top card last to keep hit-testing and paint order correct.
-            final int depth = visibleCount - 1 - stackOrder;
-            final _EncouragementStackItem card = _cards[depth];
-            final bool isTopCard = depth == 0;
-
-            return AnimatedPositioned(
-              key: ValueKey<String>('stack_${card.id}'),
-              duration: const Duration(milliseconds: 320),
-              curve: Curves.easeOut,
-              top: depth * 10.h,
-              left: 0,
-              right: 0,
-              child: AnimatedScale(
-                duration: const Duration(milliseconds: 320),
-                curve: Curves.easeOut,
-                scale: 1 - (depth * 0.05),
-                child: isTopCard
-                    ? Dismissible(
-                        key: ValueKey<String>(card.id),
-                        direction: DismissDirection.horizontal,
-                        dismissThresholds: const <DismissDirection, double>{
-                          DismissDirection.startToEnd: 0.24,
-                          DismissDirection.endToStart: 0.24,
-                        },
-                        movementDuration: const Duration(milliseconds: 190),
-                        resizeDuration: const Duration(milliseconds: 170),
-                        background: const _SwipeHintBackground(
-                          alignment: Alignment.centerLeft,
-                          icon: Icons.arrow_forward_rounded,
-                        ),
-                        secondaryBackground: const _SwipeHintBackground(
-                          alignment: Alignment.centerRight,
-                          icon: Icons.arrow_back_rounded,
-                        ),
-                        onDismissed: (_) => _removeTopCard(),
-                        child: _buildCard(card),
-                      )
-                    : IgnorePointer(child: _buildCard(card)),
-              ),
-            );
-          }),
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      child: Column(
+        children: [
+          UIHelper.verticalSpace(35.h),
+          SizedBox(
+            height: 160.h,
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.topCenter,
+              children: List<Widget>.generate(visibleCount, (int depthIndex) {
+                final int cardIndex = visibleCount - 1 - depthIndex;
+                final _EncouragementStackItem card = _cards[cardIndex];
+                final bool isTopCard = cardIndex == 0;
+          
+                return AnimatedPositioned(
+                  duration: const Duration(milliseconds: 320),
+                  curve: Curves.easeOut,
+                  top: depthIndex * -12.h,
+                  left: 0,
+                  right: 0,
+                  child: AnimatedScale(
+                    duration: const Duration(milliseconds: 320),
+                    curve: Curves.easeOut,
+                    scale: 1 + (depthIndex * 0.04),
+                    child: isTopCard
+                        ? Dismissible(
+                            key: ValueKey<String>(card.id),
+                            direction: DismissDirection.horizontal,
+                            dismissThresholds: const <DismissDirection, double>{
+                              DismissDirection.startToEnd: 0.24,
+                              DismissDirection.endToStart: 0.24,
+                            },
+                            movementDuration: const Duration(milliseconds: 190),
+                            resizeDuration: const Duration(milliseconds: 170),
+                            background: const _SwipeHintBackground(
+                              alignment: Alignment.centerLeft,
+                              icon: Icons.arrow_forward_rounded,
+                            ),
+                            secondaryBackground: const _SwipeHintBackground(
+                              alignment: Alignment.centerRight,
+                              icon: Icons.arrow_back_rounded,
+                            ),
+                            onDismissed: (_) => _removeTopCard(),
+                            child: _buildCard(card),
+                          )
+                        : IgnorePointer(child: _buildCard(card)),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ],
       ),
     );
   }
