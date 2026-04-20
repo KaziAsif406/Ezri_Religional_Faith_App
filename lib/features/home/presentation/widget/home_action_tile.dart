@@ -28,7 +28,13 @@ class HomeActionTile extends StatelessWidget {
       borderRadius: tileRadius,
       child: GestureDetector(
         onTap: () {
-          NavigationService.navigateTo(Routes.addSacredEntry);
+          if (label == 'Add\nEntry') {
+            NavigationService.navigateTo(Routes.addSacredEntry);
+          } else if (label == 'Ezr\nChat') {
+            // To be added
+          } else if (label == 'Communit\nChat') {
+            //To be added
+          }
         },
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
