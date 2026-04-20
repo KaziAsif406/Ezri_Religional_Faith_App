@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(22.w, 17.h, 22.w, 0),
+              padding: EdgeInsets.fromLTRB(22.w, 17.h, 22.w, 35.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -162,6 +162,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       AppColors.allsecondaryColor.withValues(alpha: 0.20),
                     ],
                     buttonShadowColor: AppColors.c8C7C68.withValues(alpha: 0.28),
+                    onButtonTap: () {
+                      NavigationService.navigateTo(Routes.communityScreen);
+                    },
                   ),
                   SizedBox(height: 28.h),
                   HomeSectionHeader(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'features/home/presentation/home.dart';
@@ -13,27 +14,64 @@ class NavigationScreen extends StatefulWidget {
 
 class _NavigationScreenState extends State<NavigationScreen> {
   int _currentIndex = 1;
+  bool _isBottomNavVisible = true;
+
+  void _setBottomNavVisible(bool isVisible) {
+    if (_isBottomNavVisible == isVisible) {
+      return;
+    }
+
+    setState(() {
+      _isBottomNavVisible = isVisible;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       backgroundColor: AppColors.scaffoldColor,
-      body: IndexedStack(
-        index: _currentIndex,
-        children: const [
-          _NavPage(title: 'Word'),
-          HomeScreen(),
-          _NavPage(title: 'Journey'),
-        ],
-      ),
-      bottomNavigationBar: _BottomNavBar(
-        currentIndex: _currentIndex,
-        onTap: (int index) {
-          setState(() {
-            _currentIndex = index;
-          });
+      body: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) {
+          if (notification.depth != 0) {
+            return false;
+          }
+
+          if (notification.direction == ScrollDirection.reverse) {
+            _setBottomNavVisible(false);
+          } else if (notification.direction == ScrollDirection.forward) {
+            _setBottomNavVisible(true);
+          }
+
+          return false;
         },
+        child: IndexedStack(
+          index: _currentIndex,
+          children: const [
+            _NavPage(title: 'Word'),
+            HomeScreen(),
+            _NavPage(title: 'Journey'),
+          ],
+        ),
+      ),
+      bottomNavigationBar: AnimatedContainer(
+        duration: const Duration(milliseconds: 360),
+        curve: Curves.easeOutCubic,
+        height: _isBottomNavVisible ? 132.h : 25.h,
+        child: ClipRect(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: _BottomNavBar(
+              currentIndex: _currentIndex,
+              onTap: (int index) {
+                setState(() {
+                  _currentIndex = index;
+                  _isBottomNavVisible = true;
+                });
+              },
+            ),
+          ),
+        ),
       ),
     );
   }
