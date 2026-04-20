@@ -16,8 +16,9 @@ class EncouragementCard extends StatelessWidget {
     this.onLikeTap,
     this.onBookmarkTap,
     this.onDeleteTap,
-    this.onReportTap, 
+    this.onReportTap,
     this.isLiked = false,
+    this.showBottomSection = true,
   });
 
   final String authorName;
@@ -32,6 +33,7 @@ class EncouragementCard extends StatelessWidget {
   final VoidCallback? onDeleteTap;
   final VoidCallback? onReportTap;
   final bool isLiked;
+  final bool showBottomSection;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,13 @@ class EncouragementCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.allPrimaryColor,
         borderRadius: BorderRadius.circular(24.r),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.c1C1919.withValues(alpha: 0.10),
+            blurRadius: 12.r,
+            offset: Offset(0, 6.h),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,40 +69,69 @@ class EncouragementCard extends StatelessWidget {
             style: TextFontStyle.textStyle14c796956HelveticaNeue400.copyWith(
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
-            )
+            ),
           ),
-          SizedBox(height: 12.h),
-          SizedBox(
-            height: 14.h,
-            width: double.infinity,
-            child: CustomPaint(painter: _ScribbleDividerPainter()),
-          ),
-          SizedBox(height: 12.h),
-          Row(
-            children: [
-              Text(
-                categoryLabel,
-                style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400,
-              ),
-              Spacer(),
-              _CircleActionButton(
-                icon: Icons.bookmark_border_rounded,
-                onTap: onBookmarkTap,
-              ),
-              SizedBox(width: 12.w),
-              _CircleActionButton(
-                icon: Icons.delete_outline_rounded,
-                onTap: onDeleteTap,
-              ),
-              SizedBox(width: 12.w),
-              _CircleActionButton(
-                icon: Icons.warning_amber_rounded,
-                onTap: onReportTap,
-              ),
-            ],
-          ),
+          if (showBottomSection)
+            _CardBottomSection(
+              categoryLabel: categoryLabel,
+              onBookmarkTap: onBookmarkTap,
+              onDeleteTap: onDeleteTap,
+              onReportTap: onReportTap,
+            ),
         ],
       ),
+    );
+  }
+}
+
+class _CardBottomSection extends StatelessWidget {
+  const _CardBottomSection({
+    required this.categoryLabel,
+    this.onBookmarkTap,
+    this.onDeleteTap,
+    this.onReportTap,
+  });
+
+  final String categoryLabel;
+  final VoidCallback? onBookmarkTap;
+  final VoidCallback? onDeleteTap;
+  final VoidCallback? onReportTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 12.h),
+        SizedBox(
+          height: 14.h,
+          width: double.infinity,
+          child: CustomPaint(painter: _ScribbleDividerPainter()),
+        ),
+        SizedBox(height: 12.h),
+        Row(
+          children: [
+            Text(
+              categoryLabel,
+              style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400,
+            ),
+            Spacer(),
+            _CircleActionButton(
+              icon: Icons.bookmark_border_rounded,
+              onTap: onBookmarkTap,
+            ),
+            SizedBox(width: 12.w),
+            _CircleActionButton(
+              icon: Icons.delete_outline_rounded,
+              onTap: onDeleteTap,
+            ),
+            SizedBox(width: 12.w),
+            _CircleActionButton(
+              icon: Icons.warning_amber_rounded,
+              onTap: onReportTap,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

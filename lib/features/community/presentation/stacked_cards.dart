@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/encouragement_card.dart';
+import 'package:template_flutter/features/home/presentation/widget/home_section_card.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
 
 class StackedCardsScreen extends StatelessWidget {
@@ -29,7 +30,7 @@ class CommunitySwipeCardDeck extends StatefulWidget {
 }
 
 class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
-  static const int _maxVisibleCards = 3;
+  static const int _maxVisibleCards = 4;
 
   final List<_EncouragementStackItem> _cards =
       List<_EncouragementStackItem>.from(_initialCards);
@@ -48,57 +49,75 @@ class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
   @override
   Widget build(BuildContext context) {
     if (_cards.isEmpty) {
-      return _EmptyDeck(onReloadTap: _resetDeck);
+      return HomeSectionCard(
+        onButtonTap: _resetDeck,
+        backgroundColor: AppColors.cC7BFAD,
+        imagePath: 'assets/icons/Candle_Empty.png',
+        title: 'Your Light Awaits',
+        description:
+            'Share your light — your words can inspire others.',
+        buttonLabel: 'Load New Lights',
+        buttonGradient: [
+          AppColors.allsecondaryColor.withValues(alpha: 0.20),
+          AppColors.allsecondaryColor.withValues(alpha: 0.20),
+        ],
+        buttonShadowColor: AppColors.c8C7C68.withValues(alpha: 0.35),
+      );
     }
 
     final int visibleCount =
         _cards.length < _maxVisibleCards ? _cards.length : _maxVisibleCards;
 
-    return SizedBox(
-      height: 330.h,
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.topCenter,
-        children: List<Widget>.generate(visibleCount, (int depthIndex) {
-          final int cardIndex = visibleCount - 1 - depthIndex;
-          final _EncouragementStackItem card = _cards[cardIndex];
-          final bool isTopCard = cardIndex == 0;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      child: SizedBox(
+        height: 220.h,
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.topCenter,
+          children: List<Widget>.generate(visibleCount, (int stackOrder) {
+            // Render back cards first and top card last to keep hit-testing and paint order correct.
+            final int depth = visibleCount - 1 - stackOrder;
+            final _EncouragementStackItem card = _cards[depth];
+            final bool isTopCard = depth == 0;
 
-          return AnimatedPositioned(
-            duration: const Duration(milliseconds: 220),
-            curve: Curves.easeOut,
-            top: depthIndex * 12.h,
-            left: 0,
-            right: 0,
-            child: AnimatedScale(
-              duration: const Duration(milliseconds: 220),
+            return AnimatedPositioned(
+              key: ValueKey<String>('stack_${card.id}'),
+              duration: const Duration(milliseconds: 320),
               curve: Curves.easeOut,
-              scale: 1 - (depthIndex * 0.04),
-              child: isTopCard
-                  ? Dismissible(
-                      key: ValueKey<String>(card.id),
-                      direction: DismissDirection.horizontal,
-                      dismissThresholds: const <DismissDirection, double>{
-                        DismissDirection.startToEnd: 0.24,
-                        DismissDirection.endToStart: 0.24,
-                      },
-                      movementDuration: const Duration(milliseconds: 190),
-                      resizeDuration: const Duration(milliseconds: 170),
-                      background: const _SwipeHintBackground(
-                        alignment: Alignment.centerLeft,
-                        icon: Icons.arrow_forward_rounded,
-                      ),
-                      secondaryBackground: const _SwipeHintBackground(
-                        alignment: Alignment.centerRight,
-                        icon: Icons.arrow_back_rounded,
-                      ),
-                      onDismissed: (_) => _removeTopCard(),
-                      child: _buildCard(card),
-                    )
-                  : IgnorePointer(child: _buildCard(card)),
-            ),
-          );
-        }),
+              top: depth * 10.h,
+              left: 0,
+              right: 0,
+              child: AnimatedScale(
+                duration: const Duration(milliseconds: 320),
+                curve: Curves.easeOut,
+                scale: 1 - (depth * 0.05),
+                child: isTopCard
+                    ? Dismissible(
+                        key: ValueKey<String>(card.id),
+                        direction: DismissDirection.horizontal,
+                        dismissThresholds: const <DismissDirection, double>{
+                          DismissDirection.startToEnd: 0.24,
+                          DismissDirection.endToStart: 0.24,
+                        },
+                        movementDuration: const Duration(milliseconds: 190),
+                        resizeDuration: const Duration(milliseconds: 170),
+                        background: const _SwipeHintBackground(
+                          alignment: Alignment.centerLeft,
+                          icon: Icons.arrow_forward_rounded,
+                        ),
+                        secondaryBackground: const _SwipeHintBackground(
+                          alignment: Alignment.centerRight,
+                          icon: Icons.arrow_back_rounded,
+                        ),
+                        onDismissed: (_) => _removeTopCard(),
+                        child: _buildCard(card),
+                      )
+                    : IgnorePointer(child: _buildCard(card)),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
@@ -108,11 +127,12 @@ class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
       authorName: card.authorName,
       postedAgo: card.postedAgo,
       message: card.message,
-      categoryLabel: card.categoryLabel,
+      // categoryLabel: card.categoryLabel,
       likesCount: _likeCounts[card.id] ?? card.likesCount,
       showYouTag: card.showYouTag,
       isLiked: _likedStates[card.id] ?? false,
       onLikeTap: () => _toggleLike(card),
+      showBottomSection: false,
     );
   }
 
@@ -160,7 +180,7 @@ class _SwipeHintBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cF5EDD7.withValues(alpha: 0.85),
+        color: const Color.fromARGB(255, 160, 160, 159).withValues(alpha: 0.20),
         borderRadius: BorderRadius.circular(24.r),
       ),
       padding: EdgeInsets.symmetric(horizontal: 20.w),
