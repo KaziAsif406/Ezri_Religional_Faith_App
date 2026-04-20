@@ -7,6 +7,7 @@ import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/encouragement_card.dart';
+import 'package:template_flutter/gen/colors.gen.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
 
 class CommunityScreen extends StatefulWidget {
@@ -63,6 +64,30 @@ class _CommunityScreenState extends State<CommunityScreen> {
                         // Handle like tap for this card
                       },
                     ),
+                    UIHelper.verticalSpace(8.h),
+                    EncouragementCard(
+                      authorName: 'Jane Smith',
+                      postedAgo: '5 hours ago',
+                      message: '\“Today God reminded me through Psalm 46:10 — \‘Be still, and know that I am God.\’ If you\’re feeling overwhelmed, He is your peace.\”',
+                      categoryLabel: 'Family Time',
+                      likesCount: 20,
+                      isLiked: false,
+                      onLikeTap: () {
+                        // Handle like tap for this card
+                      },
+                    ),
+                    UIHelper.verticalSpace(8.h),
+                    EncouragementCard(
+                      authorName: 'Jane Smith',
+                      postedAgo: '5 hours ago',
+                      message: '\“Today God reminded me through Psalm 46:10 — \‘Be still, and know that I am God.\’ If you\’re feeling overwhelmed, He is your peace.\”',
+                      categoryLabel: 'Family Time',
+                      likesCount: 20,
+                      isLiked: false,
+                      onLikeTap: () {
+                        // Handle like tap for this card
+                      },
+                    ),
                   ],
                 )
               ),
@@ -70,8 +95,33 @@ class _CommunityScreenState extends State<CommunityScreen> {
           ],
         
         ),
-      )
-
+      ),
+      floatingActionButton: CustomButton(
+        padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 19.h),
+        title: '',
+        leadingIcon: Icon(
+          CupertinoIcons.add,
+          color: AppColors.allPrimaryColor,
+          size: 30.sp,
+        ),
+        backgroundGradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: <Color>[
+            const Color.fromARGB(255, 212, 207, 191),
+            AppColors.c6B2F45.withValues(alpha: 0.92),
+          ],
+        ),
+        onPressed: () {
+          // Handle add new post action
+        },
+        height: 64.h,
+        width: 64.w,
+        borderRadius: BorderRadius.circular(2444.r),
+        textStyle: TextFontStyle.textStyle14cFFFFFFHelveticaNeue500.copyWith(
+          fontSize: 54.sp,
+        ),
+      ),
     );
   }
 }
