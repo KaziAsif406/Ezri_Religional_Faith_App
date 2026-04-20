@@ -4,59 +4,35 @@ import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/encouragement_card.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
 
-class StackedCardsScreen extends StatefulWidget {
+class StackedCardsScreen extends StatelessWidget {
   const StackedCardsScreen({super.key});
 
   @override
-  State<StackedCardsScreen> createState() => _StackedCardsScreenState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldColor,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
+          child: const CommunitySwipeCardDeck(),
+        ),
+      ),
+    );
+  }
 }
 
-class _StackedCardsScreenState extends State<StackedCardsScreen> {
+class CommunitySwipeCardDeck extends StatefulWidget {
+  const CommunitySwipeCardDeck({super.key});
+
+  @override
+  State<CommunitySwipeCardDeck> createState() => _CommunitySwipeCardDeckState();
+}
+
+class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
   static const int _maxVisibleCards = 3;
 
-  final List<_EncouragementStackItem> _cards = <_EncouragementStackItem>[
-    const _EncouragementStackItem(
-      id: 'card_1',
-      authorName: 'Elena Faith',
-      categoryLabel: 'Gratitude',
-      postedAgo: '16h Fast',
-      message:
-          '"Today I realized how small acts of kindness can shift an entire day. Thank You, Lord."',
-      likesCount: 8,
-      showYouTag: false,
-    ),
-    const _EncouragementStackItem(
-      id: 'card_2',
-      authorName: 'Wade Warren',
-      categoryLabel: 'Reflection',
-      postedAgo: '3h Fast',
-      message:
-          '"Faith may not calm every storm immediately, but it anchors your heart through every wave."',
-      likesCount: 12,
-      showYouTag: true,
-    ),
-    const _EncouragementStackItem(
-      id: 'card_3',
-      authorName: 'Jane Smith',
-      categoryLabel: 'Family Time',
-      postedAgo: '9h Fast',
-      message:
-          '"Tonight we prayed together as a family, and peace filled our home in a new way."',
-      likesCount: 5,
-      showYouTag: false,
-    ),
-    const _EncouragementStackItem(
-      id: 'card_4',
-      authorName: 'Alex Johnson',
-      categoryLabel: 'Community',
-      postedAgo: '1d Fast',
-      message:
-          '"Encouraging one person today reminded me how God multiplies small acts of love."',
-      likesCount: 3,
-      showYouTag: false,
-    ),
-  ];
-
+  final List<_EncouragementStackItem> _cards =
+      List<_EncouragementStackItem>.from(_initialCards);
   final Map<String, bool> _likedStates = <String, bool>{};
   final Map<String, int> _likeCounts = <String, int>{};
 
@@ -69,6 +45,87 @@ class _StackedCardsScreenState extends State<StackedCardsScreen> {
     }
   }
 
+  @override
+  Widget build(BuildContext context) {
+    if (_cards.isEmpty) {
+      return _EmptyDeck(onReloadTap: _resetDeck);
+    }
+
+    final int visibleCount =
+        _cards.length < _maxVisibleCards ? _cards.length : _maxVisibleCards;
+
+    return SizedBox(
+      height: 330.h,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.topCenter,
+        children: List<Widget>.generate(visibleCount, (int depthIndex) {
+          final int cardIndex = visibleCount - 1 - depthIndex;
+          final _EncouragementStackItem card = _cards[cardIndex];
+          final bool isTopCard = cardIndex == 0;
+
+          return AnimatedPositioned(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOut,
+            top: depthIndex * 12.h,
+            left: 0,
+            right: 0,
+            child: AnimatedScale(
+              duration: const Duration(milliseconds: 220),
+              curve: Curves.easeOut,
+              scale: 1 - (depthIndex * 0.04),
+              child: isTopCard
+                  ? Dismissible(
+                      key: ValueKey<String>(card.id),
+                      direction: DismissDirection.horizontal,
+                      dismissThresholds: const <DismissDirection, double>{
+                        DismissDirection.startToEnd: 0.24,
+                        DismissDirection.endToStart: 0.24,
+                      },
+                      movementDuration: const Duration(milliseconds: 190),
+                      resizeDuration: const Duration(milliseconds: 170),
+                      background: const _SwipeHintBackground(
+                        alignment: Alignment.centerLeft,
+                        icon: Icons.arrow_forward_rounded,
+                      ),
+                      secondaryBackground: const _SwipeHintBackground(
+                        alignment: Alignment.centerRight,
+                        icon: Icons.arrow_back_rounded,
+                      ),
+                      onDismissed: (_) => _removeTopCard(),
+                      child: _buildCard(card),
+                    )
+                  : IgnorePointer(child: _buildCard(card)),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildCard(_EncouragementStackItem card) {
+    return EncouragementCard(
+      authorName: card.authorName,
+      postedAgo: card.postedAgo,
+      message: card.message,
+      categoryLabel: card.categoryLabel,
+      likesCount: _likeCounts[card.id] ?? card.likesCount,
+      showYouTag: card.showYouTag,
+      isLiked: _likedStates[card.id] ?? false,
+      onLikeTap: () => _toggleLike(card),
+    );
+  }
+
+  void _toggleLike(_EncouragementStackItem card) {
+    final bool wasLiked = _likedStates[card.id] ?? false;
+    final int currentCount = _likeCounts[card.id] ?? card.likesCount;
+
+    setState(() {
+      _likedStates[card.id] = !wasLiked;
+      _likeCounts[card.id] = wasLiked ? currentCount - 1 : currentCount + 1;
+    });
+  }
+
   void _removeTopCard() {
     if (_cards.isEmpty) {
       return;
@@ -79,187 +136,19 @@ class _StackedCardsScreenState extends State<StackedCardsScreen> {
     });
   }
 
-  void _toggleLike(_EncouragementStackItem card) {
-    final bool currentLikeState = _likedStates[card.id] ?? false;
-    final int currentLikeCount = _likeCounts[card.id] ?? card.likesCount;
-
-    setState(() {
-      _likedStates[card.id] = !currentLikeState;
-      _likeCounts[card.id] = currentLikeState
-          ? (currentLikeCount - 1)
-          : (currentLikeCount + 1);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldColor,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Community Light',
-                style: TextFontStyle.textStyle24cFFFFFFHelveticaNeue400.copyWith(
-                  color: AppColors.allsecondaryColor,
-                  fontSize: 30.sp,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              Text(
-                'Swipe left or right to move to the next encouragement card.',
-                style: TextFontStyle.textStyle14c8C7C68HelveticaNeue300.copyWith(
-                  fontSize: 13.sp,
-                ),
-              ),
-              SizedBox(height: 18.h),
-              Expanded(
-                child: _cards.isEmpty
-                  ? _EmptyState(onResetTap: _resetDeck)
-                  : LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      final int visibleCount =
-                        _cards.length < _maxVisibleCards ? _cards.length : _maxVisibleCards;
-
-                    return Stack(
-                      alignment: Alignment.topCenter,
-                      children: List<Widget>.generate(visibleCount, (int deckIndex) {
-                        final int cardIndex = visibleCount - 1 - deckIndex;
-                        final _EncouragementStackItem card = _cards[cardIndex];
-                        final bool isTopCard = cardIndex == 0;
-
-                        return AnimatedPositioned(
-                          duration: const Duration(milliseconds: 220),
-                          curve: Curves.easeOut,
-                          top: deckIndex * 14.h,
-                          left: 0,
-                          right: 0,
-                          child: AnimatedScale(
-                            duration: const Duration(milliseconds: 220),
-                            curve: Curves.easeOut,
-                            scale: 1 - (deckIndex * 0.045),
-                            child: isTopCard
-                                ? _buildDismissibleTopCard(card)
-                                : IgnorePointer(
-                                    child: _buildCard(card),
-                                  ),
-                          ),
-                        );
-                      }),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDismissibleTopCard(_EncouragementStackItem card) {
-    return Dismissible(
-      key: ValueKey<String>(card.id),
-      direction: DismissDirection.horizontal,
-      dismissThresholds: const <DismissDirection, double>{
-        DismissDirection.startToEnd: 0.24,
-        DismissDirection.endToStart: 0.24,
-      },
-      movementDuration: const Duration(milliseconds: 180),
-      resizeDuration: const Duration(milliseconds: 170),
-      background: _SwipeBackground(
-        alignment: Alignment.centerLeft,
-        icon: Icons.arrow_forward_rounded,
-      ),
-      secondaryBackground: _SwipeBackground(
-        alignment: Alignment.centerRight,
-        icon: Icons.arrow_back_rounded,
-      ),
-      onDismissed: (_) => _removeTopCard(),
-      child: _buildCard(card),
-    );
-  }
-
-  Widget _buildCard(_EncouragementStackItem card) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(minHeight: 280.h),
-      child: EncouragementCard(
-        authorName: card.authorName,
-        postedAgo: card.postedAgo,
-        message: card.message,
-        categoryLabel: card.categoryLabel,
-        likesCount: _likeCounts[card.id] ?? card.likesCount,
-        showYouTag: card.showYouTag,
-        isLiked: _likedStates[card.id] ?? false,
-        onLikeTap: () {
-          _toggleLike(card);
-        },
-      ),
-    );
-  }
-
   void _resetDeck() {
     if (_cards.isNotEmpty) {
       return;
     }
 
     setState(() {
-      _cards.addAll(const <_EncouragementStackItem>[
-        _EncouragementStackItem(
-          id: 'card_1',
-          authorName: 'Elena Faith',
-          categoryLabel: 'Gratitude',
-          postedAgo: '16h Fast',
-          message:
-              '"Today I realized how small acts of kindness can shift an entire day. Thank You, Lord."',
-          likesCount: 8,
-          showYouTag: false,
-        ),
-        _EncouragementStackItem(
-          id: 'card_2',
-          authorName: 'Wade Warren',
-          categoryLabel: 'Reflection',
-          postedAgo: '3h Fast',
-          message:
-              '"Faith may not calm every storm immediately, but it anchors your heart through every wave."',
-          likesCount: 12,
-          showYouTag: true,
-        ),
-        _EncouragementStackItem(
-          id: 'card_3',
-          authorName: 'Jane Smith',
-          categoryLabel: 'Family Time',
-          postedAgo: '9h Fast',
-          message:
-              '"Tonight we prayed together as a family, and peace filled our home in a new way."',
-          likesCount: 5,
-          showYouTag: false,
-        ),
-        _EncouragementStackItem(
-          id: 'card_4',
-          authorName: 'Alex Johnson',
-          categoryLabel: 'Community',
-          postedAgo: '1d Fast',
-          message:
-              '"Encouraging one person today reminded me how God multiplies small acts of love."',
-          likesCount: 3,
-          showYouTag: false,
-        ),
-      ]);
-
-      for (final _EncouragementStackItem card in _cards) {
-        _likedStates.putIfAbsent(card.id, () => false);
-        _likeCounts.putIfAbsent(card.id, () => card.likesCount);
-      }
+      _cards.addAll(_initialCards);
     });
   }
 }
 
-class _SwipeBackground extends StatelessWidget {
-  const _SwipeBackground({
+class _SwipeHintBackground extends StatelessWidget {
+  const _SwipeHintBackground({
     required this.alignment,
     required this.icon,
   });
@@ -285,14 +174,24 @@ class _SwipeBackground extends StatelessWidget {
   }
 }
 
-class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.onResetTap});
+class _EmptyDeck extends StatelessWidget {
+  const _EmptyDeck({required this.onReloadTap});
 
-  final VoidCallback onResetTap;
+  final VoidCallback onReloadTap;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+      decoration: BoxDecoration(
+        color: AppColors.cC7BFAD,
+        borderRadius: BorderRadius.circular(24.r),
+        border: Border.all(
+          color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
+          width: 1.w,
+        ),
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -302,7 +201,7 @@ class _EmptyState extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           TextButton(
-            onPressed: onResetTap,
+            onPressed: onReloadTap,
             child: Text(
               'Reload deck',
               style: TextFontStyle.textStyle14c796956HelveticaNeue400.copyWith(
@@ -335,3 +234,46 @@ class _EncouragementStackItem {
   final int likesCount;
   final bool showYouTag;
 }
+
+const List<_EncouragementStackItem> _initialCards = <_EncouragementStackItem>[
+  _EncouragementStackItem(
+    id: 'card_1',
+    authorName: 'Elena Faith',
+    categoryLabel: 'Gratitude',
+    postedAgo: '16h Fast',
+    message:
+        '"Today I realized how small acts of kindness can shift an entire day. Thank You, Lord."',
+    likesCount: 8,
+    showYouTag: false,
+  ),
+  _EncouragementStackItem(
+    id: 'card_2',
+    authorName: 'Wade Warren',
+    categoryLabel: 'Reflection',
+    postedAgo: '3h Fast',
+    message:
+        '"Faith may not calm every storm immediately, but it anchors your heart through every wave."',
+    likesCount: 12,
+    showYouTag: true,
+  ),
+  _EncouragementStackItem(
+    id: 'card_3',
+    authorName: 'Jane Smith',
+    categoryLabel: 'Family Time',
+    postedAgo: '9h Fast',
+    message:
+        '"Tonight we prayed together as a family, and peace filled our home in a new way."',
+    likesCount: 5,
+    showYouTag: false,
+  ),
+  _EncouragementStackItem(
+    id: 'card_4',
+    authorName: 'Alex Johnson',
+    categoryLabel: 'Community',
+    postedAgo: '1d Fast',
+    message:
+        '"Encouraging one person today reminded me how God multiplies small acts of love."',
+    likesCount: 3,
+    showYouTag: false,
+  ),
+];

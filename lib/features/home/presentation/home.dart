@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/features/community/presentation/stacked_cards.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
 import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
@@ -150,22 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     titleHighlight: 'Light',
                   ),
                   SizedBox(height: 12.h),
-                  HomeSectionCard(
-                    backgroundColor: AppColors.cC7BFAD,
-                    imagePath: 'assets/icons/Candle_Empty.png',
-                    title: 'Your Light Awaits.',
-                    description:
-                        'Share your light — your words can inspire others.',
-                    buttonLabel: 'Start Your First Fast',
-                    buttonGradient: [
-                      AppColors.allsecondaryColor.withValues(alpha: 0.20),
-                      AppColors.allsecondaryColor.withValues(alpha: 0.20),
-                    ],
-                    buttonShadowColor: AppColors.c8C7C68.withValues(alpha: 0.28),
-                    onButtonTap: () {
-                      NavigationService.navigateTo(Routes.communityScreen);
-                    },
-                  ),
+                  const CommunitySwipeCardDeck(),
                   SizedBox(height: 28.h),
                   HomeSectionHeader(
                     titlePrefix: 'Sacred',
