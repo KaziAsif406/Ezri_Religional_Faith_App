@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
-import 'package:template_flutter/common_widgets/custom_textform_field.dart';
-import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/encouragement_card.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
@@ -56,7 +54,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     EncouragementCard(
                       authorName: 'Jane Smith',
                       postedAgo: '5 hours ago',
-                      message: '\“Today God reminded me through Psalm 46:10 — \‘Be still, and know that I am God.\’ If you\’re feeling overwhelmed, He is your peace.\”',
+                      message: '“Today God reminded me through Psalm 46:10 — ‘Be still, and know that I am God.’ If you’re feeling overwhelmed, He is your peace.”',
                       categoryLabel: 'Family Time',
                       likesCount: 20,
                       isLiked: false,
@@ -68,7 +66,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     EncouragementCard(
                       authorName: 'Jane Smith',
                       postedAgo: '5 hours ago',
-                      message: '\“Today God reminded me through Psalm 46:10 — \‘Be still, and know that I am God.\’ If you\’re feeling overwhelmed, He is your peace.\”',
+                      message: '“Today God reminded me through Psalm 46:10 — ‘Be still, and know that I am God.’ If you’re feeling overwhelmed, He is your peace.”',
                       categoryLabel: 'Family Time',
                       likesCount: 20,
                       isLiked: false,
@@ -80,7 +78,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                     EncouragementCard(
                       authorName: 'Jane Smith',
                       postedAgo: '5 hours ago',
-                      message: '\“Today God reminded me through Psalm 46:10 — \‘Be still, and know that I am God.\’ If you\’re feeling overwhelmed, He is your peace.\”',
+                      message: '“Today God reminded me through Psalm 46:10 — ‘Be still, and know that I am God.’ If you’re feeling overwhelmed, He is your peace.”',
                       categoryLabel: 'Family Time',
                       likesCount: 20,
                       isLiked: false,
