@@ -183,19 +183,29 @@ class _CircleActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.cDED7C5,
-      shape: const CircleBorder(),
-      child: InkWell(
-        onTap: onTap,
-        customBorder: const CircleBorder(),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 32.w,
+        height: 32.w,
+        decoration: BoxDecoration(
+          color: AppColors.cF5EDD7.withValues(alpha: 0.60),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.c1C1919.withValues(alpha: 0.10),
+              blurRadius: 8.r,
+              offset: Offset(0, 6.h),
+            ),
+          ],
+        ),
         child: SizedBox(
-          width: 58.w,
-          height: 58.w,
+          width: 32.w,
+          height: 32.w,
           child: Icon(
             icon,
-            color: AppColors.c184069,
-            size: 30.sp,
+            color: AppColors.allsecondaryColor,
+            size: 16.sp,
           ),
         ),
       ),

@@ -7,6 +7,7 @@ import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/encouragement_card.dart';
+import 'package:template_flutter/helpers/ui_helpers.dart';
 
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
@@ -49,8 +50,19 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           isLiked = !isLiked;
                         });
                       },
-                    )
-
+                    ),
+                    UIHelper.verticalSpace(8.h),
+                    EncouragementCard(
+                      authorName: 'Jane Smith',
+                      postedAgo: '5 hours ago',
+                      message: '\“Today God reminded me through Psalm 46:10 — \‘Be still, and know that I am God.\’ If you\’re feeling overwhelmed, He is your peace.\”',
+                      categoryLabel: 'Family Time',
+                      likesCount: 20,
+                      isLiked: false,
+                      onLikeTap: () {
+                        // Handle like tap for this card
+                      },
+                    ),
                   ],
                 )
               ),
