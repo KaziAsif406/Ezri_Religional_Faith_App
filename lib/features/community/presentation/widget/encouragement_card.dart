@@ -17,7 +17,7 @@ class EncouragementCard extends StatelessWidget {
     this.onBookmarkTap,
     this.onDeleteTap,
     this.onReportTap, 
-    required this.isLiked,
+    this.isLiked = false,
   });
 
   final String authorName;
@@ -106,7 +106,7 @@ class _HeaderRow extends StatelessWidget {
     required this.avatarImage,
     required this.showYouTag,
     required this.onLikeTap,
-    required this.isLiked,
+    this.isLiked = false,
   });
 
   final String authorName;
