@@ -1,0 +1,337 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/features/community/presentation/widget/encouragement_card.dart';
+import 'package:template_flutter/gen/colors.gen.dart';
+
+class StackedCardsScreen extends StatefulWidget {
+  const StackedCardsScreen({super.key});
+
+  @override
+  State<StackedCardsScreen> createState() => _StackedCardsScreenState();
+}
+
+class _StackedCardsScreenState extends State<StackedCardsScreen> {
+  static const int _maxVisibleCards = 3;
+
+  final List<_EncouragementStackItem> _cards = <_EncouragementStackItem>[
+    const _EncouragementStackItem(
+      id: 'card_1',
+      authorName: 'Elena Faith',
+      categoryLabel: 'Gratitude',
+      postedAgo: '16h Fast',
+      message:
+          '"Today I realized how small acts of kindness can shift an entire day. Thank You, Lord."',
+      likesCount: 8,
+      showYouTag: false,
+    ),
+    const _EncouragementStackItem(
+      id: 'card_2',
+      authorName: 'Wade Warren',
+      categoryLabel: 'Reflection',
+      postedAgo: '3h Fast',
+      message:
+          '"Faith may not calm every storm immediately, but it anchors your heart through every wave."',
+      likesCount: 12,
+      showYouTag: true,
+    ),
+    const _EncouragementStackItem(
+      id: 'card_3',
+      authorName: 'Jane Smith',
+      categoryLabel: 'Family Time',
+      postedAgo: '9h Fast',
+      message:
+          '"Tonight we prayed together as a family, and peace filled our home in a new way."',
+      likesCount: 5,
+      showYouTag: false,
+    ),
+    const _EncouragementStackItem(
+      id: 'card_4',
+      authorName: 'Alex Johnson',
+      categoryLabel: 'Community',
+      postedAgo: '1d Fast',
+      message:
+          '"Encouraging one person today reminded me how God multiplies small acts of love."',
+      likesCount: 3,
+      showYouTag: false,
+    ),
+  ];
+
+  final Map<String, bool> _likedStates = <String, bool>{};
+  final Map<String, int> _likeCounts = <String, int>{};
+
+  @override
+  void initState() {
+    super.initState();
+    for (final _EncouragementStackItem card in _cards) {
+      _likedStates[card.id] = false;
+      _likeCounts[card.id] = card.likesCount;
+    }
+  }
+
+  void _removeTopCard() {
+    if (_cards.isEmpty) {
+      return;
+    }
+
+    setState(() {
+      _cards.removeAt(0);
+    });
+  }
+
+  void _toggleLike(_EncouragementStackItem card) {
+    final bool currentLikeState = _likedStates[card.id] ?? false;
+    final int currentLikeCount = _likeCounts[card.id] ?? card.likesCount;
+
+    setState(() {
+      _likedStates[card.id] = !currentLikeState;
+      _likeCounts[card.id] = currentLikeState
+          ? (currentLikeCount - 1)
+          : (currentLikeCount + 1);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.scaffoldColor,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Community Light',
+                style: TextFontStyle.textStyle24cFFFFFFHelveticaNeue400.copyWith(
+                  color: AppColors.allsecondaryColor,
+                  fontSize: 30.sp,
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                'Swipe left or right to move to the next encouragement card.',
+                style: TextFontStyle.textStyle14c8C7C68HelveticaNeue300.copyWith(
+                  fontSize: 13.sp,
+                ),
+              ),
+              SizedBox(height: 18.h),
+              Expanded(
+                child: _cards.isEmpty
+                  ? _EmptyState(onResetTap: _resetDeck)
+                  : LayoutBuilder(
+                    builder: (BuildContext context, BoxConstraints constraints) {
+                      final int visibleCount =
+                        _cards.length < _maxVisibleCards ? _cards.length : _maxVisibleCards;
+
+                    return Stack(
+                      alignment: Alignment.topCenter,
+                      children: List<Widget>.generate(visibleCount, (int deckIndex) {
+                        final int cardIndex = visibleCount - 1 - deckIndex;
+                        final _EncouragementStackItem card = _cards[cardIndex];
+                        final bool isTopCard = cardIndex == 0;
+
+                        return AnimatedPositioned(
+                          duration: const Duration(milliseconds: 220),
+                          curve: Curves.easeOut,
+                          top: deckIndex * 14.h,
+                          left: 0,
+                          right: 0,
+                          child: AnimatedScale(
+                            duration: const Duration(milliseconds: 220),
+                            curve: Curves.easeOut,
+                            scale: 1 - (deckIndex * 0.045),
+                            child: isTopCard
+                                ? _buildDismissibleTopCard(card)
+                                : IgnorePointer(
+                                    child: _buildCard(card),
+                                  ),
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDismissibleTopCard(_EncouragementStackItem card) {
+    return Dismissible(
+      key: ValueKey<String>(card.id),
+      direction: DismissDirection.horizontal,
+      dismissThresholds: const <DismissDirection, double>{
+        DismissDirection.startToEnd: 0.24,
+        DismissDirection.endToStart: 0.24,
+      },
+      movementDuration: const Duration(milliseconds: 180),
+      resizeDuration: const Duration(milliseconds: 170),
+      background: _SwipeBackground(
+        alignment: Alignment.centerLeft,
+        icon: Icons.arrow_forward_rounded,
+      ),
+      secondaryBackground: _SwipeBackground(
+        alignment: Alignment.centerRight,
+        icon: Icons.arrow_back_rounded,
+      ),
+      onDismissed: (_) => _removeTopCard(),
+      child: _buildCard(card),
+    );
+  }
+
+  Widget _buildCard(_EncouragementStackItem card) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: 280.h),
+      child: EncouragementCard(
+        authorName: card.authorName,
+        postedAgo: card.postedAgo,
+        message: card.message,
+        categoryLabel: card.categoryLabel,
+        likesCount: _likeCounts[card.id] ?? card.likesCount,
+        showYouTag: card.showYouTag,
+        isLiked: _likedStates[card.id] ?? false,
+        onLikeTap: () {
+          _toggleLike(card);
+        },
+      ),
+    );
+  }
+
+  void _resetDeck() {
+    if (_cards.isNotEmpty) {
+      return;
+    }
+
+    setState(() {
+      _cards.addAll(const <_EncouragementStackItem>[
+        _EncouragementStackItem(
+          id: 'card_1',
+          authorName: 'Elena Faith',
+          categoryLabel: 'Gratitude',
+          postedAgo: '16h Fast',
+          message:
+              '"Today I realized how small acts of kindness can shift an entire day. Thank You, Lord."',
+          likesCount: 8,
+          showYouTag: false,
+        ),
+        _EncouragementStackItem(
+          id: 'card_2',
+          authorName: 'Wade Warren',
+          categoryLabel: 'Reflection',
+          postedAgo: '3h Fast',
+          message:
+              '"Faith may not calm every storm immediately, but it anchors your heart through every wave."',
+          likesCount: 12,
+          showYouTag: true,
+        ),
+        _EncouragementStackItem(
+          id: 'card_3',
+          authorName: 'Jane Smith',
+          categoryLabel: 'Family Time',
+          postedAgo: '9h Fast',
+          message:
+              '"Tonight we prayed together as a family, and peace filled our home in a new way."',
+          likesCount: 5,
+          showYouTag: false,
+        ),
+        _EncouragementStackItem(
+          id: 'card_4',
+          authorName: 'Alex Johnson',
+          categoryLabel: 'Community',
+          postedAgo: '1d Fast',
+          message:
+              '"Encouraging one person today reminded me how God multiplies small acts of love."',
+          likesCount: 3,
+          showYouTag: false,
+        ),
+      ]);
+
+      for (final _EncouragementStackItem card in _cards) {
+        _likedStates.putIfAbsent(card.id, () => false);
+        _likeCounts.putIfAbsent(card.id, () => card.likesCount);
+      }
+    });
+  }
+}
+
+class _SwipeBackground extends StatelessWidget {
+  const _SwipeBackground({
+    required this.alignment,
+    required this.icon,
+  });
+
+  final Alignment alignment;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.cF5EDD7.withValues(alpha: 0.85),
+        borderRadius: BorderRadius.circular(24.r),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      alignment: alignment,
+      child: Icon(
+        icon,
+        size: 22.sp,
+        color: AppColors.allsecondaryColor.withValues(alpha: 0.75),
+      ),
+    );
+  }
+}
+
+class _EmptyState extends StatelessWidget {
+  const _EmptyState({required this.onResetTap});
+
+  final VoidCallback onResetTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'No more cards',
+            style: TextFontStyle.textStyle16c3B230EHelveticaNeue400,
+          ),
+          SizedBox(height: 10.h),
+          TextButton(
+            onPressed: onResetTap,
+            child: Text(
+              'Reload deck',
+              style: TextFontStyle.textStyle14c796956HelveticaNeue400.copyWith(
+                color: AppColors.allsecondaryColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _EncouragementStackItem {
+  const _EncouragementStackItem({
+    required this.id,
+    required this.authorName,
+    required this.categoryLabel,
+    required this.postedAgo,
+    required this.message,
+    required this.likesCount,
+    required this.showYouTag,
+  });
+
+  final String id;
+  final String authorName;
+  final String categoryLabel;
+  final String postedAgo;
+  final String message;
+  final int likesCount;
+  final bool showYouTag;
+}
