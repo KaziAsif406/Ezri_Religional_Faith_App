@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:template_flutter/constants/text_font_style.dart';
+// import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/encouragement_card.dart';
 import 'package:template_flutter/features/home/presentation/widget/home_section_card.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
@@ -193,47 +193,6 @@ class _SwipeHintBackground extends StatelessWidget {
         icon,
         size: 22.sp,
         color: AppColors.allsecondaryColor.withValues(alpha: 0.75),
-      ),
-    );
-  }
-}
-
-class _EmptyDeck extends StatelessWidget {
-  const _EmptyDeck({required this.onReloadTap});
-
-  final VoidCallback onReloadTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-      decoration: BoxDecoration(
-        color: AppColors.cC7BFAD,
-        borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(
-          color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
-          width: 1.w,
-        ),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'No more cards',
-            style: TextFontStyle.textStyle16c3B230EHelveticaNeue400,
-          ),
-          SizedBox(height: 10.h),
-          TextButton(
-            onPressed: onReloadTap,
-            child: Text(
-              'Reload deck',
-              style: TextFontStyle.textStyle14c796956HelveticaNeue400.copyWith(
-                color: AppColors.allsecondaryColor,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
