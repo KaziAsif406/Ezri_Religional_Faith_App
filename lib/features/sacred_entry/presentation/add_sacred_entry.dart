@@ -14,7 +14,6 @@ import 'package:template_flutter/features/sacred_entry/presentation/widget/round
 import 'package:template_flutter/features/sacred_entry/presentation/widget/round_action_button.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/text_editing_footer.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/wavy_separator.dart';
-// import 'package:template_flutter/helpers/navigation_service.dart';
 
 import '../../../gen/colors.gen.dart';
 
@@ -30,7 +29,6 @@ class AddSacredEntryScreen extends StatefulWidget {
 class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
   final Random _random = Random();
   final TextEditingController _entryController = TextEditingController();
-  final TextEditingController _verseController = TextEditingController();
   final List<String> _promptPool = <String>[
     'What are you grateful for today?',
     'What challenge did you overcome this week?',
@@ -46,7 +44,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
 
   SacredTypeOption _selectedType = SacredTypeOption.reflection;
   bool _promptEnabled = false;
-  DateTime _selectedDate = DateTime(2024, 6, 15);
+  DateTime _selectedDate = DateTime.now();
   List<String> _activePrompts = <String>[];
   int _selectedPromptIndex = 0;
 
@@ -59,7 +57,6 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
   @override
   void dispose() {
     _entryController.dispose();
-    _verseController.dispose();
     super.dispose();
   }
 
@@ -150,6 +147,43 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
     });
   }
 
+  Future<void> _pickEntryDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(1900, 1, 1),
+      lastDate: DateTime(2100, 12, 31),
+      initialDatePickerMode: DatePickerMode.day,
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: AppColors.c6B2F45,
+              onPrimary: AppColors.cF5EDD7,
+              surface: AppColors.allPrimaryColor,
+              onSurface: AppColors.c513B26,
+            ),
+            dialogTheme: DialogThemeData(
+              backgroundColor: AppColors.allPrimaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.r),
+              ),
+            ),
+          ),
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
+    );
+
+    if (pickedDate == null || !mounted) {
+      return;
+    }
+
+    setState(() {
+      _selectedDate = pickedDate;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final int words = _wordCount(_entryController.text);
@@ -174,22 +208,22 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       darkText: 'Date',
                     ),
                     SizedBox(height: 12.h),
-                    RoundedInputShell(
-                      child: Row(
-                        children: [
-                          Text(
-                            _formattedDate(_selectedDate),
-                            style: TextFontStyle
-                                .textStyle14c3B230EHelveticaNeue300
-                                .copyWith(
-                              fontSize: 16.sp,
-                              color: AppColors.c685E4A,
+                    GestureDetector(
+                      onTap: _pickEntryDate,
+                      child: RoundedInputShell(
+                        child: Row(
+                          children: [
+                            Text(
+                              _formattedDate(_selectedDate),
+                              style: TextFontStyle
+                                  .textStyle14c3B230EHelveticaNeue300
+                                  .copyWith(
+                                fontSize: 16.sp,
+                                color: AppColors.c685E4A,
+                              ),
                             ),
-                          ),
-                          const Spacer(),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
+                            const Spacer(),
+                            Container(
                               width: 44.w,
                               height: 44.w,
                               decoration: BoxDecoration(
@@ -211,8 +245,8 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                                 color: AppColors.c513B26,
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 28.h),
@@ -224,7 +258,6 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     SelectorWidget<SacredTypeOption>(
                       selectedValue: _selectedType,
                       height: 76.h,
-                      // width: double.infinity,
                       spacing: 0.w,
                       borderRadius: BorderRadius.circular(24.r),
                       horizontalPadding: 15.w,
