@@ -95,6 +95,7 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                   ),
                   SizedBox(height: 12.h),
                   SelectorWidget<AnchorTypeOption>(
+                    horizontalPadding: 29.w,
                     selectedValue: _selectedType,
                     selectedBorderColor: AppColors.allPrimaryColor.withValues(alpha: 0.85),
                     unselectedBorderColor: AppColors.c99907A.withValues(alpha: 0.00),
@@ -112,12 +113,12 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                         label: 'Verse',
                       ),
                       SelectorOption<AnchorTypeOption>(
-                        value: AnchorTypeOption.quote,
-                        label: 'Quote',
-                      ),
-                      SelectorOption<AnchorTypeOption>(
                         value: AnchorTypeOption.affirmation,
                         label: 'Affirmation',
+                      ),
+                      SelectorOption<AnchorTypeOption>(
+                        value: AnchorTypeOption.quote,
+                        label: 'Quote',
                       ),
                     ],
                     onChanged: (AnchorTypeOption value) {

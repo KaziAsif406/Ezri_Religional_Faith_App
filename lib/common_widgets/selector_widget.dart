@@ -181,7 +181,6 @@ Widget build(BuildContext context) {
     child: AnimatedContainer(
       duration: animationDuration,
       height: height,
-      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
         gradient: resolvedButtonGradient,
         borderRadius: borderRadius,
@@ -206,7 +205,7 @@ Widget build(BuildContext context) {
         ),
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
         child: Row(
-          mainAxisSize: MainAxisSize.min, // ⭐ IMPORTANT
+          // mainAxisSize: MainAxisSize.min, // ⭐ IMPORTANT
           children: [
             if (leading != null) ...[
               leading!,

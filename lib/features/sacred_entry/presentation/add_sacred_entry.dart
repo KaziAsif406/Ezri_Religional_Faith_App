@@ -223,40 +223,35 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     SizedBox(height: 12.h),
                     SelectorWidget<SacredTypeOption>(
                       selectedValue: _selectedType,
-                      height: 64.h,
+                      height: 76.h,
                       // width: double.infinity,
-                      spacing: 14.w,
+                      spacing: 0.w,
                       borderRadius: BorderRadius.circular(24.r),
-                      horizontalPadding: 12.w,
+                      horizontalPadding: 15.w,
                       selectedButtonGradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: <Color>[
-                          AppColors.cF5F6F5.withValues(alpha: 0.36),
-                          AppColors.allPrimaryColor.withValues(alpha: 0.72),
+                          AppColors.allPrimaryColor,
+                          AppColors.allPrimaryColor,
                         ],
                       ),
                       unselectedButtonGradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: <Color>[
-                          AppColors.allPrimaryColor.withValues(alpha: 0.28),
-                          AppColors.allPrimaryColor.withValues(alpha: 0.44),
+                          AppColors.cC7BFAD,
+                          AppColors.cC7BFAD,
                         ],
                       ),
-                      selectedBorderColor: AppColors.allsecondaryColor,
-                      unselectedBorderColor: AppColors.c99907A.withValues(alpha: 0.22),
+                      selectedBorderColor: AppColors.allsecondaryColor.withValues(alpha: 0.60),
+                      unselectedBorderColor: AppColors.allsecondaryColor.withValues(alpha: 0.12),
 
-                      selectedTextStyle: TextFontStyle
-                          .textStyle16c796956HelveticaNeue400
-                          .copyWith(
-                        fontSize: 15.sp,
-                        color: AppColors.c352619,
-                        fontWeight: FontWeight.w500,
+                      selectedTextStyle: TextFontStyle.textStyle14c3B230EHelveticaNeue500.copyWith(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
                       ),
-                      unselectedTextStyle: TextFontStyle
-                          .textStyle16c796956HelveticaNeue400
-                          .copyWith(
+                      unselectedTextStyle: TextFontStyle.textStyle16c796956HelveticaNeue400.copyWith(
                         fontSize: 15.sp,
                         color: AppColors.c8C7C68,
                         fontWeight: FontWeight.w400,
@@ -267,8 +262,8 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                           label: 'Reflection',
                           leading: Image.asset(
                             'assets/icons/reflection.png',
-                            width: 36.w,
-                            height: 36.h,
+                            width: 46.w,
+                            height: 46.h,
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -277,8 +272,8 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                           label: 'Memory Verses',
                           leading: Image.asset(
                             'assets/icons/memory.png',
-                            width: 36.w,
-                            height: 36.h,
+                            width: 46.w,
+                            height: 46.h,
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -287,8 +282,38 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                           label: 'Journaling',
                           leading: Image.asset(
                             'assets/icons/journaling.png',
-                            width: 36.w,
-                            height: 36.h,
+                            width: 46.w,
+                            height: 46.h,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        SelectorOption<SacredTypeOption>(
+                          value: SacredTypeOption.bibleReading,
+                          label: 'Bible Reading',
+                          leading: Image.asset(
+                            'assets/icons/bible.png',
+                            width: 46.w,
+                            height: 46.h,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        SelectorOption<SacredTypeOption>(
+                          value: SacredTypeOption.prayer,
+                          label: 'Prayer',
+                          leading: Image.asset(
+                            'assets/icons/prayer.png',
+                            width: 46.w,
+                            height: 46.h,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        SelectorOption<SacredTypeOption>(
+                          value: SacredTypeOption.fasting,
+                          label: 'Fasting',
+                          leading: Image.asset(
+                            'assets/icons/fasting.png',
+                            width: 46.w,
+                            height: 46.h,
                             fit: BoxFit.contain,
                           ),
                         ),
