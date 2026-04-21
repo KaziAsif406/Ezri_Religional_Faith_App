@@ -133,9 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       NavigationService.navigateTo(Routes.addFaithAnchor);
                     },
                   ),
-                  SizedBox(height: 48.h),
+                  SizedBox(height: 18.h),
                   const FaithAnchorSwipeCardDeck(),
-                  SizedBox(height: 28.h),
+                  SizedBox(height: 10.h),
                   HomeSectionHeader(
                     titlePrefix: 'Community',
                     titleHighlight: 'Light',
@@ -146,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 12.h),
                   const CommunitySwipeCardDeck(),
-                  SizedBox(height: 28.h),
+                  SizedBox(height: 68.h),
                   HomeSectionHeader(
                     titlePrefix: 'Sacred',
                     titleHighlight: 'Entries',

@@ -20,17 +20,16 @@ class FaithAnchorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 215.h,
+      height: 195.h,
       padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 16.h),
       decoration: BoxDecoration(
-        color: AppColors.cE0DACA,
+        color: AppColors.allPrimaryColor,
         borderRadius: BorderRadius.circular(28.r),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: const Color(0xFF4A230D).withValues(alpha: 0.22),
-            blurRadius: 22.r,
-            spreadRadius: 1.r,
-            offset: Offset(0, 5.h),
+            color: AppColors.c1C1919.withValues(alpha: 0.10),
+            blurRadius: 12.r,
+            offset: Offset(0, 6.h),
           ),
         ],
       ),
@@ -41,7 +40,7 @@ class FaithAnchorCard extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: TextFontStyle.textStyle20c3B230EHelveticaNeue400,
+            style: TextFontStyle.textStyle16c3B230EHelveticaNeue400,
           ),
           SizedBox(height: 8.h),
           Row(
@@ -73,9 +72,7 @@ class FaithAnchorCard extends StatelessWidget {
                   item.reference.isEmpty ? 'Unknown Reference' : item.reference,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextFontStyle.textStyle14c796956HelveticaNeue300.copyWith(
-                    fontSize: 16.sp,
-                  ),
+                  style: TextFontStyle.textStyle14c796956HelveticaNeue300,
                 ),
               ),
             ],

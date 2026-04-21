@@ -51,54 +51,59 @@ class StackedSwipeDeck<T> extends StatefulWidget {
 }
 
 class _StackedSwipeDeckState<T> extends State<StackedSwipeDeck<T>> {
-  late List<T> _items;
+  late List<_StackedDeckEntry<T>> _entries;
 
   @override
   void initState() {
     super.initState();
-    _items = List<T>.from(widget.items);
+    _entries = _buildEntries(widget.items);
   }
 
   @override
   void didUpdateWidget(covariant StackedSwipeDeck<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!listEquals(oldWidget.items, widget.items)) {
-      _items = List<T>.from(widget.items);
+      _entries = _buildEntries(widget.items);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_items.isEmpty) {
+    if (_entries.isEmpty) {
       return widget.emptyBuilder?.call(context, _resetDeck) ?? const SizedBox.shrink();
     }
 
     final int visibleCount =
-        _items.length < widget.maxVisibleCards ? _items.length : widget.maxVisibleCards;
+        _entries.length < widget.maxVisibleCards ? _entries.length : widget.maxVisibleCards;
+    final List<_StackedDeckEntry<T>> visibleEntries = _entries.take(visibleCount).toList();
 
     return SizedBox(
       height: widget.deckHeight,
       child: Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.topCenter,
-        children: List<Widget>.generate(visibleCount, (int depthIndex) {
-          final int cardIndex = visibleCount - 1 - depthIndex;
-          final T item = _items[cardIndex];
-          final bool isTopCard = cardIndex == 0;
+        children: List<Widget>.generate(visibleCount, (int displayIndex) {
+          final _StackedDeckEntry<T> entry = visibleEntries[visibleCount - 1 - displayIndex];
+          final String itemKey = widget.keyBuilder(entry.item);
+          final bool isTopCard = entry.depth == 0;
+          final int scaleDepth = (widget.maxVisibleCards - 1 - entry.depth)
+              .clamp(0, widget.maxVisibleCards - 1)
+              .toInt();
 
           return AnimatedPositioned(
+            key: ValueKey<String>(itemKey),
             duration: widget.stackAnimationDuration,
             curve: widget.stackAnimationCurve,
-            top: depthIndex * widget.topOffsetStep,
+            top: entry.depth * widget.topOffsetStep,
             left: widget.horizontalInset,
             right: widget.horizontalInset,
             child: AnimatedScale(
               duration: widget.stackAnimationDuration,
               curve: widget.stackAnimationCurve,
-              scale: 1 + (depthIndex * widget.scaleStep),
+              scale: 1 + (scaleDepth * widget.scaleStep),
               child: isTopCard
                   ? Dismissible(
-                      key: ValueKey<String>(widget.keyBuilder(item)),
+                      key: ValueKey<String>(itemKey),
                       direction: widget.dismissDirection,
                       dismissThresholds: <DismissDirection, double>{
                         DismissDirection.startToEnd: widget.dismissThreshold,
@@ -106,16 +111,16 @@ class _StackedSwipeDeckState<T> extends State<StackedSwipeDeck<T>> {
                       },
                       movementDuration: widget.movementDuration,
                       resizeDuration: widget.resizeDuration,
-                      background: widget.dismissBackgroundBuilder?.call(context, item) ??
+                      background: widget.dismissBackgroundBuilder?.call(context, entry.item) ??
                           const SizedBox.shrink(),
                       secondaryBackground:
-                          widget.dismissSecondaryBackgroundBuilder?.call(context, item),
+                          widget.dismissSecondaryBackgroundBuilder?.call(context, entry.item),
                       onDismissed: (DismissDirection direction) {
                         _removeTopItem(direction);
                       },
-                      child: widget.cardBuilder(context, item, true),
+                      child: widget.cardBuilder(context, entry.item, true),
                     )
-                  : IgnorePointer(child: widget.cardBuilder(context, item, false)),
+                  : IgnorePointer(child: widget.cardBuilder(context, entry.item, false)),
             ),
           );
         }),
@@ -124,24 +129,54 @@ class _StackedSwipeDeckState<T> extends State<StackedSwipeDeck<T>> {
   }
 
   void _removeTopItem(DismissDirection direction) {
-    if (_items.isEmpty) {
+    if (_entries.isEmpty) {
       return;
     }
 
-    final T removedItem = _items.first;
+    final _StackedDeckEntry<T> removedEntry = _entries.first;
     setState(() {
-      _items.removeAt(0);
+      _entries.removeAt(0);
+      for (int index = 0; index < _entries.length; index++) {
+        _entries[index] = _entries[index].copyWith(depth: index);
+      }
     });
-    widget.onItemDismissed?.call(removedItem, direction);
+    widget.onItemDismissed?.call(removedEntry.item, direction);
   }
 
   void _resetDeck() {
-    if (_items.isNotEmpty) {
+    if (_entries.isNotEmpty) {
       return;
     }
 
     setState(() {
-      _items = List<T>.from(widget.items);
+      _entries = _buildEntries(widget.items);
     });
+  }
+
+  List<_StackedDeckEntry<T>> _buildEntries(List<T> items) {
+    return List<_StackedDeckEntry<T>>.generate(
+      items.length,
+      (int index) => _StackedDeckEntry<T>(item: items[index], depth: index),
+    );
+  }
+}
+
+class _StackedDeckEntry<T> {
+  const _StackedDeckEntry({
+    required this.item,
+    required this.depth,
+  });
+
+  final T item;
+  final int depth;
+
+  _StackedDeckEntry<T> copyWith({
+    T? item,
+    int? depth,
+  }) {
+    return _StackedDeckEntry<T>(
+      item: item ?? this.item,
+      depth: depth ?? this.depth,
+    );
   }
 }
