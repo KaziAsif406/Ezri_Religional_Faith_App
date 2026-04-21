@@ -110,7 +110,7 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                     cardPadding: EdgeInsets.fromLTRB(18.w, 16.h, 18.w, 14.h),
                     contentPadding: EdgeInsets.zero,
                   ),
-                  SizedBox(height: 24.h),
+                  UIHelper.verticalSpace(24.h),
                   CustomTextFormField(
                     label: 'Content',
                     hintText: 'Write the faith anchor content',

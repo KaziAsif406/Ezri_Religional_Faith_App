@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/common_widgets/custom_appbar.dart';
@@ -7,6 +8,7 @@ import 'package:template_flutter/common_widgets/custom_switch.dart';
 import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/features/sacred_entry/presentation/widget/prompt_selector_section.dart';
 // import 'package:template_flutter/helpers/navigation_service.dart';
 
 import '../../../gen/colors.gen.dart';
@@ -21,15 +23,36 @@ class AddSacredEntryScreen extends StatefulWidget {
 }
 
 class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
+  final Random _random = Random();
   final TextEditingController _entryController = TextEditingController(
     text:
         "Today, I'm grateful for the opportunity to learn and grow, and for the connections I've made with people from all over the world.",
   );
   final TextEditingController _verseController = TextEditingController();
+  final List<String> _promptPool = <String>[
+    'What are you grateful for today?',
+    'What challenge did you overcome this week?',
+    'Which prayer felt most answered lately?',
+    'Where did you notice grace today?',
+    'What scripture stayed with you this morning?',
+    'What did you release to God this week?',
+    'Which moment made your faith feel stronger?',
+    'How did you practice kindness today?',
+    'What blessing surprised you this week?',
+    'What truth are you holding onto right now?',
+  ];
 
   SacredTypeOption _selectedType = SacredTypeOption.reflection;
   bool _promptEnabled = false;
   DateTime _selectedDate = DateTime(2024, 6, 15);
+  List<String> _activePrompts = <String>[];
+  int _selectedPromptIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _activePrompts = _generatePromptPair(previousPair: const <String>[]);
+  }
 
   @override
   void dispose() {
@@ -62,6 +85,67 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
       'Dec',
     ];
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
+  }
+
+  List<String> _generatePromptPair({
+    required List<String> previousPair,
+    bool forceBothNew = false,
+  }) {
+    if (_promptPool.length < 2) {
+      return List<String>.from(_promptPool);
+    }
+
+    final List<String> shuffled = List<String>.from(_promptPool)..shuffle(_random);
+
+    if (forceBothNew && previousPair.length == 2) {
+      final Set<String> previousSet = previousPair.toSet();
+      final List<String> candidates = shuffled
+          .where((String prompt) => !previousSet.contains(prompt))
+          .toList();
+      if (candidates.length >= 2) {
+        return <String>[candidates[0], candidates[1]];
+      }
+    }
+
+    List<String> nextPair = <String>[shuffled[0], shuffled[1]];
+
+    // Avoid showing the exact same pair after a shuffle when alternatives exist.
+    if (previousPair.length == 2 && _promptPool.length > 2) {
+      final Set<String> previousSet = previousPair.toSet();
+      if (nextPair.toSet().containsAll(previousSet)) {
+        nextPair = <String>[shuffled[0], shuffled[2]];
+      }
+    }
+
+    return nextPair;
+  }
+
+  void _onPromptToggle(bool value) {
+    setState(() {
+      _promptEnabled = value;
+      if (_promptEnabled && _activePrompts.length < 2) {
+        _activePrompts = _generatePromptPair(previousPair: const <String>[]);
+      }
+      if (_promptEnabled) {
+        _selectedPromptIndex = 0;
+      }
+    });
+  }
+
+  void _shufflePrompts() {
+    setState(() {
+      _activePrompts = _generatePromptPair(
+        previousPair: _activePrompts,
+        forceBothNew: true,
+      );
+      _selectedPromptIndex = 0;
+    });
+  }
+
+  void _onPromptCardTap(int index) {
+    setState(() {
+      _selectedPromptIndex = index;
+    });
   }
 
   @override
@@ -224,17 +308,37 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                         ),
                         CustomSwitch(
                           value: _promptEnabled,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _promptEnabled = value;
-                            });
-                          },
+                          onChanged: _onPromptToggle,
                           width: 48,
                           height: 28,
                         ),
                       ],
                     ),
                     SizedBox(height: 16.h),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 260),
+                      switchInCurve: Curves.easeOutCubic,
+                      switchOutCurve: Curves.easeInCubic,
+                      transitionBuilder: (Widget child, Animation<double> animation) {
+                        return SizeTransition(
+                          sizeFactor: animation,
+                          axisAlignment: -1,
+                          child: FadeTransition(
+                            opacity: animation,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: !_promptEnabled
+                          ? const SizedBox(key: ValueKey<String>('prompt-cards-hidden'))
+                          : PromptSelectorSection(
+                              key: const ValueKey<String>('prompt-cards-visible'),
+                              prompts: _activePrompts,
+                              selectedIndex: _selectedPromptIndex,
+                              onPromptTap: _onPromptCardTap,
+                              onShuffleTap: _shufflePrompts,
+                            ),
+                    ),
                     const _WavySeparator(
                       
                     ),
