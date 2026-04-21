@@ -125,9 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const HomeSectionHeader(
+                  HomeSectionHeader(
                     titlePrefix: 'Faith',
                     titleHighlight: 'Anchors',
+                    actionText: 'Add New',
+                    onActionTap: () {
+                      NavigationService.navigateTo(Routes.addFaithAnchor);
+                    },
                   ),
                   SizedBox(height: 12.h),
                   const FaithAnchorSwipeCardDeck(),
