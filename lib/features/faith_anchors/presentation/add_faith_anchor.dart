@@ -6,6 +6,7 @@ import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/features/faith_anchors/presentation/widget/faith_anchor_store.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
 
 import '../../../gen/colors.gen.dart';
@@ -41,6 +42,33 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
         .split(RegExp(r'\s+'))
         .where((word) => word.isNotEmpty)
         .length;
+  }
+
+  String _anchorTypeLabel(AnchorTypeOption type) {
+    switch (type) {
+      case AnchorTypeOption.verse:
+        return 'Verse';
+      case AnchorTypeOption.quote:
+        return 'Quote';
+      case AnchorTypeOption.affirmation:
+        return 'Affirmation';
+    }
+  }
+
+  void _saveFaithAnchor() {
+    final String content = _contentController.text.trim();
+    if (content.isEmpty) {
+      return;
+    }
+
+    FaithAnchorStore.instance.addItem(
+      type: _anchorTypeLabel(_selectedType),
+      reference: _referenceController.text.trim(),
+      content: content,
+      personalNote: _isPersonalNoteEnabled ? _noteController.text.trim() : '',
+    );
+
+    Navigator.of(context).pop();
   }
 
   @override
@@ -169,7 +197,7 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                   ),
                   SizedBox(height: 38.h),
                   CustomButton(
-                    onPressed: () {},
+                    onPressed: _saveFaithAnchor,
                     title: 'Save Faith Anchor',
                     height: 60.h,
                     borderRadius: BorderRadius.circular(40.r),

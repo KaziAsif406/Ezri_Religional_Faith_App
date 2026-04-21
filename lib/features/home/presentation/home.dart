@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/community_swipe_card_deck.dart';
+import 'package:template_flutter/features/faith_anchors/presentation/widget/faith_anchor_swipe_card_deck.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
 import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
@@ -129,22 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     titleHighlight: 'Anchors',
                   ),
                   SizedBox(height: 12.h),
-                  HomeSectionCard(
-                    backgroundColor: AppColors.cC7BFAD,
-                    imagePath: 'assets/icons/Security_Empty.png',
-                    title: 'Establish Your Foundational Verses',
-                    description:
-                        'Create your first Faith Anchor card to define and document the scriptures that guide your life.',
-                    buttonLabel: 'Add New Faith Anchor',
-                    buttonGradient: [
-                      AppColors.allsecondaryColor.withValues(alpha: 0.20),
-                      AppColors.allsecondaryColor.withValues(alpha: 0.20),
-                    ],
-                    buttonShadowColor: AppColors.c8C7C68.withValues(alpha: 0.35),
-                    onButtonTap: () {
-                      NavigationService.navigateTo(Routes.addFaithAnchor);
-                    },
-                  ),
+                  const FaithAnchorSwipeCardDeck(),
                   SizedBox(height: 28.h),
                   HomeSectionHeader(
                     titlePrefix: 'Community',
