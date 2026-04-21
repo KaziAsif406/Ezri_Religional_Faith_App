@@ -14,10 +14,7 @@ class StackedCardsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-          child: const CommunitySwipeCardDeck(),
-        ),
+        child: const CommunitySwipeCardDeck(),
       ),
     );
   }
@@ -69,60 +66,57 @@ class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
     final int visibleCount =
         _cards.length < _maxVisibleCards ? _cards.length : _maxVisibleCards;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0),
-      child: Column(
-        children: [
-          UIHelper.verticalSpace(35.h),
-          SizedBox(
-            height: 160.h,
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.topCenter,
-              children: List<Widget>.generate(visibleCount, (int depthIndex) {
-                final int cardIndex = visibleCount - 1 - depthIndex;
-                final _EncouragementStackItem card = _cards[cardIndex];
-                final bool isTopCard = cardIndex == 0;
-          
-                return AnimatedPositioned(
+    return Column(
+      children: [
+        UIHelper.verticalSpace(50.h),
+        SizedBox(
+          height: 160.h,
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.topCenter,
+            children: List<Widget>.generate(visibleCount, (int depthIndex) {
+              final int cardIndex = visibleCount - 1 - depthIndex;
+              final _EncouragementStackItem card = _cards[cardIndex];
+              final bool isTopCard = cardIndex == 0;
+        
+              return AnimatedPositioned(
+                duration: const Duration(milliseconds: 320),
+                curve: Curves.easeOut,
+                top: depthIndex * -15.h,
+                left: 30.w,
+                right: 30.w,
+                child: AnimatedScale(
                   duration: const Duration(milliseconds: 320),
                   curve: Curves.easeOut,
-                  top: depthIndex * -12.h,
-                  left: 0,
-                  right: 0,
-                  child: AnimatedScale(
-                    duration: const Duration(milliseconds: 320),
-                    curve: Curves.easeOut,
-                    scale: 1 + (depthIndex * 0.04),
-                    child: isTopCard
-                        ? Dismissible(
-                            key: ValueKey<String>(card.id),
-                            direction: DismissDirection.horizontal,
-                            dismissThresholds: const <DismissDirection, double>{
-                              DismissDirection.startToEnd: 0.24,
-                              DismissDirection.endToStart: 0.24,
-                            },
-                            movementDuration: const Duration(milliseconds: 190),
-                            resizeDuration: const Duration(milliseconds: 170),
-                            background: const _SwipeHintBackground(
-                              alignment: Alignment.centerLeft,
-                              icon: Icons.arrow_forward_rounded,
-                            ),
-                            secondaryBackground: const _SwipeHintBackground(
-                              alignment: Alignment.centerRight,
-                              icon: Icons.arrow_back_rounded,
-                            ),
-                            onDismissed: (_) => _removeTopCard(),
-                            child: _buildCard(card),
-                          )
-                        : IgnorePointer(child: _buildCard(card)),
-                  ),
-                );
-              }),
-            ),
+                  scale: 1 + (depthIndex * 0.09),
+                  child: isTopCard
+                      ? Dismissible(
+                          key: ValueKey<String>(card.id),
+                          direction: DismissDirection.horizontal,
+                          dismissThresholds: const <DismissDirection, double>{
+                            DismissDirection.startToEnd: 0.24,
+                            DismissDirection.endToStart: 0.24,
+                          },
+                          movementDuration: const Duration(milliseconds: 190),
+                          resizeDuration: const Duration(milliseconds: 170),
+                          background: const _SwipeHintBackground(
+                            alignment: Alignment.centerLeft,
+                            icon: Icons.arrow_forward_rounded,
+                          ),
+                          // secondaryBackground: const _SwipeHintBackground(
+                          //   alignment: Alignment.centerRight,
+                          //   icon: Icons.arrow_back_rounded,
+                          // ),
+                          onDismissed: (_) => _removeTopCard(),
+                          child: _buildCard(card),
+                        )
+                      : IgnorePointer(child: _buildCard(card)),
+                ),
+              );
+            }),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -256,6 +250,16 @@ const List<_EncouragementStackItem> _initialCards = <_EncouragementStackItem>[
     postedAgo: '1d Fast',
     message:
         '"Encouraging one person today reminded me how God multiplies small acts of love."',
+    likesCount: 3,
+    showYouTag: false,
+  ),
+  _EncouragementStackItem(
+    id: 'card_5',
+    authorName: 'Mila Turner',
+    categoryLabel: 'Personal Growth',
+    postedAgo: '4d Fast',
+    message:
+        '"Fasting isn\'t just about giving up food, it\'s about making space for God\'s voice to grow louder in your life."',
     likesCount: 3,
     showYouTag: false,
   ),
