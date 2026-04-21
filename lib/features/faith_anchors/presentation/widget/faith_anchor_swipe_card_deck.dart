@@ -4,6 +4,7 @@ import 'package:template_flutter/common_widgets/custom_section_card.dart';
 import 'package:template_flutter/common_widgets/stacked_cards.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
 import 'package:template_flutter/helpers/navigation_service.dart';
+import 'package:template_flutter/helpers/ui_helpers.dart';
 
 import '../../../../gen/colors.gen.dart';
 import 'faith_anchor_card.dart';
@@ -27,21 +28,26 @@ class FaithAnchorSwipeCardDeck extends StatelessWidget {
             );
           },
           emptyBuilder: (BuildContext context, VoidCallback resetDeck) {
-            return HomeSectionCard(
-              backgroundColor: AppColors.cC7BFAD,
-              imagePath: 'assets/icons/Security_Empty.png',
-              title: 'Establish Your Foundational Verses',
-              description:
-                  'Create your first Faith Anchor card to define and document the scriptures that guide your life.',
-              buttonLabel: 'Add New Faith Anchor',
-              buttonGradient: <Color>[
-                AppColors.allsecondaryColor.withValues(alpha: 0.20),
-                AppColors.allsecondaryColor.withValues(alpha: 0.20),
+            return Column(
+              children: [
+                HomeSectionCard(
+                  backgroundColor: AppColors.cC7BFAD,
+                  imagePath: 'assets/icons/Security_Empty.png',
+                  title: 'Establish Your Foundational Verses',
+                  description:
+                      'Create your first Faith Anchor card to define and document the scriptures that guide your life.',
+                  buttonLabel: 'Add New Faith Anchor',
+                  buttonGradient: <Color>[
+                    AppColors.allsecondaryColor.withValues(alpha: 0.20),
+                    AppColors.allsecondaryColor.withValues(alpha: 0.20),
+                  ],
+                  buttonShadowColor: AppColors.c8C7C68.withValues(alpha: 0.35),
+                  onButtonTap: () {
+                    NavigationService.navigateTo(Routes.addFaithAnchor);
+                  },
+                ),
+                UIHelper.verticalSpace(28.h),
               ],
-              buttonShadowColor: AppColors.c8C7C68.withValues(alpha: 0.35),
-              onButtonTap: () {
-                NavigationService.navigateTo(Routes.addFaithAnchor);
-              },
             );
           },
           maxVisibleCards: 3,

@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(22.w, 17.h, 22.w, 35.h),
+              padding: EdgeInsets.fromLTRB(22.w, 0.h, 22.w, 35.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(height: 18.h),
                   const FaithAnchorSwipeCardDeck(),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 20.h),
                   HomeSectionHeader(
                     titlePrefix: 'Community',
                     titleHighlight: 'Light',
@@ -144,9 +144,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       NavigationService.navigateTo(Routes.communityScreen);
                     },
                   ),
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 5.h),
                   const CommunitySwipeCardDeck(),
-                  SizedBox(height: 68.h),
+                  SizedBox(height: 48.h),
                   HomeSectionHeader(
                     titlePrefix: 'Sacred',
                     titleHighlight: 'Entries',

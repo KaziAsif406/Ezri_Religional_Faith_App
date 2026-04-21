@@ -30,7 +30,7 @@ class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        UIHelper.verticalSpace(15.h),
+        UIHelper.verticalSpace(30.h),
         StackedSwipeDeck<_EncouragementStackItem>(
           items: _initialCards,
           keyBuilder: (_EncouragementStackItem item) => item.id,
@@ -73,6 +73,7 @@ class _CommunitySwipeCardDeckState extends State<CommunitySwipeCardDeck> {
             );
           },
         ),
+        UIHelper.verticalSpace(30.h),
       ],
     );
   }

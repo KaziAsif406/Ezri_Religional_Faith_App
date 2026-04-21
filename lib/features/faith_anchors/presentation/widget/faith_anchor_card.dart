@@ -40,7 +40,9 @@ class FaithAnchorCard extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: TextFontStyle.textStyle16c3B230EHelveticaNeue400,
+            style: TextFontStyle.textStyle16c3B230EHelveticaNeue400.copyWith(
+              color: AppColors.allsecondaryColor.withValues(alpha: 0.62),
+            ),
           ),
           SizedBox(height: 8.h),
           Row(
