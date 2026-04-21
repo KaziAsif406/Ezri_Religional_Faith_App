@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:template_flutter/common_widgets/custom_switch.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
@@ -153,26 +153,16 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                       ),
                       Positioned(
                         right: 0,
-                        top: 5,
-                        child: SizedBox(
-                          width: 48.w,
-                          child: Transform.scale(
-                            scale: 0.8,
-                            child: CupertinoSwitch(
-                              value: _isPersonalNoteEnabled,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  _isPersonalNoteEnabled = value;
-                                });
-                              },
-                              
-                              activeTrackColor: AppColors.allsecondaryColor
-                                  .withValues(alpha: 0.45),
-                              inactiveThumbColor: AppColors.allPrimaryColor,
-                              inactiveTrackColor:
-                                  AppColors.c99907A.withValues(alpha: 0.45),
-                            ),
-                          ),
+                        top: 8.h,
+                        child: CustomSwitch(
+                          value: _isPersonalNoteEnabled,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _isPersonalNoteEnabled = value;
+                            });
+                          },
+                          width: 48,
+                          height: 28,
                         ),
                       ),
                     ],

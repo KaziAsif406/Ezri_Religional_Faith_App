@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
+import 'package:template_flutter/common_widgets/custom_switch.dart';
 import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
@@ -221,25 +222,15 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                             darkText: 'Selector',
                           ),
                         ),
-                        SizedBox(
-                          width: 48.w,
-                          child: Transform.scale(
-                            scale: 1.0,
-                            child: CupertinoSwitch(
-                              value: _promptEnabled,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  _promptEnabled = value;
-                                });
-                              },
-                              
-                              activeTrackColor: AppColors.allsecondaryColor
-                                  .withValues(alpha: 0.45),
-                              inactiveThumbColor: AppColors.allPrimaryColor,
-                              inactiveTrackColor:
-                                  AppColors.c99907A.withValues(alpha: 0.45),
-                            ),
-                          ),
+                        CustomSwitch(
+                          value: _promptEnabled,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _promptEnabled = value;
+                            });
+                          },
+                          width: 48,
+                          height: 28,
                         ),
                       ],
                     ),
