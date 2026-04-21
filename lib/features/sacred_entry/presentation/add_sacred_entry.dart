@@ -9,6 +9,11 @@ import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/prompt_selector_section.dart';
+import 'package:template_flutter/features/sacred_entry/presentation/widget/section_title.dart';
+import 'package:template_flutter/features/sacred_entry/presentation/widget/rounded_input_shell.dart';
+import 'package:template_flutter/features/sacred_entry/presentation/widget/round_action_button.dart';
+import 'package:template_flutter/features/sacred_entry/presentation/widget/text_editing_footer.dart';
+import 'package:template_flutter/features/sacred_entry/presentation/widget/wavy_separator.dart';
 // import 'package:template_flutter/helpers/navigation_service.dart';
 
 import '../../../gen/colors.gen.dart';
@@ -164,12 +169,12 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _SectionTitle(
+                    SectionTitle(
                       lightText: 'Select',
                       darkText: 'Date',
                     ),
                     SizedBox(height: 12.h),
-                    _RoundedInputShell(
+                    RoundedInputShell(
                       child: Row(
                         children: [
                           Text(
@@ -211,7 +216,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       ),
                     ),
                     SizedBox(height: 28.h),
-                    _SectionTitle(
+                    SectionTitle(
                       lightText: 'Sacred',
                       darkText: 'Type',
                     ),
@@ -298,7 +303,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     Row(
                       children: <Widget>[
                         Expanded(
-                          child: _SectionTitle(
+                          child: SectionTitle(
                             lightText: 'Prompt',
                             darkText: 'Selector',
                           ),
@@ -336,11 +341,9 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                               onShuffleTap: _shufflePrompts,
                             ),
                     ),
-                    const _WavySeparator(
-                      
-                    ),
+                    const WavySeparator(),
                     SizedBox(height: 26.h),
-                    _SectionTitle(
+                    SectionTitle(
                       lightText: 'Sacred',
                       darkText: 'Entry',
                     ),
@@ -348,13 +351,13 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _RoundActionButton(
+                        RoundActionButton(
                           icon: Icons.mic_none_rounded,
                           onTap: () {},
                           filled: true,
                         ),
                         SizedBox(width: 26.w),
-                        _RoundActionButton(
+                        RoundActionButton(
                           iconText: 'Aa',
                           onTap: () {},
                           filled: false,
@@ -380,7 +383,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       cardBorderRadius: BorderRadius.circular(24.r),
                       cardPadding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
                       contentPadding: EdgeInsets.zero,
-                      footerLeft: const _TextEditingFooterButtons(),
+                      footerLeft: const TextEditingFooterButtons(),
                       footerRight: Text(
                         '$words/300 words',
                         style: TextFontStyle.textStyle14c8C7C68HelveticaNeue400
@@ -388,14 +391,14 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       ),
                     ),
                     SizedBox(height: 24.h),
-                    const _WavySeparator(),
+                    const WavySeparator(),
                     SizedBox(height: 26.h),
                     Text(
                       'Verses',
                       style: TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
                     ),
                     SizedBox(height: 14.h),
-                    _RoundedInputShell(
+                    RoundedInputShell(
                       child: Row(
                         children: [
                           Text(
@@ -468,225 +471,4 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
   }
 }
 
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({required this.lightText, required this.darkText});
 
-  final String lightText;
-  final String darkText;
-
-  @override
-  Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        children: <InlineSpan>[
-          TextSpan(
-            text: '$lightText ',
-            style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
-              fontSize: 24.sp,
-              color: AppColors.c8C7C68,
-            ),
-          ),
-          TextSpan(
-            text: darkText,
-            style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
-              fontSize: 24.sp,
-              color: AppColors.c352619,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _RoundedInputShell extends StatelessWidget {
-  const _RoundedInputShell({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 60.h,
-      width: double.infinity,
-      // constraints: BoxConstraints(minHeight: 60.h),
-      padding: EdgeInsets.fromLTRB(20.w, 8.h, 5.w, 8.h),
-      decoration: BoxDecoration(
-        color: AppColors.allPrimaryColor,
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(
-          color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
-          width: 1.w,
-        ),
-      ),
-      child: child,
-    );
-  }
-}
-
-class _RoundActionButton extends StatelessWidget {
-  const _RoundActionButton({
-    required this.onTap,
-    required this.filled,
-    this.icon,
-    this.iconText,
-  });
-
-  final VoidCallback onTap;
-  final bool filled;
-  final IconData? icon;
-  final String? iconText;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 96.w,
-        height: 96.w,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: filled
-              ? AppColors.allPrimaryColor
-              : AppColors.allPrimaryColor.withValues(alpha: 0.56),
-          border: Border.all(
-            color: AppColors.c99907A.withValues(alpha: 0.18),
-            width: 2.w,
-          ),
-          boxShadow: filled
-              ? null
-              : <BoxShadow>[
-                  BoxShadow(
-                    color: AppColors.c1C1919.withValues(alpha: 0.14),
-                    blurRadius: 16.r,
-                    offset: Offset(0, 8.h),
-                  ),
-                ],
-        ),
-        child: Center(
-          child: icon != null
-              ? Icon(
-                  icon,
-                  size: 36.sp,
-                  color: AppColors.c513B26,
-                )
-              : Text(
-                  iconText ?? '',
-                  style:
-                      TextFontStyle.textStyle20c3B230EHelveticaNeue400.copyWith(
-                    fontSize: 22.sp,
-                    color: AppColors.c513B26,
-                  ),
-                ),
-        ),
-      ),
-    );
-  }
-}
-
-class _TextEditingFooterButtons extends StatelessWidget {
-  const _TextEditingFooterButtons();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _FooterCircleButton(
-          label: 'B',
-          style: TextFontStyle.textStyle14c3B230EHelveticaNeue500,
-        ),
-        SizedBox(width: 10.w),
-        _FooterCircleButton(
-          label: 'I',
-          style: TextFontStyle.textStyle14c3B230EHelveticaNeue400.copyWith(
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-        SizedBox(width: 10.w),
-        _FooterCircleButton(
-          label: 'U',
-          style: TextFontStyle.textStyle14c3B230EHelveticaNeue400.copyWith(
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _FooterCircleButton extends StatelessWidget {
-  const _FooterCircleButton({required this.label, required this.style});
-
-  final String label;
-  final TextStyle style;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 34.w,
-      height: 34.w,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: const Color.fromARGB(255, 230, 225, 213).withValues(alpha: 0.84),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.c1C1919.withValues(alpha: 0.10),
-            blurRadius: 4.r,
-            offset: Offset(0, 5.h),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(label, style: style.copyWith(fontSize: 14.sp)),
-      ),
-    );
-  }
-}
-
-class _WavySeparator extends StatelessWidget {
-  const _WavySeparator();
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 5.h,
-      child: CustomPaint(
-        painter: _WavyLinePainter(),
-      ),
-    );
-  }
-}
-
-class _WavyLinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = AppColors.cF5EDD7.withValues(alpha: 0.5)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5.w;
-
-    final Path path = Path();
-    const double waves = 15;
-    final double segment = size.width / waves;
-
-    path.moveTo(0, size.height / 2);
-    for (double i = 0; i < waves; i++) {
-      final double startX = i * segment;
-      final double endX = startX + segment;
-      path.quadraticBezierTo(
-        startX + segment / 2,
-        i % 2 == 0 ? 0 : size.height,
-        endX,
-        size.height / 2,
-      );
-    }
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
