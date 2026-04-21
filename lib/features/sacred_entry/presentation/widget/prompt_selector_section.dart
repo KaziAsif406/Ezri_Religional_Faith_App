@@ -27,7 +27,7 @@ class PromptSelectorSection extends StatelessWidget {
     return Column(
       children: <Widget>[
         Row(
-          children: <Widget>[
+          children: [
             Expanded(
               child: _PromptCard(
                 promptText: prompts[0],
@@ -73,15 +73,17 @@ class _PromptCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
         curve: Curves.easeOutCubic,
-        height: 252.h,
-        padding: EdgeInsets.fromLTRB(18.w, 20.h, 18.w, 20.h),
+        height: 190.h,
+        padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
         decoration: BoxDecoration(
-          color: AppColors.allPrimaryColor,
+          color: isSelected
+              ? AppColors.allPrimaryColor
+              : AppColors.cF0F2F1.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(30.r),
           border: Border.all(
             color: isSelected
-                ? AppColors.c513B26.withValues(alpha: 0.65)
-                : AppColors.c99907A.withValues(alpha: 0.26),
+                ? AppColors.allsecondaryColor.withValues(alpha: 0.12)
+                : AppColors.c99907A.withValues(alpha: 0.0),
             width: isSelected ? 1.6.w : 1.2.w,
           ),
           boxShadow: isSelected
@@ -97,12 +99,16 @@ class _PromptCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              promptText,
-              style: TextFontStyle.textStyle14c3B230EHelveticaNeue400.copyWith(
-                fontSize: 21.sp,
-                height: 1.35,
-                color: AppColors.c352619,
+            Container(
+              width: 125.w,
+              decoration: BoxDecoration(
+                color: AppColors.c513B26.withValues(alpha: 0.0),
+              ),
+              child: Text(
+                promptText,
+                style: TextFontStyle.textStyle16c3B230EHelveticaNeue400.copyWith(
+                  height: 1.5.h
+                ),
               ),
             ),
             const Spacer(),
@@ -110,14 +116,14 @@ class _PromptCard extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 180),
-                width: 33.w,
-                height: 33.w,
-                padding: EdgeInsets.all(3.w),
+                width: 24.w,
+                height: 24.w,
+                padding: EdgeInsets.all(4.w),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: isSelected
-                        ? AppColors.c513B26
+                        ? AppColors.allsecondaryColor
                         : AppColors.c99907A.withValues(alpha: 0.70),
                     width: 1.4.w,
                   ),
@@ -126,7 +132,7 @@ class _PromptCard extends StatelessWidget {
                     ? Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.c513B26,
+                          color: AppColors.allsecondaryColor,
                         ),
                       )
                     : null,
@@ -149,18 +155,25 @@ class _PromptShuffleButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 14.h),
+        padding: EdgeInsets.symmetric(horizontal: 13.w, vertical: 7.h),
         decoration: BoxDecoration(
-          color: AppColors.allPrimaryColor,
+          gradient: LinearGradient(
+            colors: [
+              AppColors.cCFC7B6,
+              const Color.fromARGB(255, 184, 175, 156),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
           borderRadius: BorderRadius.circular(999.r),
           border: Border.all(
-            color: AppColors.c99907A.withValues(alpha: 0.34),
-            width: 1.w,
+            color: AppColors.c352619.withValues(alpha: 0.20),
+            width: 1.5.w,
           ),
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: AppColors.c1C1919.withValues(alpha: 0.12),
-              blurRadius: 10.r,
+              blurRadius: 5.r,
               offset: Offset(0, 5.h),
             ),
           ],
@@ -170,17 +183,13 @@ class _PromptShuffleButton extends StatelessWidget {
           children: <Widget>[
             Icon(
               Icons.shuffle_rounded,
-              size: 24.sp,
-              color: AppColors.c513B26,
+              size: 20.sp,
+              color: AppColors.allsecondaryColor,
             ),
             SizedBox(width: 8.w),
             Text(
               'Shuffle',
-              style: TextFontStyle.textStyle20c3B230EHelveticaNeue400.copyWith(
-                fontSize: 20.sp,
-                color: AppColors.c352619,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextFontStyle.textStyle18c3B230EHelveticaNeue700,
             ),
           ],
         ),

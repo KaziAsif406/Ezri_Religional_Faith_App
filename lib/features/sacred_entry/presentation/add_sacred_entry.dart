@@ -24,10 +24,7 @@ class AddSacredEntryScreen extends StatefulWidget {
 
 class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
   final Random _random = Random();
-  final TextEditingController _entryController = TextEditingController(
-    text:
-        "Today, I'm grateful for the opportunity to learn and grow, and for the connections I've made with people from all over the world.",
-  );
+  final TextEditingController _entryController = TextEditingController();
   final TextEditingController _verseController = TextEditingController();
   final List<String> _promptPool = <String>[
     'What are you grateful for today?',
