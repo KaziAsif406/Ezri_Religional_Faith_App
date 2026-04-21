@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       NavigationService.navigateTo(Routes.addFaithAnchor);
                     },
                   ),
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 48.h),
                   const FaithAnchorSwipeCardDeck(),
                   SizedBox(height: 28.h),
                   HomeSectionHeader(

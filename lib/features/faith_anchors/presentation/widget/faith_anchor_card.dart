@@ -20,16 +20,17 @@ class FaithAnchorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(26.w, 22.h, 26.w, 22.h),
+      height: 215.h,
+      padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 16.h),
       decoration: BoxDecoration(
-        color: AppColors.allPrimaryColor,
-        borderRadius: BorderRadius.circular(40.r),
+        color: AppColors.cE0DACA,
+        borderRadius: BorderRadius.circular(28.r),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: const Color(0xFF4A230D).withValues(alpha: 0.42),
-            blurRadius: 32.r,
-            spreadRadius: 2.r,
-            offset: Offset(0, 14.h),
+            color: const Color(0xFF4A230D).withValues(alpha: 0.22),
+            blurRadius: 22.r,
+            spreadRadius: 1.r,
+            offset: Offset(0, 5.h),
           ),
         ],
       ),
@@ -40,20 +41,15 @@ class FaithAnchorCard extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
-              fontSize: 48.sp,
-              color: AppColors.c352619,
-              fontWeight: FontWeight.w500,
-              height: 1.35,
-            ),
+            style: TextFontStyle.textStyle20c3B230EHelveticaNeue400,
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 8.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                width: 54.w,
-                height: 54.w,
+                width: 25.w,
+                height: 25.w,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: const LinearGradient(
@@ -67,27 +63,27 @@ class FaithAnchorCard extends StatelessWidget {
                 ),
                 child: Icon(
                   Icons.person,
-                  size: 34.sp,
+                  size: 25.sp,
                   color: AppColors.cF5EDD7,
                 ),
               ),
-              SizedBox(width: 12.w),
+              SizedBox(width: 8.w),
               Flexible(
                 child: Text(
                   item.reference.isEmpty ? 'Unknown Reference' : item.reference,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
-                    fontSize: 42.sp,
-                    color: AppColors.c8C7C68,
+                  style: TextFontStyle.textStyle14c796956HelveticaNeue300.copyWith(
+                    fontSize: 16.sp,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 18.h),
+          // SizedBox(height: 12.h),
+          Spacer(),
           const _WavyDivider(),
-          SizedBox(height: 18.h),
+          SizedBox(height: 12.h),
           Row(
             children: <Widget>[
               _TypePill(typeText: item.type),
@@ -117,20 +113,33 @@ class _TypePill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 12.h),
+      padding: EdgeInsets.all(4.w),
       decoration: BoxDecoration(
-        color: AppColors.cF5EDD7.withValues(alpha: 0.38),
+        color: AppColors.cF5EDD7.withValues(alpha: 0.0),
         borderRadius: BorderRadius.circular(999.r),
         border: Border.all(
-          color: AppColors.cF5EDD7.withValues(alpha: 0.60),
+          color: AppColors.cF2F2F2.withValues(alpha: 0.60),
           width: 1.w,
         ),
       ),
-      child: Text(
-        typeText,
-        style: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
-          fontSize: 40.sp,
-          color: AppColors.c796956,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              AppColors.cF5EDD7,
+              const Color.fromARGB(255, 184, 175, 156),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(999.r),
+        ),
+        child: Text(
+          typeText,
+          style: TextFontStyle.textStyle14c796956HelveticaNeue300.copyWith(
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
@@ -148,15 +157,15 @@ class _ActionCircleButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 62.w,
-        height: 62.w,
+        width: 32.w,
+        height: 32.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: AppColors.cF5EDD7.withValues(alpha: 0.56),
+          color: AppColors.cFBFCFA.withValues(alpha: 0.30),
         ),
         child: Icon(
           icon,
-          size: 30.sp,
+          size: 18.sp,
           color: AppColors.c513B26,
         ),
       ),

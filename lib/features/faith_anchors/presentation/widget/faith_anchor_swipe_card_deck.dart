@@ -45,9 +45,9 @@ class FaithAnchorSwipeCardDeck extends StatelessWidget {
             );
           },
           maxVisibleCards: 3,
-          deckHeight: 390.h,
-          topOffsetStep: -22.h,
-          horizontalInset: 2.w,
+          deckHeight: 250.h,
+          topOffsetStep: -12.h,
+          horizontalInset: 12.w,
           scaleStep: 0.03,
           dismissBackgroundBuilder: (BuildContext context, FaithAnchorItem item) {
             return const _FaithSwipeHintBackground(
