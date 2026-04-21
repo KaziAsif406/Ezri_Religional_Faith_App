@@ -8,8 +8,8 @@ import 'package:template_flutter/helpers/ui_helpers.dart';
 
 import '../../../gen/colors.gen.dart';
 import 'widget/home_action_tile.dart';
-import 'widget/home_section_card.dart';
-import 'widget/home_section_header.dart';
+import '../../../common_widgets/custom_section_card.dart';
+import '../../../common_widgets/custom_section_header.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
