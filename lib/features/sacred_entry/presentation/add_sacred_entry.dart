@@ -158,7 +158,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
         return Theme(
           data: Theme.of(context).copyWith(
             colorScheme: ColorScheme.light(
-              primary: AppColors.c6B2F45,
+              primary: AppColors.c796956,
               onPrimary: AppColors.cF5EDD7,
               surface: AppColors.allPrimaryColor,
               onSurface: AppColors.c513B26,
