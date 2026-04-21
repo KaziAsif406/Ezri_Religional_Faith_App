@@ -146,9 +146,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                   SizedBox(height: 28.h),
-                  const HomeSectionHeader(
+                  HomeSectionHeader(
                     titlePrefix: 'Community',
                     titleHighlight: 'Light',
+                    actionText: 'View all',
+                    onActionTap: () {
+                      NavigationService.navigateTo(Routes.communityScreen);
+                    },
                   ),
                   SizedBox(height: 12.h),
                   const CommunitySwipeCardDeck(),
