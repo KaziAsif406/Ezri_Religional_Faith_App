@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/common_widgets/custom_appbar.dart';
@@ -5,6 +6,7 @@ import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/helpers/ui_helpers.dart';
 
 import '../../../gen/colors.gen.dart';
 
@@ -126,33 +128,12 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                           .copyWith(fontSize: 16.sp),
                     ),
                   ),
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 12.h),
                   Stack(
                     children: [
-                      Row(
-                        children: [
-                          const Spacer(),
-                          SizedBox(
-                            width: 90.w,
-                            child: Switch(
-                              value: _isPersonalNoteEnabled,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  _isPersonalNoteEnabled = value;
-                                });
-                              },
-                              activeThumbColor: AppColors.cE5EAEB,
-                              activeTrackColor: AppColors.allsecondaryColor
-                                  .withValues(alpha: 0.95),
-                              inactiveThumbColor: AppColors.c99907A,
-                              inactiveTrackColor: AppColors.allPrimaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8.h),
+                      // UIHelper.verticalSpace(30.h),
                       CustomTextFormField(
-                        label: 'Personal note',
+                        label: '\nPersonal note',
                         hintText: 'Add a private reflection',
                         controller: _noteController,
                         enabled: _isPersonalNoteEnabled,
@@ -168,6 +149,30 @@ class _AddFaithAnchorScreenState extends State<AddFaithAnchorScreen> {
                           '$noteWords/96 words',
                           style: TextFontStyle.textStyle14c8C7C68HelveticaNeue400
                               .copyWith(fontSize: 16.sp),
+                        ),
+                      ),
+                      Positioned(
+                        right: 0,
+                        top: 5,
+                        child: SizedBox(
+                          width: 48.w,
+                          child: Transform.scale(
+                            scale: 0.8,
+                            child: CupertinoSwitch(
+                              value: _isPersonalNoteEnabled,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  _isPersonalNoteEnabled = value;
+                                });
+                              },
+                              
+                              activeTrackColor: AppColors.allsecondaryColor
+                                  .withValues(alpha: 0.45),
+                              inactiveThumbColor: AppColors.allPrimaryColor,
+                              inactiveTrackColor:
+                                  AppColors.c99907A.withValues(alpha: 0.45),
+                            ),
+                          ),
                         ),
                       ),
                     ],

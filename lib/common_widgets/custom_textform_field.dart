@@ -113,11 +113,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                     color:
                         widget.cardBackgroundColor ?? AppColors.allPrimaryColor,
                     borderRadius: resolvedCardRadius,
-                    border: Border.all(
-                      color: widget.cardBorderColor ??
-                          const Color.fromARGB(0, 153, 144, 122).withValues(alpha: 0.18),
-                      width: widget.cardBorderWidth ?? 1.w,
-                    ),
+                    // border: Border.all(
+                    //   color: widget.cardBorderColor ??
+                    //       const Color.fromARGB(0, 153, 144, 122).withValues(alpha: 0.18),
+                    //   width: widget.cardBorderWidth ?? 1.w,
+                    // ),
                   )
                 : null,
             padding: widget.useCardStyle
@@ -158,13 +158,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                         EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                     filled: !widget.useCardStyle,
                     fillColor: AppColors.allPrimaryColor,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(
-                        color:
-                            AppColors.allsecondaryColor.withValues(alpha: 0.0),
-                      ),
-                    ),
+                    // border: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(12.r),
+                    //   borderSide: BorderSide(
+                    //     color:
+                    //         AppColors.allsecondaryColor.withValues(alpha: 0.0),
+                    //   ),
+                    // ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
                       borderSide: BorderSide(
@@ -172,27 +172,27 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                             AppColors.allsecondaryColor.withValues(alpha: 0.0),
                       ),
                     ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(
-                        color:
-                            AppColors.allsecondaryColor.withValues(alpha: 0.0),
-                        width: 2,
-                      ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: const BorderSide(
-                        color: AppColors.allsecondaryColor,
-                      ),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: const BorderSide(
-                        color: Colors.red,
-                        width: 2,
-                      ),
-                    ),
+                    // focusedBorder: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(12.r),
+                    //   borderSide: BorderSide(
+                    //     color:
+                    //         AppColors.allsecondaryColor.withValues(alpha: 0.0),
+                    //     width: 2,
+                    //   ),
+                    // ),
+                    // errorBorder: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(12.r),
+                    //   borderSide: BorderSide(
+                    //     color: AppColors.allsecondaryColor.withValues(alpha: 0.0),
+                    //   ),
+                    // ),
+                    // focusedErrorBorder: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(12.r),
+                    //   borderSide: const BorderSide(
+                    //     color: Colors.red,
+                    //     width: 2,
+                    //   ),
+                    // ),
                     errorStyle: TextStyle(
                       fontSize: 12.sp,
                       color: Colors.red,
