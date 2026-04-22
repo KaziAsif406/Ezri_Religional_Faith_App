@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/community_swipe_card_deck.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/widget/faith_anchor_swipe_card_deck.dart';
+import 'package:template_flutter/features/home/presentation/widget/sacred_entries_list.dart';
+import 'package:template_flutter/features/sacred_entry/presentation/widget/sacred_entry_store.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
 import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
@@ -154,19 +156,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     onActionTap: () {},
                   ),
                   SizedBox(height: 14.h),
-                  HomeSectionCard(
-                    backgroundColor: AppColors.allPrimaryColor,
-                    imagePath: 'assets/icons/Journal_Empty.png',
-                    title: 'Start Your Sacred Journal',
-                    description:
-                        'Document your reflections, thoughts, and prayers with guided prompts.',
-                    buttonLabel: 'Create New Entry',
-                    buttonGradient: [
-                      AppColors.c6B2F45.withValues(alpha: 0.20),
-                      AppColors.c6B2F45.withValues(alpha: 0.70),
-                    ],
-                    buttonShadowColor: AppColors.c6B2F45.withValues(alpha: 0.42),
-                    elevatedButton: true,
+                  ValueListenableBuilder<List<SacredEntryItem>>(
+                    valueListenable: SacredEntryStore.instance.itemsListenable,
+                    builder: (
+                      BuildContext context,
+                      List<SacredEntryItem> items,
+                      Widget? child,
+                    ) {
+                      if (items.isEmpty) {
+                        return HomeSectionCard(
+                          backgroundColor: AppColors.allPrimaryColor,
+                          imagePath: 'assets/icons/Journal_Empty.png',
+                          title: 'Start Your Sacred Journal',
+                          description:
+                              'Document your reflections, thoughts, and prayers with guided prompts.',
+                          buttonLabel: 'Create New Entry',
+                          onButtonTap: () {
+                            NavigationService.navigateTo(Routes.addSacredEntry);
+                          },
+                          buttonGradient: [
+                            AppColors.c6B2F45.withValues(alpha: 0.20),
+                            AppColors.c6B2F45.withValues(alpha: 0.70),
+                          ],
+                          buttonShadowColor: AppColors.c6B2F45.withValues(alpha: 0.42),
+                          elevatedButton: true,
+                        );
+                      }
+
+                      return SacredEntriesList(entries: items);
+                    },
                   ),
                   SizedBox(height: 28.h),
                 ],

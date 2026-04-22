@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/common_widgets/custom_toast.dart';
 import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/common_widgets/custom_switch.dart';
@@ -13,7 +14,9 @@ import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/prompt_selector_section.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/rounded_input_shell.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/round_action_button.dart';
+import 'package:template_flutter/features/sacred_entry/presentation/widget/sacred_entry_store.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/wavy_separator.dart';
+import 'package:template_flutter/helpers/navigation_service.dart';
 
 import '../../../gen/colors.gen.dart';
 
@@ -145,6 +148,78 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
     setState(() {
       _selectedPromptIndex = index;
     });
+  }
+
+  String _typeLabel(SacredTypeOption type) {
+    switch (type) {
+      case SacredTypeOption.reflection:
+        return 'Reflection';
+      case SacredTypeOption.memoryVerses:
+        return 'Memory Verses';
+      case SacredTypeOption.journaling:
+        return 'Journal';
+      case SacredTypeOption.bibleReading:
+        return 'Bible Reading';
+      case SacredTypeOption.prayer:
+        return 'Prayer';
+      case SacredTypeOption.fasting:
+        return 'Fasting';
+    }
+  }
+
+  String _typeIconAsset(SacredTypeOption type) {
+    switch (type) {
+      case SacredTypeOption.reflection:
+        return 'assets/icons/reflection.png';
+      case SacredTypeOption.memoryVerses:
+        return 'assets/icons/memory.png';
+      case SacredTypeOption.journaling:
+        return 'assets/icons/journaling.png';
+      case SacredTypeOption.bibleReading:
+        return 'assets/icons/bible.png';
+      case SacredTypeOption.prayer:
+        return 'assets/icons/prayer.png';
+      case SacredTypeOption.fasting:
+        return 'assets/icons/fasting.png';
+    }
+  }
+
+  String _deriveTitle(String content) {
+    final String normalized = content
+        .replaceAll(RegExp(r'\s+'), ' ')
+        .trim();
+    if (normalized.isEmpty) {
+      return 'Untitled Entry';
+    }
+
+    final List<String> words = normalized.split(' ');
+    final int takeCount = words.length >= 5 ? 5 : words.length;
+    final String title = words.take(takeCount).join(' ');
+    if (words.length > takeCount) {
+      return '$title...';
+    }
+    return title;
+  }
+
+  void _saveEntry() {
+    final String content = _entryController.text.trim();
+    if (content.isEmpty) {
+      customToastMessage('Required', 'Please write your sacred entry first.');
+      return;
+    }
+
+    final int words = _wordCount(content);
+    SacredEntryStore.instance.addItem(
+      title: _deriveTitle(content),
+      content: content,
+      wordCount: words,
+      entryDate: _selectedDate,
+      typeLabel: _typeLabel(_selectedType),
+      typeIconAsset: _typeIconAsset(_selectedType),
+    );
+
+    customToastMessage('Saved', 'Sacred entry added successfully.');
+    NavigationService.goBack;
   }
 
   Future<void> _pickEntryDate() async {
@@ -535,7 +610,7 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     ),
                     SizedBox(height: 34.h),
                     CustomButton(
-                      onPressed: () {},
+                      onPressed: _saveEntry,
                       title: 'Save Entry',
                       height: 60.h,
                       borderRadius: BorderRadius.circular(5555.r),
