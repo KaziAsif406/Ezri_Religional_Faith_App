@@ -5,9 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:template_flutter/features/community/presentation/community_screen.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/add_faith_anchor.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/add_sacred_entry.dart';
-// import '../features/auth/presentation/login.dart';
-// import '../features/auth/presentation/signup.dart';
-// import '../features/user_profile/presentation/profile.dart';
 
 final class Routes {
   static final Routes _routes = Routes._internal();

@@ -6,13 +6,13 @@ import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/common_widgets/custom_switch.dart';
 import 'package:template_flutter/common_widgets/custom_textform_field.dart';
+import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
+import 'package:template_flutter/common_widgets/text_editing_footer_buttons.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/prompt_selector_section.dart';
-import 'package:template_flutter/features/sacred_entry/presentation/widget/section_title.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/rounded_input_shell.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/round_action_button.dart';
-import 'package:template_flutter/features/sacred_entry/presentation/widget/text_editing_footer.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/wavy_separator.dart';
 
 import '../../../gen/colors.gen.dart';
@@ -203,9 +203,18 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SectionTitle(
+                    DualToneTitle(
                       lightText: 'Select',
                       darkText: 'Date',
+                      lightTextStyle: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
+                        fontSize: 24.sp,
+                        color: AppColors.c8C7C68,
+                      ),
+                      darkTextStyle: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
+                        fontSize: 24.sp,
+                        color: AppColors.c352619,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     SizedBox(height: 12.h),
                     GestureDetector(
@@ -250,9 +259,18 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       ),
                     ),
                     SizedBox(height: 28.h),
-                    SectionTitle(
+                    DualToneTitle(
                       lightText: 'Sacred',
                       darkText: 'Type',
+                      lightTextStyle: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
+                        fontSize: 24.sp,
+                        color: AppColors.c8C7C68,
+                      ),
+                      darkTextStyle: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
+                        fontSize: 24.sp,
+                        color: AppColors.c352619,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     SizedBox(height: 12.h),
                     SelectorWidget<SacredTypeOption>(
@@ -361,9 +379,18 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     Row(
                       children: <Widget>[
                         Expanded(
-                          child: SectionTitle(
+                          child: DualToneTitle(
                             lightText: 'Prompt',
                             darkText: 'Selector',
+                            lightTextStyle: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
+                              fontSize: 24.sp,
+                              color: AppColors.c8C7C68,
+                            ),
+                            darkTextStyle: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
+                              fontSize: 24.sp,
+                              color: AppColors.c352619,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                         CustomSwitch(
@@ -401,9 +428,18 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     ),
                     const WavySeparator(),
                     SizedBox(height: 26.h),
-                    SectionTitle(
+                    DualToneTitle(
                       lightText: 'Sacred',
                       darkText: 'Entry',
+                      lightTextStyle: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
+                        fontSize: 24.sp,
+                        color: AppColors.c8C7C68,
+                      ),
+                      darkTextStyle: TextFontStyle.textStyle16c8C7C68HelveticaNeue400.copyWith(
+                        fontSize: 24.sp,
+                        color: AppColors.c352619,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     SizedBox(height: 16.h),
                     Row(

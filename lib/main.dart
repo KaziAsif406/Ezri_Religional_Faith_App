@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:template_flutter/navigation_screen.dart';
-// import '../../../loading_screen.dart';
-// import 'constants/custome_theme.dart';
 import 'gen/colors.gen.dart';
 import 'helpers/all_routes.dart';
 import 'helpers/di.dart';
@@ -14,11 +12,8 @@ import 'networks/dio/dio.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  //await _requestPermissions();
   await GetStorage.init();
   diSetup();
-  // initiInternetChecker();
-  // await LocationService.instance.initialize();
   DioSingleton.instance.create();
   runApp(const MyApp());
 }

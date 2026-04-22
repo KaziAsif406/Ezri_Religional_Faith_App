@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/common_widgets/custom_textform_field.dart';
+import 'package:template_flutter/common_widgets/dual_tone_title.dart';
+import 'package:template_flutter/common_widgets/text_editing_footer_buttons.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
+import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
 
 
@@ -49,7 +51,7 @@ class _ShareEncouragementBottomSheetState extends State<ShareEncouragementBottom
           children: [
             Row(
               children: [
-                _SectionTitle(
+                DualToneTitle(
                   lightTextStyle: TextFontStyle.textStyle28c8C7C68HelveticaNeue300,
                   darkTextStyle: TextFontStyle.textStyle28c3B230EHelveticaNeue700,
                   lightText: 'Share',
@@ -57,7 +59,9 @@ class _ShareEncouragementBottomSheetState extends State<ShareEncouragementBottom
                 ),
                 Spacer(),
                 IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () {
+                    NavigationService.goBack;
+                  },
                   icon: Icon(
                     Icons.close,
                     size: 24.sp,
@@ -88,7 +92,7 @@ class _ShareEncouragementBottomSheetState extends State<ShareEncouragementBottom
               cardBorderRadius: BorderRadius.circular(24.r),
               cardPadding: EdgeInsets.all(20),
               contentPadding: EdgeInsets.zero,
-              footerLeft: const _TextEditingFooterButtons(),
+              footerLeft: const TextEditingFooterButtons(),
               footerRight: Text(
                 '$words/300 words',
                 style: TextFontStyle.textStyle14c8C7C68HelveticaNeue400
@@ -97,7 +101,7 @@ class _ShareEncouragementBottomSheetState extends State<ShareEncouragementBottom
             ),
             UIHelper.verticalSpace(20.h),
             Center(
-              child: _SectionTitle(
+              child: DualToneTitle(
                 lightTextStyle: TextFontStyle.textStyle16c238D1AHelveticaNeue400.copyWith(
                   fontWeight: FontWeight.w800,
                 ),
@@ -135,110 +139,6 @@ class _ShareEncouragementBottomSheetState extends State<ShareEncouragementBottom
     );
   }
 }
-
-
-
-class _TextEditingFooterButtons extends StatelessWidget {
-  const _TextEditingFooterButtons();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _FooterCircleButton(
-          label: 'B',
-          style: TextFontStyle.textStyle14c3B230EHelveticaNeue500,
-        ),
-        SizedBox(width: 10.w),
-        _FooterCircleButton(
-          label: 'I',
-          style: TextFontStyle.textStyle14c3B230EHelveticaNeue400.copyWith(
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-        SizedBox(width: 10.w),
-        _FooterCircleButton(
-          label: 'U',
-          style: TextFontStyle.textStyle14c3B230EHelveticaNeue400.copyWith(
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-
-
-class _FooterCircleButton extends StatelessWidget {
-  const _FooterCircleButton({required this.label, required this.style});
-
-  final String label;
-  final TextStyle style;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 34.w,
-      height: 34.w,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: const Color.fromARGB(255, 230, 225, 213).withValues(alpha: 0.84),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.c1C1919.withValues(alpha: 0.10),
-            blurRadius: 4.r,
-            offset: Offset(0, 5.h),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(label, style: style.copyWith(fontSize: 14.sp)),
-      ),
-    );
-  }
-}
-
-
-
-class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({
-    required this.lightText, 
-    required this.darkText,
-    required this.lightTextStyle,
-    required this.darkTextStyle,
-  });
-
-  final String lightText;
-  final String darkText;
-  final dynamic lightTextStyle;
-  final dynamic darkTextStyle;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        children: <InlineSpan>[
-          TextSpan(
-            text: '$lightText ',
-            style: lightTextStyle,
-            
-            // TextFontStyle.textStyle28c8C7C68HelveticaNeue300,
-          ),
-          TextSpan(
-            text: darkText,
-            style: darkTextStyle,
-            
-            // TextFontStyle.textStyle28c3B230EHelveticaNeue700,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 
 
 class _ScribbleDividerPainter extends CustomPainter {
