@@ -89,7 +89,7 @@ class _BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 132.h,
+      height: 150.h,
       child: Stack(
         clipBehavior: Clip.none,
         children: [

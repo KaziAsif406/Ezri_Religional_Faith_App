@@ -39,70 +39,74 @@ class SacredEntriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: entries.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      separatorBuilder: (_, __) => SizedBox(height: 8.h),
-      itemBuilder: (BuildContext context, int index) {
-        final SacredEntryItem entry = entries[index];
-        return Container(
-          width: double.infinity,
-          padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
-          decoration: BoxDecoration(
-            color: AppColors.allPrimaryColor,
-            borderRadius: BorderRadius.circular(24.r),
-            border: Border.all(
-              color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
-              width: 1.w,
+    return MediaQuery.removePadding(
+      context: context,
+      removeTop: true,
+      child: ListView.separated(
+        itemCount: entries.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        separatorBuilder: (_, __) => SizedBox(height: 8.h),
+        itemBuilder: (BuildContext context, int index) {
+          final SacredEntryItem entry = entries[index];
+          return Container(
+            width: double.infinity,
+            padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 16.h),
+            decoration: BoxDecoration(
+              color: AppColors.allPrimaryColor,
+              borderRadius: BorderRadius.circular(24.r),
+              border: Border.all(
+                color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
+                width: 1.w,
+              ),
             ),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset(
-                entry.typeIconAsset,
-                width: 40.w,
-                height: 40.h,
-                fit: BoxFit.contain,
-              ),
-              SizedBox(width: 12.w),
-              SizedBox(
-                width: 210.w, // Adjust the width as needed
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      entry.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextFontStyle.textStyle10c513B26HelveticaNeue400
-                          .copyWith(fontSize: 17.sp),
-                    ),
-                    SizedBox(height: 6.h),
-                    Text(
-                      '${_wordCountLabel(entry.wordCount)}  •  ${entry.typeLabel}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextFontStyle.textStyle14c99907AHelveticaNeue400
-                          .copyWith(fontSize: 14.sp),
-                    ),
-                  ],
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  entry.typeIconAsset,
+                  width: 40.w,
+                  height: 40.h,
+                  fit: BoxFit.contain,
                 ),
-              ),
-              // SizedBox(width: 10.w),
-              Spacer(),
-              Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  _formatDate(entry.entryDate),
-                  style: TextFontStyle.textStyle14c99907AHelveticaNeue400,
+                SizedBox(width: 12.w),
+                SizedBox(
+                  width: 210.w, // Adjust the width as needed
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        entry.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextFontStyle.textStyle10c513B26HelveticaNeue400
+                            .copyWith(fontSize: 17.sp),
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        '${_wordCountLabel(entry.wordCount)}  •  ${entry.typeLabel}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextFontStyle.textStyle14c99907AHelveticaNeue400
+                            .copyWith(fontSize: 14.sp),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
-      },
+                // SizedBox(width: 10.w),
+                Spacer(),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    _formatDate(entry.entryDate),
+                    style: TextFontStyle.textStyle14c99907AHelveticaNeue400,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
