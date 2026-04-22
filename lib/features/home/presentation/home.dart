@@ -153,7 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     titlePrefix: 'Sacred',
                     titleHighlight: 'Entries',
                     actionText: 'View all',
-                    onActionTap: () {},
+                    onActionTap: () {
+                      NavigationService.navigateTo(Routes.allSavedEntries);
+                    },
                   ),
                   SizedBox(height: 14.h),
                   ValueListenableBuilder<List<SacredEntryItem>>(
