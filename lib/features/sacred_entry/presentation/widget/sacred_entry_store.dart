@@ -9,6 +9,7 @@ class SacredEntryItem {
     required this.entryDate,
     required this.typeLabel,
     required this.typeIconAsset,
+    this.selectedPrompt,
   });
 
   final String id;
@@ -18,6 +19,7 @@ class SacredEntryItem {
   final DateTime entryDate;
   final String typeLabel;
   final String typeIconAsset;
+  final String? selectedPrompt;
 }
 
 class SacredEntryStore {
@@ -37,6 +39,7 @@ class SacredEntryStore {
     required DateTime entryDate,
     required String typeLabel,
     required String typeIconAsset,
+    String? selectedPrompt,
   }) {
     final SacredEntryItem newItem = SacredEntryItem(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
@@ -46,6 +49,7 @@ class SacredEntryStore {
       entryDate: entryDate,
       typeLabel: typeLabel,
       typeIconAsset: typeIconAsset,
+      selectedPrompt: selectedPrompt,
     );
 
     final List<SacredEntryItem> currentItems =

@@ -216,6 +216,9 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
       entryDate: _selectedDate,
       typeLabel: _typeLabel(_selectedType),
       typeIconAsset: _typeIconAsset(_selectedType),
+      selectedPrompt: _promptEnabled && _selectedPromptIndex < _activePrompts.length 
+        ? _activePrompts[_selectedPromptIndex]
+        : null,
     );
 
     customToastMessage('Saved', 'Sacred entry added successfully.');
