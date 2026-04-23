@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/community_swipe_card_deck.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/widget/faith_anchor_swipe_card_deck.dart';
 import 'package:template_flutter/features/home/presentation/widget/sacred_entries_list.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/sacred_entry_store.dart';
+import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
 import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
@@ -46,31 +48,64 @@ class _JourneyScreenState extends State<JourneyScreen> {
                   left: 22.w,
                   right: 22.w,
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(top: 78.h),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Wade Warren (You)',
-                                style: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
-                                  color: AppColors.cF0F2F1.withValues(alpha: 0.6),
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text(
-                                'Welcome back',
-                                style: TextFontStyle.textStyle24cFFFFFFHelveticaNeue400,
-                              ),
-                            ],
+                          child: Text(
+                            'Journey',
+                            style: TextFontStyle.textStyle32cFFFFFFHelveticaNeue700,
                           ),
                         ),
                       ),
+                      // Spacer(),
                       Container(
-                        margin: EdgeInsets.only(top: 65.h),
+                        margin: EdgeInsets.only(top: 85.h),
+                        width: 88.w,
+                        height: 42.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(40.r),
+                          border: Border.all(
+                            color: AppColors.cE5EAEB.withValues(alpha: 0.45),
+                            width: 2.w,
+                          ),
+                        ),
+                        child: Container(
+                          width: 80.w,
+                          height: 34.w,
+                          margin: EdgeInsets.all(4.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40.r),
+                            gradient: const LinearGradient(
+                              colors: [
+                                AppColors.cF5EDD7,
+                                Color.fromARGB(255, 170, 161, 138),
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/icons/fire.png',
+                                width: 16.w,
+                                height: 18.w,
+                              ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                '3 Days',
+                                style: TextFontStyle.textStyle14c3B230EHelveticaNeue400,
+                              ),
+                            ],
+                          ),
+                        )
+                      ),
+                      UIHelper.horizontalSpace(12.w),
+                      Container(
+                        margin: EdgeInsets.only(top: 85.h),
                         width: 72.w,
                         height: 72.w,
                         decoration: BoxDecoration(
@@ -82,7 +117,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            'W',
+                            'J',
                             style: TextFontStyle.textStyle12cFFFFFFHelveticaNeue700.copyWith(
                               fontSize: 28.sp,
                             ),
@@ -94,9 +129,141 @@ class _JourneyScreenState extends State<JourneyScreen> {
                 ),
               ],
             ),
+            Transform.translate(
+              offset: Offset(20, -260.h),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Image.asset(
+                    'assets/icons/Union.png',
+                    width: 60.w,
+                    height: 198.h,
+                    fit: BoxFit.cover,
+                  ),
+                  Positioned(
+                    top: 6.h,
+                    left: 16.w,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 28.h,
+                          width: 28.w,
+                          padding: EdgeInsets.all(6.w),
+                          decoration: BoxDecoration(
+                            color: AppColors.allsecondaryColor,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Image.asset(
+                          //  'assets/icons/Check.png',
+                          Assets.icons.check.path,
+                            width: 16.w,
+                            height: 16.w,
+                          ),
+                        ),
+                        UIHelper.horizontalSpace(26.w),
+                        Text(
+                          'Daily Scripture Habit',
+                          style: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
+                            color: AppColors.cF0F2F1.withValues(alpha: 0.6),
+                          ),
+                        ),
+                      ],
+                    )
+                  ),
+                  Positioned(
+                    top: 74.h,
+                    left: 6.w,
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 48.h,
+                          width: 48.w,
+                          padding: EdgeInsets.all(12.w),
+                          decoration: BoxDecoration(
+                            color: AppColors.cF0F2F1.withValues(alpha: 0.12),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Image.asset(
+                            'assets/icons/fire.png',
+                            width: 24.w,
+                            height: 24.h,
+                          ),
+                        ),
+                        UIHelper.horizontalSpace(16.w),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '5-Day Prayer Streak',
+                              style: TextFontStyle.textStyle18cFFFFFFHelveticaNeue400,
+                            ),
+                            UIHelper.verticalSpace(8.h),
+                            Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/Restart.png',
+                                  width: 14.w,
+                                  height: 14.h,
+                                ),
+                                UIHelper.horizontalSpace(4.w),
+                                Text(
+                                  'Reset',
+                                  style: TextFontStyle.textStyle14cF2A918HelveticaNeue400,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 167.h,
+                    left: 20.7.w,
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/icons/Lock.png',
+                          width: 18.w,
+                          height: 18.h,
+                        ),
+                        UIHelper.horizontalSpace(32.w),
+                        Text(
+                          'Memorize 10 Verses',
+                          style: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
+                            color: AppColors.cF0F2F1.withValues(alpha: 0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Transform.translate(
+              offset: Offset(0, -185.h),
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      '“Keep steady, Wade — you’re close to\nyour next milestone”',
+                      style: TextFontStyle.textStyle16c238D1AHelveticaNeue400,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
 }
+
+
+
+
+
+// UIHelper.verticalSpace(40.h),
+                          
