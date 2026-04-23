@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:template_flutter/common_widgets/custom_appbar.dart';
-import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/common_widgets/custom_appbar.dart';import 'package:template_flutter/common_widgets/custom_button.dart';import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/sacred_entry_store.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/saved_entries_card.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
+import 'package:template_flutter/helpers/all_routes.dart';
+import 'package:template_flutter/helpers/navigation_service.dart';
 // import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
+import 'package:template_flutter/navigation_screen.dart';
 
 class AllSavedEntriesScreen extends StatefulWidget {
   const AllSavedEntriesScreen({super.key});
@@ -28,6 +31,9 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
   Set<String> _selectedFilters = <String>{};
   List<String> _availableTypes = <String>[];
   String _currentFilterLabel = 'All';
+  
+  // Add button visibility
+  bool _isAddButtonVisible = true;
 
   @override
   void initState() {
@@ -55,6 +61,15 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
     _searchController.dispose();
     _overlayEntry?.remove();
     super.dispose();
+  }
+  
+  void _setAddButtonVisible(bool isVisible) {
+    if (_isAddButtonVisible == isVisible) {
+      return;
+    }
+    setState(() {
+      _isAddButtonVisible = isVisible;
+    });
   }
 
   void _updateFilteredEntries() {
@@ -103,7 +118,22 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
-      body: CustomScrollView(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: NotificationListener<UserScrollNotification>(
+        onNotification: (UserScrollNotification notification) {
+          if (notification.depth != 0) {
+            return false;
+          }
+          
+          if (notification.direction == ScrollDirection.reverse) {
+            _setAddButtonVisible(false);
+          } else if (notification.direction == ScrollDirection.forward) {
+            _setAddButtonVisible(true);
+          }
+          
+          return false;
+        },
+        child: CustomScrollView(
         slivers: <Widget>[
           // Collapsible header with title and back button
           SliverAppBar(
@@ -251,6 +281,35 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
             ),
           ),
         ],
+        ),
+      ),
+      floatingActionButton: IgnorePointer(
+        ignoring: !_isAddButtonVisible,
+        child: AnimatedSlide(
+          duration: const Duration(milliseconds: 800),
+          curve: Curves.easeOutCubic,
+          offset: _isAddButtonVisible ? Offset.zero : const Offset(0, 1.6),
+          child: CustomButton(
+            onPressed: () {
+              NavigationService.navigateTo(Routes.addSacredEntry);
+            },
+            title: 'Add More Entries',
+            height: 60.h,
+            width: 190.w,
+            borderRadius: BorderRadius.circular(5555.r),
+            backgroundGradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: <Color>[
+                AppColors.cF5EDD7.withValues(alpha: 0.99),
+                AppColors.c6B2F45.withValues(alpha: 0.92),
+              ],
+            ),
+            textStyle: TextFontStyle.textStyle16cFFFFFFHelveticaNeue500.copyWith(
+              color: AppColors.cF5EDD7,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -479,7 +538,7 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
                             decoration: BoxDecoration(
                               color: _selectedFilters.contains(type)
                                   ? AppColors.allsecondaryColor.withValues(alpha: 0.15)
-                                  : AppColors.allPrimaryColor,
+                                  : AppColors.cF2F2F2.withValues(alpha: 0.25),
                               borderRadius: BorderRadius.circular(22.r),
                               border: Border.all(
                                 color: _selectedFilters.contains(type)
