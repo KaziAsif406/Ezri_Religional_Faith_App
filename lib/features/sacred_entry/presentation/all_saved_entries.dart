@@ -63,10 +63,11 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
           SliverAppBar(
             backgroundColor: AppColors.scaffoldColor,
             automaticallyImplyLeading: false,
-            pinned: false,
+            pinned: true,
             floating: true,
-            snap: false,
-            expandedHeight: 160.h, // Height for header + search bar
+            snap: true,
+            expandedHeight: 160.h,
+            toolbarHeight: 1.h,
             flexibleSpace: FlexibleSpaceBar(
               background: CustomAppBar(
                 titleText: 'Saved Entries',
@@ -77,11 +78,11 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
           SliverPersistentHeader(
             pinned: true,
             delegate: _SearchBarDelegate(
-              height: 80.h,
-              safeAreaPadding: MediaQuery.of(context).padding.top,
+              height: 72.h,
+              safeAreaPadding: 0,
               child: Container(
                 color: AppColors.scaffoldColor,
-                padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 12.h),
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
                 child: Container(
                   height: 56.h,
                   decoration: BoxDecoration(
@@ -142,7 +143,7 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
               ),
             ),
           ),
-          // List of entries
+          // List of entries with proper spacing
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
@@ -287,24 +288,19 @@ class _SearchBarDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
 
   @override
-  double get minExtent => height + safeAreaPadding;
+  double get minExtent => height;
 
   @override
-  double get maxExtent => height + safeAreaPadding;
+  double get maxExtent => height;
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Padding(
-      padding: EdgeInsets.only(top: safeAreaPadding),
-      child: child,
-    );
+    return child;
   }
 
   @override
   bool shouldRebuild(_SearchBarDelegate oldDelegate) {
-    return height != oldDelegate.height ||
-        safeAreaPadding != oldDelegate.safeAreaPadding ||
-        child != oldDelegate.child;
+    return height != oldDelegate.height || child != oldDelegate.child;
   }
 }
