@@ -5,7 +5,7 @@ import 'package:template_flutter/features/sacred_entry/presentation/widget/sacre
 import 'package:template_flutter/gen/colors.gen.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
 
-class SavedEntriesCard extends StatelessWidget {
+class SavedEntriesCard extends StatefulWidget {
   const SavedEntriesCard({
     super.key,
     required this.entry,
@@ -15,7 +15,20 @@ class SavedEntriesCard extends StatelessWidget {
 
   final SacredEntryItem entry;
   final VoidCallback? onTap;
-  final VoidCallback? onMenuTap;
+  final ValueChanged<GlobalKey>? onMenuTap;
+
+  @override
+  State<SavedEntriesCard> createState() => _SavedEntriesCardState();
+}
+
+class _SavedEntriesCardState extends State<SavedEntriesCard> {
+  late GlobalKey _menuButtonKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _menuButtonKey = GlobalKey();
+  }
 
   String _formatDate(DateTime date) {
     const List<String> months = <String>[
@@ -45,7 +58,7 @@ class SavedEntriesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => widget.onTap?.call(),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
         padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 20.h),
@@ -98,7 +111,7 @@ class SavedEntriesCard extends StatelessWidget {
                       ],
                     ),
                     child: Text(
-                      entry.typeLabel,
+                      widget.entry.typeLabel,
                       style: TextFontStyle.textStyle14c796956HelveticaNeue300.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
@@ -108,17 +121,15 @@ class SavedEntriesCard extends StatelessWidget {
                 UIHelper.horizontalSpace(8.w),
                 // Date on the right
                 Text(
-                  _formatDate(entry.entryDate),
+                  _formatDate(widget.entry.entryDate),
                   style:
-                      TextFontStyle.textStyle12c8C7C68HelveticaNeue400.copyWith(
-                    fontSize: 12.sp,
-                    color: AppColors.c8C7C68,
-                  ),
+                      TextFontStyle.textStyle14c8C7C68HelveticaNeue400,
                 ),
                 const Spacer(),
                 // Menu button
                 GestureDetector(
-                  onTap: onMenuTap,
+                  key: _menuButtonKey,
+                  onTap: () => widget.onMenuTap?.call(_menuButtonKey),
                   child: Icon(
                     Icons.more_horiz_sharp,
                     size: 20.sp,
@@ -127,39 +138,23 @@ class SavedEntriesCard extends StatelessWidget {
                 ),
               ],
             ),
-            UIHelper.verticalSpaceSmall,
+            UIHelper.verticalSpace(12.h),
             // Prompt header (if available)
-            if (entry.selectedPrompt != null &&
-                entry.selectedPrompt!.isNotEmpty)
+            if (widget.entry.selectedPrompt != null &&
+                widget.entry.selectedPrompt!.isNotEmpty)
               Text(
-                entry.selectedPrompt!,
-                style:
-                    TextFontStyle.textStyle16c3B230EHelveticaNeue500.copyWith(
-              fontSize: 18.sp,
-              color: AppColors.c352619,
-              fontWeight: FontWeight.w600,
-                            ),
+                widget.entry.selectedPrompt!,
+                style: TextFontStyle.textStyle18c3B230EHelveticaNeue500.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-            // Title
-            // Text(
-            //   entry.title,
-            //   style: TextFontStyle.textStyle16c3B230EHelveticaNeue500.copyWith(
-            //     fontSize: 18.sp,
-            //     color: AppColors.c352619,
-            //     fontWeight: FontWeight.w600,
-            //   ),
-            //   maxLines: 2,
-            //   overflow: TextOverflow.ellipsis,
-            // ),
             UIHelper.verticalSpaceSmall,
             // Content preview
             Text(
-              _truncateContent(entry.content, 140),
-              style: TextFontStyle.textStyle14c3B230EHelveticaNeue400.copyWith(
-                fontSize: 14.sp,
-                color: AppColors.c685E4A,
+              _truncateContent(widget.entry.content, 140),
+              style: TextFontStyle.textStyle14c796956HelveticaNeue400.copyWith(
                 height: 1.5,
               ),
               maxLines: 3,
@@ -168,7 +163,7 @@ class SavedEntriesCard extends StatelessWidget {
             UIHelper.verticalSpaceMedium,
             // Word count
             Text(
-              '${entry.wordCount} words',
+              '${widget.entry.wordCount} words',
               style: TextFontStyle.textStyle12c8C7C68HelveticaNeue400.copyWith(
                 fontSize: 12.sp,
                 color: AppColors.c8C7C68,

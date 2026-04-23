@@ -19,6 +19,9 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
   final TextEditingController _searchController = TextEditingController();
   final SacredEntryStore _store = SacredEntryStore.instance;
   List<SacredEntryItem> _filteredEntries = <SacredEntryItem>[];
+  OverlayEntry? _overlayEntry;
+  SacredEntryItem? _selectedEntry;
+  Offset _menuPosition = Offset.zero;
 
   @override
   void initState() {
@@ -31,6 +34,7 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
   void dispose() {
     _store.itemsListenable.removeListener(_updateFilteredEntries);
     _searchController.dispose();
+    _overlayEntry?.remove();
     super.dispose();
   }
 
@@ -181,9 +185,8 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
                   onTap: () {
                     // Handle entry tap - navigate to detail screen
                   },
-                  onMenuTap: () {
-                    // Handle menu tap - show delete/edit options
-                    _showEntryMenu(context, entry);
+                  onMenuTap: (GlobalKey menuKey) {
+                    _showEntryMenu(context, entry, menuKey);
                   },
                 );
               },
@@ -195,84 +198,155 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
     );
   }
 
-  void _showEntryMenu(BuildContext context, SacredEntryItem entry) {
-    showModalBottomSheet(
-      context: context,
+  void _showEntryMenu(
+    BuildContext context,
+    SacredEntryItem entry,
+    GlobalKey menuKey,
+  ) {
+    // Remove any existing overlay entry
+    _overlayEntry?.remove();
+
+    // Get the position of the menu button
+    final RenderBox? renderBox =
+        menuKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox == null) return;
+
+    final Offset buttonPosition = renderBox.localToGlobal(Offset.zero);
+    final Size buttonSize = renderBox.size;
+
+    _selectedEntry = entry;
+    _menuPosition = Offset(
+      buttonPosition.dx - 120.w, // Offset to align right
+      buttonPosition.dy + buttonSize.height + 8.h,
+    );
+
+    // Create overlay entry
+    _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(20.w),
-          decoration: BoxDecoration(
-            color: AppColors.allPrimaryColor,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(24.r),
+        return Stack(
+          children: <Widget>[
+            // Tap outside to close
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _closeMenu,
+                child: Container(color: Colors.transparent),
+              ),
             ),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                width: 40.w,
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: AppColors.c8C7C68.withValues(alpha: 0.20),
-                  borderRadius: BorderRadius.circular(2.r),
-                ),
-              ),
-              UIHelper.verticalSpaceMedium,
-              Text(
-                'Entry Options',
-                style:
-                    TextFontStyle.textStyle16c3B230EHelveticaNeue500.copyWith(
-                  fontSize: 16.sp,
-                  color: AppColors.c352619,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              UIHelper.verticalSpaceMedium,
-              ListTile(
-                leading: Icon(
-                  Icons.edit_rounded,
-                  size: 24.sp,
-                  color: AppColors.c513B26,
-                ),
-                title: Text(
-                  'Edit Entry',
-                  style:
-                      TextFontStyle.textStyle14c3B230EHelveticaNeue400.copyWith(
-                    fontSize: 14.sp,
-                    color: AppColors.c352619,
+            // Floating menu
+            Positioned(
+              left: _menuPosition.dx - 20,
+              top: _menuPosition.dy,
+              child: Material(
+                color: AppColors.allPrimaryColor.withValues(alpha: 0.00),
+                child: Container(
+                  width: 160.w,
+                  decoration: BoxDecoration(
+                    color: AppColors.allPrimaryColor,
+                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(
+                      color: AppColors.allsecondaryColor.withValues(alpha: 0.30),
+                      width: 1.w,
+                    ),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: AppColors.c1C1919.withValues(alpha: 0.15),
+                        blurRadius: 16.r,
+                        offset: Offset(0, 4.h),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      // Edit option
+                      GestureDetector(
+                        onTap: () {
+                          _closeMenu();
+                          // Handle edit
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 12.h,
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.edit_rounded,
+                                size: 18.sp,
+                                color: AppColors.c513B26,
+                              ),
+                              UIHelper.horizontalSpaceSmall,
+                              Text(
+                                'Edit',
+                                style: TextFontStyle
+                                    .textStyle14c3B230EHelveticaNeue400
+                                    .copyWith(
+                                  fontSize: 14.sp,
+                                  color: AppColors.c352619,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // Divider
+                      Divider(
+                        height: 1.h,
+                        color: AppColors.cF2F2F2.withValues(alpha: 0.50),
+                        indent: 12.w,
+                        endIndent: 12.w,
+                      ),
+                      // Delete option
+                      GestureDetector(
+                        onTap: () {
+                          _closeMenu();
+                          // Handle delete
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 12.h,
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Icon(
+                                Icons.delete_rounded,
+                                size: 18.sp,
+                                color: Colors.red.shade400,
+                              ),
+                              UIHelper.horizontalSpaceSmall,
+                              Text(
+                                'Delete',
+                                style: TextFontStyle
+                                    .textStyle14c3B230EHelveticaNeue400
+                                    .copyWith(
+                                  fontSize: 14.sp,
+                                  color: Colors.red.shade400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Handle edit
-                },
               ),
-              ListTile(
-                leading: Icon(
-                  Icons.delete_rounded,
-                  size: 24.sp,
-                  color: Colors.red.shade400,
-                ),
-                title: Text(
-                  'Delete Entry',
-                  style:
-                      TextFontStyle.textStyle14c3B230EHelveticaNeue400.copyWith(
-                    fontSize: 14.sp,
-                    color: Colors.red.shade400,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  // Handle delete
-                },
-              ),
-              UIHelper.verticalSpaceSmall,
-            ],
-          ),
+            ),
+          ],
         );
       },
     );
+
+    // Add overlay to the overlay stack
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _closeMenu() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    _selectedEntry = null;
   }
 }
 
