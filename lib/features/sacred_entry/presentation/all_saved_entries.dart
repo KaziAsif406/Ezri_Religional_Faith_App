@@ -5,7 +5,7 @@ import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/sacred_entry_store.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/saved_entries_card.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
-import 'package:template_flutter/helpers/navigation_service.dart';
+// import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
 
 class AllSavedEntriesScreen extends StatefulWidget {
