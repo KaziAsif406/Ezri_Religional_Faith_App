@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/community_swipe_card_deck.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/widget/faith_anchor_swipe_card_deck.dart';
@@ -243,21 +244,33 @@ class _JourneyScreenState extends State<JourneyScreen> {
             ),
             Transform.translate(
               offset: Offset(0, -185.h),
-              child: Column(
-                children: [
-                  Center(
-                    child: Text(
-                      '“Keep steady, Wade — you’re close to\nyour next milestone”',
-                      style: TextFontStyle.textStyle16c238D1AHelveticaNeue400,
-                      textAlign: TextAlign.center,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Text(
+                        '“Keep steady, Wade — you’re close to\nyour next milestone”',
+                        style: TextFontStyle.textStyle16c238D1AHelveticaNeue400,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
-                  UIHelper.verticalSpace(28.h),
-                  JourneyReflection(
-                    mainText: '“Start your first reflection to see God’s word in your journey.”',
-                    subText: 'Your word is a lamp to my feet, a light to my path.',
-                  )
-                ],
+                    UIHelper.verticalSpace(28.h),
+                    JourneyReflection(
+                      mainText: '“Start your first reflection to see God’s word in your journey.”',
+                      subText: 'Your word is a lamp to my feet, a light to my path.',
+                    ),
+                    UIHelper.verticalSpace(28.h),
+                    DualToneTitle(
+                      lightText: 'Progress',
+                      darkText: 'Summary',
+                      lightTextStyle: TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
+                      darkTextStyle: TextFontStyle.textStyle24c3B230EHelveticaNeue500,
+                    ),
+                    UIHelper.verticalSpace(12.h),
+                  ],
+                ),
               ),
             )
           ],
