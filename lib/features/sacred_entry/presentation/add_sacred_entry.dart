@@ -521,25 +521,20 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                     ),
                     SizedBox(height: 16.h),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        Text(
+                          _promptEnabled && _selectedPromptIndex < _activePrompts.length
+                              ? _activePrompts[_selectedPromptIndex]
+                              : 'What are you grateful for today?',
+                          style: TextFontStyle.textStyle16c3B230EHelveticaNeue500,
+                        ),
+                        Spacer(),
                         RoundActionButton(
                           icon: Icons.mic_none_rounded,
-                          onTap: () {},
-                          filled: true,
-                        ),
-                        SizedBox(width: 26.w),
-                        RoundActionButton(
-                          iconText: 'Aa',
                           onTap: () {},
                           filled: false,
                         ),
                       ],
-                    ),
-                    SizedBox(height: 20.h),
-                    Text(
-                      'What are you grateful for today?',
-                      style: TextFontStyle.textStyle14c3B230EHelveticaNeue400,
                     ),
                     SizedBox(height: 14.h),
                     CustomTextFormField(

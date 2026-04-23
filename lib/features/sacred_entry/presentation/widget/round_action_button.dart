@@ -23,15 +23,15 @@ class RoundActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 96.w,
-        height: 96.w,
+        width: 36.w,
+        height: 36.w,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: filled
               ? AppColors.allPrimaryColor
-              : AppColors.allPrimaryColor.withValues(alpha: 0.56),
+              : AppColors.allPrimaryColor,
           border: Border.all(
-            color: AppColors.c99907A.withValues(alpha: 0.18),
+            color: AppColors.allsecondaryColor.withValues(alpha: 0.20),
             width: 2.w,
           ),
           boxShadow: filled
@@ -39,8 +39,8 @@ class RoundActionButton extends StatelessWidget {
               : <BoxShadow>[
                   BoxShadow(
                     color: AppColors.c1C1919.withValues(alpha: 0.14),
-                    blurRadius: 16.r,
-                    offset: Offset(0, 8.h),
+                    blurRadius: 15.r,
+                    offset: Offset(0, 7.h),
                   ),
                 ],
         ),
@@ -48,7 +48,7 @@ class RoundActionButton extends StatelessWidget {
           child: icon != null
               ? Icon(
                   icon,
-                  size: 36.sp,
+                  size: 20.sp,
                   color: AppColors.c513B26,
                 )
               : Text(
