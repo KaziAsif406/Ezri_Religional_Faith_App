@@ -96,7 +96,8 @@ class SavedEntriesCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const Spacer(),
+                // const Spacer(),
+                UIHelper.horizontalSpace(8.w),
                 // Date on the right
                 Text(
                   _formatDate(entry.entryDate),
@@ -106,7 +107,8 @@ class SavedEntriesCard extends StatelessWidget {
                     color: AppColors.c8C7C68,
                   ),
                 ),
-                UIHelper.horizontalSpaceSmall,
+                // UIHelper.horizontalSpaceSmall,
+                const Spacer(),
                 // Menu button
                 GestureDetector(
                   onTap: onMenuTap,
@@ -122,31 +124,28 @@ class SavedEntriesCard extends StatelessWidget {
             // Prompt header (if available)
             if (entry.selectedPrompt != null &&
                 entry.selectedPrompt!.isNotEmpty)
-              Padding(
-                padding: EdgeInsets.only(bottom: 12.h),
-                child: Text(
-                  entry.selectedPrompt!,
-                  style:
-                      TextFontStyle.textStyle14c8C7C68HelveticaNeue400.copyWith(
-                    fontSize: 13.sp,
-                    color: AppColors.c8C7C68,
-                    fontStyle: FontStyle.italic,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              Text(
+                entry.selectedPrompt!,
+                style:
+                    TextFontStyle.textStyle16c3B230EHelveticaNeue500.copyWith(
+              fontSize: 18.sp,
+              color: AppColors.c352619,
+              fontWeight: FontWeight.w600,
+                            ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             // Title
-            Text(
-              entry.title,
-              style: TextFontStyle.textStyle16c3B230EHelveticaNeue500.copyWith(
-                fontSize: 18.sp,
-                color: AppColors.c352619,
-                fontWeight: FontWeight.w600,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
+            // Text(
+            //   entry.title,
+            //   style: TextFontStyle.textStyle16c3B230EHelveticaNeue500.copyWith(
+            //     fontSize: 18.sp,
+            //     color: AppColors.c352619,
+            //     fontWeight: FontWeight.w600,
+            //   ),
+            //   maxLines: 2,
+            //   overflow: TextOverflow.ellipsis,
+            // ),
             UIHelper.verticalSpaceSmall,
             // Content preview
             Text(
