@@ -23,12 +23,30 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
   // ignore: unused_field
   SacredEntryItem? _selectedEntry;
   Offset _menuPosition = Offset.zero;
+  
+  // Filter related
+  Set<String> _selectedFilters = <String>{};
+  List<String> _availableTypes = <String>[];
+  String _currentFilterLabel = 'All';
 
   @override
   void initState() {
     super.initState();
     _store.itemsListenable.addListener(_updateFilteredEntries);
+    _extractAvailableTypes();
     _updateFilteredEntries();
+  }
+  
+  void _extractAvailableTypes() {
+    final List<SacredEntryItem> allEntries =
+        (_store.itemsListenable as ValueNotifier<List<SacredEntryItem>>).value;
+    
+    final Set<String> types = <String>{};
+    for (final SacredEntryItem item in allEntries) {
+      types.add(item.typeLabel);
+    }
+    
+    _availableTypes = types.toList()..sort();
   }
 
   @override
@@ -44,15 +62,38 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
     final List<SacredEntryItem> allEntries =
         (_store.itemsListenable as ValueNotifier<List<SacredEntryItem>>).value;
 
-    if (query.isEmpty) {
+    if (query.isEmpty && _selectedFilters.isEmpty) {
       _filteredEntries = allEntries;
+      _currentFilterLabel = 'All';
     } else {
       _filteredEntries = allEntries
-          .where((SacredEntryItem item) =>
-              item.title.toLowerCase().contains(query) ||
-              item.content.toLowerCase().contains(query) ||
-              item.typeLabel.toLowerCase().contains(query))
+          .where((SacredEntryItem item) {
+            // Check type filter
+            if (_selectedFilters.isNotEmpty &&
+                !_selectedFilters.contains(item.typeLabel)) {
+              return false;
+            }
+
+            // Check search query
+            if (query.isNotEmpty &&
+                !item.title.toLowerCase().contains(query) &&
+                !item.content.toLowerCase().contains(query) &&
+                !item.typeLabel.toLowerCase().contains(query)) {
+              return false;
+            }
+
+            return true;
+          })
           .toList();
+
+      // Update filter label
+      if (_selectedFilters.isEmpty) {
+        _currentFilterLabel = 'All';
+      } else if (_selectedFilters.length == 1) {
+        _currentFilterLabel = _selectedFilters.first;
+      } else {
+        _currentFilterLabel = 'Multiple';
+      }
     }
 
     setState(() {});
@@ -134,18 +175,30 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
                         ),
                       ),
                       // Filter icon
-                      Padding(
-                        padding: EdgeInsets.only(right: 16.w),
-                        child: Icon(
-                          Icons.tune_rounded,
-                          size: 24.sp,
-                          color: AppColors.c685E4A,
+                      GestureDetector(
+                        onTap: () => _showFilteringSheet(context),
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 16.w),
+                          child: Icon(
+                            Icons.tune_rounded,
+                            size: 24.sp,
+                            color: AppColors.c685E4A,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
+            ),
+          ),
+          // Counter display below search bar
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: _CounterDelegate(
+              height: 40.h,
+              label: _currentFilterLabel,
+              count: _filteredEntries.length,
             ),
           ),
           // List of entries with proper spacing
@@ -352,6 +405,175 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
     _overlayEntry = null;
     _selectedEntry = null;
   }
+
+  void _showFilteringSheet(BuildContext context) {
+    showModalBottomSheet(
+      useRootNavigator: true,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(32.r),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setModalState) {
+            return Container(
+              padding: EdgeInsets.all(20.w),
+              decoration: BoxDecoration(
+                color: AppColors.allPrimaryColor,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(32.r),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // Header
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Filter by Type',
+                        style:
+                            TextFontStyle.textStyle18c3B230EHelveticaNeue500
+                                .copyWith(
+                          fontSize: 18.sp,
+                          color: AppColors.c352619,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(
+                          Icons.close_rounded,
+                          size: 24.sp,
+                          color: AppColors.c685E4A,
+                        ),
+                      ),
+                    ],
+                  ),
+                  UIHelper.verticalSpaceMedium,
+                  // Filter options
+                  ..._availableTypes.map(
+                    (String type) {
+                      return Padding(
+                        padding: EdgeInsets.only(bottom: 12.h),
+                        child: GestureDetector(
+                          onTap: () {
+                            setModalState(() {
+                              if (_selectedFilters.contains(type)) {
+                                _selectedFilters.remove(type);
+                              } else {
+                                _selectedFilters.add(type);
+                              }
+                            });
+                            _updateFilteredEntries();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 16.w,
+                              vertical: 12.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _selectedFilters.contains(type)
+                                  ? AppColors.c685E4A.withValues(alpha: 0.15)
+                                  : AppColors.cF2F2F2.withValues(alpha: 0.50),
+                              borderRadius: BorderRadius.circular(12.r),
+                              border: Border.all(
+                                color: _selectedFilters.contains(type)
+                                    ? AppColors.c685E4A
+                                    : Colors.transparent,
+                                width: 1.5.w,
+                              ),
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  width: 20.w,
+                                  height: 20.w,
+                                  decoration: BoxDecoration(
+                                    color: _selectedFilters.contains(type)
+                                        ? AppColors.c685E4A
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(4.r),
+                                    border: Border.all(
+                                      color: AppColors.c685E4A,
+                                      width: 2.w,
+                                    ),
+                                  ),
+                                  child: _selectedFilters.contains(type)
+                                      ? Center(
+                                          child: Icon(
+                                            Icons.check_rounded,
+                                            size: 14.sp,
+                                            color: AppColors.allPrimaryColor,
+                                          ),
+                                        )
+                                      : null,
+                                ),
+                                UIHelper.horizontalSpaceMedium,
+                                Text(
+                                  type,
+                                  style: TextFontStyle
+                                      .textStyle14c3B230EHelveticaNeue400
+                                      .copyWith(
+                                    fontSize: 14.sp,
+                                    color: AppColors.c352619,
+                                    fontWeight: _selectedFilters.contains(type)
+                                        ? FontWeight.w600
+                                        : FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  UIHelper.verticalSpaceMedium,
+                  // Clear filters button
+                  if (_selectedFilters.isNotEmpty)
+                    GestureDetector(
+                      onTap: () {
+                        setModalState(() {
+                          _selectedFilters.clear();
+                        });
+                        _updateFilteredEntries();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 12.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.cF2F2F2.withValues(alpha: 0.50),
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Clear All Filters',
+                            style: TextFontStyle
+                                .textStyle14c3B230EHelveticaNeue400
+                                .copyWith(
+                              fontSize: 14.sp,
+                              color: AppColors.c685E4A,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  UIHelper.verticalSpaceSmall,
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 }
 
 class _SearchBarDelegate extends SliverPersistentHeaderDelegate {
@@ -380,5 +602,52 @@ class _SearchBarDelegate extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(_SearchBarDelegate oldDelegate) {
     return height != oldDelegate.height || child != oldDelegate.child;
+  }
+}
+
+class _CounterDelegate extends SliverPersistentHeaderDelegate {
+  _CounterDelegate({
+    required this.height,
+    required this.label,
+    required this.count,
+  });
+
+  final double height;
+  final String label;
+  final int count;
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Container(
+      color: AppColors.scaffoldColor,
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Row(
+          children: [
+            Text(
+              '$label ',
+              style: TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
+            ),
+            Text(
+              '($count)',
+              style: TextFontStyle.textStyle24c3B230EHelveticaNeue500,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(_CounterDelegate oldDelegate) {
+    return label != oldDelegate.label || count != oldDelegate.count;
   }
 }
