@@ -20,6 +20,7 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
   final SacredEntryStore _store = SacredEntryStore.instance;
   List<SacredEntryItem> _filteredEntries = <SacredEntryItem>[];
   OverlayEntry? _overlayEntry;
+  // ignore: unused_field
   SacredEntryItem? _selectedEntry;
   Offset _menuPosition = Offset.zero;
 
@@ -153,6 +154,9 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
               (BuildContext context, int index) {
                 if (_filteredEntries.isEmpty) {
                   return Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.allPrimaryColor.withValues(alpha: 0.00),
+                    ),
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: Center(
                       child: Column(
