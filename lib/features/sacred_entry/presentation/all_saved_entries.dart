@@ -478,9 +478,9 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
                             ),
                             decoration: BoxDecoration(
                               color: _selectedFilters.contains(type)
-                                  ? AppColors.c685E4A.withValues(alpha: 0.15)
-                                  : AppColors.cF2F2F2.withValues(alpha: 0.50),
-                              borderRadius: BorderRadius.circular(12.r),
+                                  ? AppColors.allsecondaryColor.withValues(alpha: 0.15)
+                                  : AppColors.allPrimaryColor,
+                              borderRadius: BorderRadius.circular(22.r),
                               border: Border.all(
                                 color: _selectedFilters.contains(type)
                                     ? AppColors.c685E4A
