@@ -133,6 +133,13 @@ class _TypePill extends StatelessWidget {
             end: Alignment.bottomCenter,
           ),
           borderRadius: BorderRadius.circular(999.r),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.allsecondaryColor.withValues(alpha: 0.30),
+              blurRadius: 20.r,
+              offset: Offset(0, 10.h),
+            ),
+          ],
         ),
         child: Text(
           typeText,
