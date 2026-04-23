@@ -10,12 +10,12 @@ import 'package:template_flutter/common_widgets/custom_textform_field.dart';
 import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/common_widgets/selector_widget.dart';
 import 'package:template_flutter/common_widgets/text_editing_footer_buttons.dart';
+import 'package:template_flutter/common_widgets/wavy_separator.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/prompt_selector_section.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/rounded_input_shell.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/round_action_button.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/sacred_entry_store.dart';
-import 'package:template_flutter/features/sacred_entry/presentation/widget/wavy_separator.dart';
 import 'package:template_flutter/helpers/navigation_service.dart';
 
 import '../../../gen/colors.gen.dart';
@@ -504,7 +504,9 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                               onShuffleTap: _shufflePrompts,
                             ),
                     ),
-                    const WavySeparator(),
+                    WavySeparator(
+                      color: AppColors.allPrimaryColor,
+                    ),
                     SizedBox(height: 26.h),
                     DualToneTitle(
                       lightText: 'Sacred',
@@ -558,7 +560,9 @@ class _AddSacredEntryScreenState extends State<AddSacredEntryScreen> {
                       ),
                     ),
                     SizedBox(height: 24.h),
-                    const WavySeparator(),
+                    WavySeparator(
+                      color: AppColors.allPrimaryColor,
+                    ),
                     SizedBox(height: 26.h),
                     Text(
                       'Verses',
