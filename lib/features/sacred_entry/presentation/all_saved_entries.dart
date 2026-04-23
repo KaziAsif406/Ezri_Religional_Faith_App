@@ -9,7 +9,6 @@ import 'package:template_flutter/helpers/all_routes.dart';
 import 'package:template_flutter/helpers/navigation_service.dart';
 // import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/ui_helpers.dart';
-import 'package:template_flutter/navigation_screen.dart';
 
 class AllSavedEntriesScreen extends StatefulWidget {
   const AllSavedEntriesScreen({super.key});
