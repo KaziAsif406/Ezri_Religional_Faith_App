@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/features/journey/presentation/journey.dart';
 
 import 'features/home/presentation/home.dart';
 import 'gen/colors.gen.dart';
@@ -50,7 +51,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           children: const [
             _NavPage(title: 'Word'),
             HomeScreen(),
-            _NavPage(title: 'Journey'),
+            JourneyScreen(),
           ],
         ),
       ),
