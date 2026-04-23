@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
@@ -23,34 +24,24 @@ class JourneyProgress extends StatelessWidget {
 		return Container(
 			width: double.infinity,
 			decoration: BoxDecoration(
-				color: AppColors.scaffoldColor,
-				borderRadius: BorderRadius.circular(34.r),
+				color: AppColors.allPrimaryColor,
+				borderRadius: BorderRadius.circular(24.r),
 				border: Border.all(
-					color: AppColors.cCFC7B6.withValues(alpha: 0.95),
-					width: 1.2.w,
+					color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
+					width: 1.w,
 				),
-				boxShadow: [
-					BoxShadow(
-						color: AppColors.c513B26.withValues(alpha: 0.08),
-						blurRadius: 18.r,
-						offset: Offset(0, 4.h),
-					),
-				],
 			),
-			padding: EdgeInsets.fromLTRB(18.w, 24.h, 18.w, 22.h),
+			padding: EdgeInsets.fromLTRB(22.w, 32.h, 22.w, 13.h),
 			child: Column(
 				mainAxisSize: MainAxisSize.min,
 				children: [
 					Container(
-						width: 128.w,
-						height: 128.w,
+						width: 66.w,
+						height: 66.w,
+            padding: EdgeInsets.all(20.w),
 						decoration: BoxDecoration(
 							shape: BoxShape.circle,
-							color: AppColors.cB4B197,
-							border: Border.all(
-								color: AppColors.c796956.withValues(alpha: 0.75),
-								width: 1.4.w,
-							),
+							color: AppColors.allsecondaryColor.withValues(alpha: 0.28),
 							boxShadow: [
 								BoxShadow(
 									color: Colors.white.withValues(alpha: 0.18),
@@ -61,79 +52,41 @@ class JourneyProgress extends StatelessWidget {
 						),
 						alignment: Alignment.center,
 						child: Image.asset(
-							Assets.icons.bible.path,
-							width: 46.w,
-							height: 46.w,
-							color: AppColors.c675440,
-						),
-					),
-					SizedBox(height: 22.h),
-					Text(
-						title,
-						textAlign: TextAlign.center,
-						style: TextFontStyle.textStyle24c3B230EHelveticaNeue700.copyWith(
-							color: AppColors.cA29783,
-							fontSize: 30.sp,
-							height: 1.05,
+							Assets.icons.journalEmpty.path,
+							width: 26.w,
+							height: 26.w,
 						),
 					),
 					SizedBox(height: 10.h),
 					Text(
+						title,
+						textAlign: TextAlign.center,
+						style: TextFontStyle.textStyle24c8C7C68HelveticaNeue400.copyWith(
+							fontSize: 20.sp,
+              fontWeight: FontWeight.w500,
+						),
+					),
+					SizedBox(height: 4.h),
+					Text(
 						subtitle,
 						textAlign: TextAlign.center,
-						style: TextFontStyle.textStyle14c8C7C68HelveticaNeue400.copyWith(
-							color: AppColors.cA29783.withValues(alpha: 0.8),
-							fontSize: 18.sp,
+						style: TextFontStyle.textStyle12c99907AHelveticaNeue400.copyWith(
+							fontSize: 14.sp,
 							height: 1.42,
 						),
 					),
-					SizedBox(height: 30.h),
-					GestureDetector(
-						onTap: onAddJourneyPressed,
-						child: Container(
-							width: 332.w,
-							height: 98.h,
-							decoration: BoxDecoration(
-								borderRadius: BorderRadius.circular(50.r),
-								gradient: LinearGradient(
-									begin: Alignment.topCenter,
-									end: Alignment.bottomCenter,
-									colors: [
-										AppColors.cB9C7CF.withValues(alpha: 0.55),
-										AppColors.cCFC7B6,
-									],
-								),
-								border: Border.all(
-									color: AppColors.cE5EAEB.withValues(alpha: 0.5),
-									width: 1.w,
-								),
-								boxShadow: [
-									BoxShadow(
-										color: AppColors.c513B26.withValues(alpha: 0.10),
-										blurRadius: 22.r,
-										offset: Offset(0, 10.h),
-									),
-								],
-							),
-							alignment: Alignment.center,
-							child: Text(
-								buttonText,
-								textAlign: TextAlign.center,
-								style: TextFontStyle.textStyle24c3B230EHelveticaNeue500.copyWith(
-									color: AppColors.cF5EDD7,
-									fontSize: 30.sp,
-									height: 1,
-									shadows: [
-										Shadow(
-											color: AppColors.c513B26.withValues(alpha: 0.18),
-											blurRadius: 6.r,
-											offset: Offset(0, 1.h),
-										),
-									],
-								),
-							),
-						),
-					),
+					SizedBox(height: 18.h),
+					CustomButton(
+            height: 52.h,
+            width: 170.w,
+						title: buttonText,
+						onPressed: onAddJourneyPressed,
+            borderRadius: BorderRadius.circular(1000.r),
+            backgroundColor: AppColors.allsecondaryColor.withValues(alpha: 0.20),
+            textStyle: TextFontStyle.textStyle16cFFFFFFHelveticaNeue500.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
+					)
 				],
 			),
 		);

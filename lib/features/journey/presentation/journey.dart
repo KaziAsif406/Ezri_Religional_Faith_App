@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/features/journey/presentation/widget/journey_progress.dart';
 import 'package:template_flutter/features/journey/presentation/widget/journey_reflection.dart';
 import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
@@ -263,6 +264,14 @@ class _JourneyScreenState extends State<JourneyScreen> {
                       darkTextStyle: TextFontStyle.textStyle24c3B230EHelveticaNeue500,
                     ),
                     UIHelper.verticalSpace(12.h),
+                    JourneyProgress(
+                      title: 'Your progress starts here',
+                      subtitle: 'Track your reading, prayers, and milestones—every step counts on your journey.',
+                      buttonText: 'Add Journey',
+                      onAddJourneyPressed: () {
+                        // Handle button press
+                      },
+                    ),
                   ],
                 ),
               ),
