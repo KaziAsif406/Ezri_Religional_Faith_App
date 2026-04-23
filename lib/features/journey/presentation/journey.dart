@@ -5,6 +5,7 @@ import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/community/presentation/widget/community_swipe_card_deck.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/widget/faith_anchor_swipe_card_deck.dart';
 import 'package:template_flutter/features/home/presentation/widget/sacred_entries_list.dart';
+import 'package:template_flutter/features/journey/presentation/widget/journey_reflection.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/sacred_entry_store.dart';
 import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
@@ -251,6 +252,11 @@ class _JourneyScreenState extends State<JourneyScreen> {
                       textAlign: TextAlign.center,
                     ),
                   ),
+                  UIHelper.verticalSpace(28.h),
+                  JourneyReflection(
+                    mainText: '“Start your first reflection to see God’s word in your journey.”',
+                    subText: 'Your word is a lamp to my feet, a light to my path.',
+                  )
                 ],
               ),
             )
