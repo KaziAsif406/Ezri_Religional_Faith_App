@@ -4,7 +4,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../gen/colors.gen.dart';
 
 class WavySeparator extends StatelessWidget {
-  const WavySeparator({super.key});
+  const WavySeparator({
+    super.key,
+    required this.color,
+  });
+
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -12,17 +17,21 @@ class WavySeparator extends StatelessWidget {
       width: double.infinity,
       height: 5.h,
       child: CustomPaint(
-        painter: WavyLinePainter(),
+        painter: WavyLinePainter(color: color),
       ),
     );
   }
 }
 
 class WavyLinePainter extends CustomPainter {
+  WavyLinePainter({required this.color});
+
+  final Color? color;
+
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = AppColors.cF5EDD7.withValues(alpha: 0.5)
+      ..color = color ?? AppColors.cF5EDD7.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5.w;
 
