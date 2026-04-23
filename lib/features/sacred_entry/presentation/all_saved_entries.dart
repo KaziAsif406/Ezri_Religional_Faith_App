@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/sacred_entry_store.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/widget/saved_entries_card.dart';
@@ -56,163 +57,136 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
-      body: Column(
-        children: <Widget>[
-          // Header with back button and title
-          Container(
-            padding: EdgeInsets.fromLTRB(
-              20.w,
-              UIHelper.safePadding() + 16.h,
-              20.w,
-              24.h,
-            ),
-            child: Row(
-              children: <Widget>[
-                // Back button
-                GestureDetector(
-                  onTap: NavigationService.goBackCall,
-                  child: Container(
-                    width: 50.w,
-                    height: 50.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: AppColors.c99907A.withValues(alpha: 0.30),
-                        width: 1.5.w,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.arrow_back_ios_rounded,
-                      size: 18.sp,
-                      color: AppColors.c513B26,
-                    ),
-                  ),
-                ),
-                UIHelper.horizontalSpaceMedium,
-                // Title
-                Text(
-                  'Saved Entries',
-                  style:
-                      TextFontStyle.textStyle24c8C7C68HelveticaNeue300.copyWith(
-                    fontSize: 28.sp,
-                    color: AppColors.c352619,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
+      body: CustomScrollView(
+        slivers: <Widget>[
+          // Collapsible header with title and back button
+          SliverAppBar(
+            backgroundColor: AppColors.scaffoldColor,
+            automaticallyImplyLeading: false,
+            pinned: false,
+            floating: true,
+            snap: false,
+            expandedHeight: 160.h, // Height for header + search bar
+            flexibleSpace: FlexibleSpaceBar(
+              background: CustomAppBar(
+                titleText: 'Saved Entries',
+              ),
             ),
           ),
-          // Search bar with filter icon
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
-            child: Container(
-              height: 56.h,
-              decoration: BoxDecoration(
-                color: AppColors.allPrimaryColor,
-                borderRadius: BorderRadius.circular(28.r),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: AppColors.c1C1919.withValues(alpha: 0.08),
-                    blurRadius: 12.r,
-                    offset: Offset(0, 2.h),
+          // Pinned search bar that stays at top when scrolling
+          SliverPersistentHeader(
+            pinned: true,
+            delegate: _SearchBarDelegate(
+              height: 80.h,
+              safeAreaPadding: MediaQuery.of(context).padding.top,
+              child: Container(
+                color: AppColors.scaffoldColor,
+                padding: EdgeInsets.fromLTRB(20.w, 12.h, 20.w, 12.h),
+                child: Container(
+                  height: 56.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.allPrimaryColor,
+                    borderRadius: BorderRadius.circular(28.r),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                        color: AppColors.c1C1919.withValues(alpha: 0.08),
+                        blurRadius: 12.r,
+                        offset: Offset(0, 2.h),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Row(
-                children: <Widget>[
-                  UIHelper.horizontalSpaceMedium,
-                  Icon(
-                    Icons.search_rounded,
-                    size: 24.sp,
-                    color: AppColors.c8C7C68,
-                  ),
-                  UIHelper.horizontalSpaceSmall,
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (_) => _updateFilteredEntries(),
-                      decoration: InputDecoration(
-                        hintText: 'Search here...',
-                        hintStyle: TextFontStyle
-                            .textStyle10c513B26HelveticaNeue400
-                            .copyWith(
-                          fontSize: 16.sp,
-                          color: AppColors.c8C7C68.withValues(alpha: 0.60),
+                  child: Row(
+                    children: <Widget>[
+                      UIHelper.horizontalSpaceMedium,
+                      Icon(
+                        Icons.search_rounded,
+                        size: 24.sp,
+                        color: AppColors.c8C7C68,
+                      ),
+                      UIHelper.horizontalSpaceSmall,
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: (_) => _updateFilteredEntries(),
+                          decoration: InputDecoration(
+                            hintText: 'Search here...',
+                            hintStyle: TextFontStyle
+                                .textStyle10c513B26HelveticaNeue400
+                                .copyWith(
+                              fontSize: 16.sp,
+                              color: AppColors.c8C7C68.withValues(alpha: 0.60),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.zero,
+                          ),
+                          style: TextFontStyle.textStyle14c3B230EHelveticaNeue400
+                              .copyWith(
+                            fontSize: 16.sp,
+                            color: AppColors.c352619,
+                          ),
+                          cursorColor: AppColors.c513B26,
                         ),
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.zero,
                       ),
-                      style: TextFontStyle.textStyle14c3B230EHelveticaNeue400
-                          .copyWith(
-                        fontSize: 16.sp,
-                        color: AppColors.c352619,
+                      // Filter icon
+                      Padding(
+                        padding: EdgeInsets.only(right: 16.w),
+                        child: Icon(
+                          Icons.tune_rounded,
+                          size: 24.sp,
+                          color: AppColors.c685E4A,
+                        ),
                       ),
-                      cursorColor: AppColors.c513B26,
-                    ),
+                    ],
                   ),
-                  // Filter icon
-                  Padding(
-                    padding: EdgeInsets.only(right: 16.w),
-                    child: Icon(
-                      Icons.tune_rounded,
-                      size: 24.sp,
-                      color: AppColors.c685E4A,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
           ),
           // List of entries
-          Expanded(
-            child: ValueListenableBuilder<List<SacredEntryItem>>(
-              valueListenable: _store.itemsListenable
-                  as ValueNotifier<List<SacredEntryItem>>,
-              builder: (BuildContext context, List<SacredEntryItem> entries,
-                  Widget? child) {
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
                 if (_filteredEntries.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.note_outlined,
-                          size: 64.sp,
-                          color: AppColors.c8C7C68.withValues(alpha: 0.30),
-                        ),
-                        UIHelper.verticalSpaceMedium,
-                        Text(
-                          'No entries found',
-                          style: TextFontStyle
-                              .textStyle16c8C7C68HelveticaNeue400
-                              .copyWith(
-                            fontSize: 16.sp,
-                            color: AppColors.c8C7C68,
+                  return Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.note_outlined,
+                            size: 64.sp,
+                            color: AppColors.c8C7C68.withValues(alpha: 0.30),
                           ),
-                        ),
-                      ],
+                          UIHelper.verticalSpaceMedium,
+                          Text(
+                            'No entries found',
+                            style: TextFontStyle
+                                .textStyle16c8C7C68HelveticaNeue400
+                                .copyWith(
+                              fontSize: 16.sp,
+                              color: AppColors.c8C7C68,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }
 
-                return ListView.builder(
-                  itemCount: _filteredEntries.length,
-                  padding: EdgeInsets.only(bottom: 20.h),
-                  itemBuilder: (BuildContext context, int index) {
-                    final SacredEntryItem entry = _filteredEntries[index];
-                    return SavedEntriesCard(
-                      entry: entry,
-                      onTap: () {
-                        // Handle entry tap - navigate to detail screen
-                      },
-                      onMenuTap: () {
-                        // Handle menu tap - show delete/edit options
-                        _showEntryMenu(context, entry);
-                      },
-                    );
+                final SacredEntryItem entry = _filteredEntries[index];
+                return SavedEntriesCard(
+                  entry: entry,
+                  onTap: () {
+                    // Handle entry tap - navigate to detail screen
+                  },
+                  onMenuTap: () {
+                    // Handle menu tap - show delete/edit options
+                    _showEntryMenu(context, entry);
                   },
                 );
               },
+              childCount: _filteredEntries.isEmpty ? 1 : _filteredEntries.length,
             ),
           ),
         ],
@@ -298,5 +272,39 @@ class _AllSavedEntriesScreenState extends State<AllSavedEntriesScreen> {
         );
       },
     );
+  }
+}
+
+class _SearchBarDelegate extends SliverPersistentHeaderDelegate {
+  _SearchBarDelegate({
+    required this.height,
+    required this.safeAreaPadding,
+    required this.child,
+  });
+
+  final double height;
+  final double safeAreaPadding;
+  final Widget child;
+
+  @override
+  double get minExtent => height + safeAreaPadding;
+
+  @override
+  double get maxExtent => height + safeAreaPadding;
+
+  @override
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return Padding(
+      padding: EdgeInsets.only(top: safeAreaPadding),
+      child: child,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SearchBarDelegate oldDelegate) {
+    return height != oldDelegate.height ||
+        safeAreaPadding != oldDelegate.safeAreaPadding ||
+        child != oldDelegate.child;
   }
 }
