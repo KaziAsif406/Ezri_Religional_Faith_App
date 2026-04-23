@@ -14,27 +14,157 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/Candle_Empty.png
+  AssetGenImage get candleEmpty =>
+      const AssetGenImage('assets/icons/Candle_Empty.png');
+
+  /// File path: assets/icons/Check.png
+  AssetGenImage get check => const AssetGenImage('assets/icons/Check.png');
+
+  /// File path: assets/icons/Journal_Empty.png
+  AssetGenImage get journalEmpty =>
+      const AssetGenImage('assets/icons/Journal_Empty.png');
+
+  /// File path: assets/icons/Security_Empty.png
+  AssetGenImage get securityEmpty =>
+      const AssetGenImage('assets/icons/Security_Empty.png');
+
+  /// File path: assets/icons/Union.png
+  AssetGenImage get union => const AssetGenImage('assets/icons/Union.png');
+
+  /// File path: assets/icons/add_entry.png
+  AssetGenImage get addEntry =>
+      const AssetGenImage('assets/icons/add_entry.png');
+
+  /// File path: assets/icons/attach.png
+  AssetGenImage get attach => const AssetGenImage('assets/icons/attach.png');
+
+  /// File path: assets/icons/bible.png
+  AssetGenImage get bible => const AssetGenImage('assets/icons/bible.png');
+
+  /// File path: assets/icons/bold.png
+  AssetGenImage get bold => const AssetGenImage('assets/icons/bold.png');
+
+  /// File path: assets/icons/calendar.png
+  AssetGenImage get calendar =>
+      const AssetGenImage('assets/icons/calendar.png');
+
+  /// File path: assets/icons/chat.png
+  AssetGenImage get chat => const AssetGenImage('assets/icons/chat.png');
+
+  /// File path: assets/icons/community.png
+  AssetGenImage get community =>
+      const AssetGenImage('assets/icons/community.png');
+
+  /// File path: assets/icons/fasting.png
+  AssetGenImage get fasting => const AssetGenImage('assets/icons/fasting.png');
+
+  /// File path: assets/icons/fire.png
+  AssetGenImage get fire => const AssetGenImage('assets/icons/fire.png');
+
+  /// File path: assets/icons/italic.png
+  AssetGenImage get italic => const AssetGenImage('assets/icons/italic.png');
+
+  /// File path: assets/icons/journaling.png
+  AssetGenImage get journaling =>
+      const AssetGenImage('assets/icons/journaling.png');
+
+  /// File path: assets/icons/journey.png
+  AssetGenImage get journey => const AssetGenImage('assets/icons/journey.png');
+
+  /// File path: assets/icons/memory.png
+  AssetGenImage get memory => const AssetGenImage('assets/icons/memory.png');
+
+  /// File path: assets/icons/menu.png
+  AssetGenImage get menu => const AssetGenImage('assets/icons/menu.png');
+
+  /// File path: assets/icons/mic.png
+  AssetGenImage get mic => const AssetGenImage('assets/icons/mic.png');
+
   /// File path: assets/icons/notification_icon.png
   AssetGenImage get notificationIcon =>
       const AssetGenImage('assets/icons/notification_icon.png');
 
+  /// File path: assets/icons/prayer.png
+  AssetGenImage get prayer => const AssetGenImage('assets/icons/prayer.png');
+
+  /// File path: assets/icons/profile.png
+  AssetGenImage get profile => const AssetGenImage('assets/icons/profile.png');
+
+  /// File path: assets/icons/reflection.png
+  AssetGenImage get reflection =>
+      const AssetGenImage('assets/icons/reflection.png');
+
+  /// File path: assets/icons/text.png
+  AssetGenImage get text => const AssetGenImage('assets/icons/text.png');
+
+  /// File path: assets/icons/underline.png
+  AssetGenImage get underline =>
+      const AssetGenImage('assets/icons/underline.png');
+
+  /// File path: assets/icons/word.png
+  AssetGenImage get word => const AssetGenImage('assets/icons/word.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [notificationIcon];
+  List<AssetGenImage> get values => [
+        candleEmpty,
+        check,
+        journalEmpty,
+        securityEmpty,
+        union,
+        addEntry,
+        attach,
+        bible,
+        bold,
+        calendar,
+        chat,
+        community,
+        fasting,
+        fire,
+        italic,
+        journaling,
+        journey,
+        memory,
+        menu,
+        mic,
+        notificationIcon,
+        prayer,
+        profile,
+        reflection,
+        text,
+        underline,
+        word
+      ];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/bottom_nav.png
+  AssetGenImage get bottomNav =>
+      const AssetGenImage('assets/images/bottom_nav.png');
+
   /// File path: assets/images/error_image.png
   AssetGenImage get errorImage =>
       const AssetGenImage('assets/images/error_image.png');
+
+  /// File path: assets/images/header.png
+  AssetGenImage get header => const AssetGenImage('assets/images/header.png');
+
+  /// File path: assets/images/header_1.png
+  AssetGenImage get header1 =>
+      const AssetGenImage('assets/images/header_1.png');
 
   /// File path: assets/images/placeholder_image.jpeg
   AssetGenImage get placeholderImage =>
       const AssetGenImage('assets/images/placeholder_image.jpeg');
 
+  /// File path: assets/images/profile.png
+  AssetGenImage get profile => const AssetGenImage('assets/images/profile.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [errorImage, placeholderImage];
+  List<AssetGenImage> get values =>
+      [bottomNav, errorImage, header, header1, placeholderImage, profile];
 }
 
 class $AssetsLottieGen {
