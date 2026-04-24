@@ -5,7 +5,7 @@ import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/journey/presentation/widget/fasting_tracker.dart';
 import 'package:template_flutter/features/journey/presentation/widget/goals.dart';
-import 'package:template_flutter/features/journey/presentation/widget/journey_progress.dart';
+import 'package:template_flutter/features/journey/presentation/widget/journey_progress_empty.dart';
 import 'package:template_flutter/features/journey/presentation/widget/journey_reflection.dart';
 import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
