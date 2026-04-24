@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:template_flutter/features/community/presentation/community_screen.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/add_faith_anchor.dart';
 import 'package:template_flutter/features/goals/presentation/add_goal.dart';
+import 'package:template_flutter/features/goals/presentation/all_goals.dart';
 import 'package:template_flutter/features/milestone/presentation/milestone_progress.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/add_sacred_entry.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/all_saved_entries.dart';
@@ -37,6 +38,7 @@ final class Routes {
   static const String allSavedEntries = '/all_saved_entries';
   static const String journeyMilestone = '/journey_milestone';
   static const String addGoal = '/add_goal';
+  static const String allGoals = '/all_goals';
 }
 
 final class RouteGenerator {
@@ -92,6 +94,12 @@ final class RouteGenerator {
             ? CupertinoPageRoute(builder: (context) => const AddGoalScreen())
             : _FadedTransitionRoute(
                 widget: const AddGoalScreen(), settings: settings);
+
+      case Routes.allGoals:
+        return defaultTargetPlatform == TargetPlatform.iOS
+            ? CupertinoPageRoute(builder: (context) => const AllGoalsScreen())
+            : _FadedTransitionRoute(
+                widget: const AllGoalsScreen(), settings: settings);
 
       // case Routes.signUpScreen:
       //   return defaultTargetPlatform == TargetPlatform.iOS

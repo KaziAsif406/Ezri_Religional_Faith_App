@@ -5,11 +5,13 @@ import 'package:template_flutter/common_widgets/custom_button.dart';
 import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/common_widgets/wavy_separator.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/features/goals/data/goal_store.dart';
 import 'package:template_flutter/features/goals/presentation/widget/frequency_selector.dart';
 import 'package:template_flutter/features/goals/presentation/widget/goal_type_selector.dart';
 import 'package:template_flutter/features/goals/presentation/widget/reminder.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
-// import 'package:template_flutter/helpers/navigation_service.dart';
+import 'package:template_flutter/helpers/navigation_service.dart';
+import 'package:template_flutter/helpers/all_routes.dart';
 
 class AddGoalScreen extends StatefulWidget {
   const AddGoalScreen({super.key});
@@ -63,6 +65,53 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
         _selectedDays.add(dayIndex);
       }
     });
+  }
+
+  String _dayLabel(int dayIndex) {
+    switch (dayIndex) {
+      case 0:
+        return 'S';
+      case 1:
+        return 'M';
+      case 2:
+        return 'T';
+      case 3:
+        return 'W';
+      case 4:
+        return 'T';
+      case 5:
+        return 'F';
+      case 6:
+        return 'S';
+      default:
+        return '?';
+    }
+  }
+
+  Future<void> _saveGoal() async {
+    final List<int> selectedDayIndexes = _selectedDays.toList()..sort();
+    final List<String> dayLabels = selectedDayIndexes.map(_dayLabel).toList();
+
+    GoalStore.instance.addGoal(
+      SavedGoal(
+        title: goalTitleForSelection(_selectedGoalType, _selectedFrequency),
+        subtitle: goalSubtitleForSelection(
+          _selectedFrequency,
+          dayLabels,
+          _isReminderOn,
+          _selectedTime.format(context),
+        ),
+        iconPath: goalIconPathForType(_selectedGoalType),
+        frequency: _selectedFrequency,
+        progress: 0.0,
+        isLocked: false,
+        isReminderEnabled: _isReminderOn,
+        selectedDays: dayLabels,
+        reminderTimeLabel: _selectedTime.format(context),
+      ),
+    );
+
+    NavigationService.navigateToReplacement(Routes.allGoals);
   }
 
   @override
@@ -151,7 +200,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                   ),
                   SizedBox(height: 32.h),
                   CustomButton(
-                    onPressed: () {},
+                    onPressed: _saveGoal,
                     title: 'Save Goal',
                     height: 60.h,
                     borderRadius: BorderRadius.circular(999.r),
