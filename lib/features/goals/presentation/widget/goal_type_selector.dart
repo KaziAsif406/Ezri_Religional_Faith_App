@@ -68,7 +68,7 @@ class GoalTypeSelector extends StatelessWidget {
           padding: EdgeInsets.zero,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
-            crossAxisSpacing: 10.w,
+            crossAxisSpacing: 11.w,
             mainAxisSpacing: 12.h,
             childAspectRatio: 0.92,
           ),

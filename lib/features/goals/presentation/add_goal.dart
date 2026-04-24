@@ -8,9 +8,8 @@ import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/goals/presentation/widget/frequency_selector.dart';
 import 'package:template_flutter/features/goals/presentation/widget/goal_type_selector.dart';
 import 'package:template_flutter/features/goals/presentation/widget/reminder.dart';
-import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
-import 'package:template_flutter/helpers/navigation_service.dart';
+// import 'package:template_flutter/helpers/navigation_service.dart';
 
 class AddGoalScreen extends StatefulWidget {
   const AddGoalScreen({super.key});
