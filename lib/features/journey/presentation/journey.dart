@@ -27,7 +27,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
 
   int _activeSlideIndex = 1;
 
-  static const List<_JourneySlideData> _slides = <_JourneySlideData>[
+  static final List<_JourneySlideData> _slides = <_JourneySlideData>[
     _JourneySlideData(
       titleLight: 'Fasting',
       titleDark: 'Tracker',
@@ -35,6 +35,9 @@ class _JourneyScreenState extends State<JourneyScreen> {
       widgetSubtitle: 'Track, log, and reflect on your fasting journey',
       buttonText: 'Start Your First light',
       slideKind: _JourneySlideKind.fasting,
+      action: '',
+      onActionPressed: null,
+
     ),
     _JourneySlideData(
       titleLight: 'Progress',
@@ -44,6 +47,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
           'Track your reading, prayers, and milestones — every\nstep counts on your journey.',
       buttonText: 'Add journey',
       slideKind: _JourneySlideKind.progress,
+      action: '',
+      onActionPressed: null,
     ),
     _JourneySlideData(
       titleLight: 'Set',
@@ -53,6 +58,8 @@ class _JourneyScreenState extends State<JourneyScreen> {
           'Choose your focus - reading, prayer, fasting, or\njournaling. Small steps build your faith journey.',
       buttonText: '+ Add New Goal',
       slideKind: _JourneySlideKind.goals,
+      action: 'See All',
+      onActionPressed: () => NavigationService.navigateTo(Routes.allGoals),
     ),
   ];
 
@@ -401,13 +408,29 @@ class _JourneyScreenState extends State<JourneyScreen> {
                               'Your word is a lamp to my feet, a light to my path.',
                         ),
                         UIHelper.verticalSpace(28.h),
-                        DualToneTitle(
-                          lightText: activeSlide.titleLight,
-                          darkText: activeSlide.titleDark,
-                          lightTextStyle:
-                              TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
-                          darkTextStyle:
-                              TextFontStyle.textStyle24c3B230EHelveticaNeue500,
+                        Row(
+                          children: [
+                            DualToneTitle(
+                              lightText: activeSlide.titleLight,
+                              darkText: activeSlide.titleDark,
+                              lightTextStyle:
+                                  TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
+                              darkTextStyle:
+                                  TextFontStyle.textStyle24c3B230EHelveticaNeue500,
+                            ),
+                            Spacer(),
+                            if (activeSlide.action.isNotEmpty)
+                              GestureDetector(
+                                onTap: activeSlide.onActionPressed,
+                                child: Text(
+                                  activeSlide.action,
+                                  style: TextFontStyle
+                                    .textStyle18c3B230EHelveticaNeue700.copyWith(
+                                      decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                         UIHelper.verticalSpace(12.h),
                       ],
@@ -451,6 +474,8 @@ class _JourneySlideData {
     required this.widgetSubtitle,
     required this.buttonText,
     required this.slideKind,
+    required this.action,
+    required this.onActionPressed,
   });
 
   final String titleLight;
@@ -459,6 +484,8 @@ class _JourneySlideData {
   final String widgetSubtitle;
   final String buttonText;
   final _JourneySlideKind slideKind;
+  final String action;
+  final VoidCallback? onActionPressed;
 }
 
 
