@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/common_widgets/custom_button.dart';
+import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/common_widgets/wavy_separator.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/goals/presentation/widget/frequency_selector.dart';
@@ -70,98 +72,23 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: 300.h,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(Assets.images.header1.path),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    height: 100.h,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          AppColors.scaffoldColor.withValues(alpha: 0),
-                          AppColors.scaffoldColor,
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SafeArea(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(24.w, 18.h, 24.w, 0),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => NavigationService.goBack,
-                          child: Container(
-                            width: 64.w,
-                            height: 64.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color:
-                                    AppColors.cF5EDD7.withValues(alpha: 0.75),
-                                width: 1.6.w,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              color: AppColors.cF5EDD7,
-                              size: 22.sp,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 16.w),
-                        Text(
-                          'Add New Goal',
-                          style:
-                              TextFontStyle.textStyle32cFFFFFFHelveticaNeue700,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+            CustomAppBar(
+              titleText: 'Add New Goal',
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(24.w, 12.h, 24.w, 30.h),
+              padding: EdgeInsets.fromLTRB(20.w, 0.h, 20.w, 40.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      style: TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
-                      children: [
-                        TextSpan(
-                          text: 'What\'s the ',
-                          style:
-                              TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
-                        ),
-                        TextSpan(
-                          text: 'goal type?',
-                          style:
-                              TextFontStyle.textStyle24c3B230EHelveticaNeue500,
-                        ),
-                      ],
-                    ),
+                  DualToneTitle(
+                    lightText: 'What\'s the',
+                    darkText: 'goal type?',
+                    lightTextStyle:
+                        TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
+                    darkTextStyle:
+                        TextFontStyle.textStyle24c3B230EHelveticaNeue500,
                   ),
-                  SizedBox(height: 16.h),
+                  SizedBox(height: 12.h),
                   GoalTypeSelector(
                     selectedType: _selectedGoalType,
                     onTypeChanged: (GoalType newType) {
@@ -171,22 +98,13 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                     },
                   ),
                   SizedBox(height: 28.h),
-                  RichText(
-                    text: TextSpan(
-                      style: TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
-                      children: [
-                        TextSpan(
-                          text: 'How often do you ',
-                          style:
-                              TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
-                        ),
-                        TextSpan(
-                          text: 'want to do this?',
-                          style:
-                              TextFontStyle.textStyle24c3B230EHelveticaNeue500,
-                        ),
-                      ],
-                    ),
+                  DualToneTitle(
+                    lightText: 'How often do you',
+                    darkText: 'want to do this?',
+                    lightTextStyle:
+                        TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
+                    darkTextStyle:
+                        TextFontStyle.textStyle24c3B230EHelveticaNeue500,
                   ),
                   SizedBox(height: 14.h),
                   FrequencySelector(
@@ -202,22 +120,13 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                     WavySeparator(
                         color: AppColors.cF5EDD7.withValues(alpha: 0.45)),
                     SizedBox(height: 24.h),
-                    RichText(
-                      text: TextSpan(
-                        style: TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
-                        children: [
-                          TextSpan(
-                            text: 'Select ',
-                            style: TextFontStyle
-                                .textStyle24c8C7C68HelveticaNeue400,
-                          ),
-                          TextSpan(
-                            text: 'the day(s)',
-                            style: TextFontStyle
-                                .textStyle24c3B230EHelveticaNeue500,
-                          ),
-                        ],
-                      ),
+                    DualToneTitle(
+                      lightText: 'Select',
+                      darkText: 'the day(s)',
+                      lightTextStyle:
+                          TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
+                      darkTextStyle:
+                          TextFontStyle.textStyle24c3B230EHelveticaNeue500,
                     ),
                     SizedBox(height: 14.h),
                     DaySelector(
@@ -255,7 +164,7 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                     ),
                     textStyle: TextFontStyle.textStyle32cFFFFFFHelveticaNeue500
                         .copyWith(
-                      fontSize: 36.sp,
+                      fontSize: 24.sp,
                       fontWeight: FontWeight.w700,
                       color: AppColors.cF5EDD7,
                     ),
