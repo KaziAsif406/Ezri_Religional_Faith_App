@@ -24,12 +24,12 @@ class FrequencySelector extends StatelessWidget {
 
         return Expanded(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.w),
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
             child: GestureDetector(
               onTap: () => onFrequencyChanged(frequency),
               child: AnimatedContainer(
-                duration: const Duration(milliseconds: 180),
-                curve: Curves.easeOut,
+                duration: const Duration(milliseconds: 150),
+                curve: Curves.easeInOut,
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(vertical: 16.h),
                 decoration: BoxDecoration(
@@ -38,14 +38,14 @@ class FrequencySelector extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            AppColors.cD2DCE4,
-                            AppColors.cDED7C5,
+                            AppColors.cCFC7B6,
+                            Color.fromARGB(255, 158, 150, 132),
                           ],
                         )
                       : null,
                   color: isSelected
                       ? null
-                      : AppColors.allPrimaryColor.withValues(alpha: 0.35),
+                      : AppColors.cF5F6F5.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(40.r),
                   border: Border.all(
                     color: isSelected
@@ -127,14 +127,14 @@ class DaySelector extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            AppColors.cD2DCE4,
-                            AppColors.cDED7C5,
+                            AppColors.cCFC7B6,
+                            Color.fromARGB(255, 158, 150, 132),
                           ],
                         )
                       : null,
                   color: isSelected
                       ? null
-                      : AppColors.allPrimaryColor.withValues(alpha: 0.35),
+                      : AppColors.cF5F6F5.withValues(alpha: 0.12),
                   border: Border.all(
                     color: isSelected
                         ? AppColors.allsecondaryColor.withValues(alpha: 0.18)
