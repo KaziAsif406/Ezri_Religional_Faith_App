@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/features/journey/presentation/widget/fasting_tracker.dart';
+import 'package:template_flutter/features/journey/presentation/widget/goals.dart';
 import 'package:template_flutter/features/journey/presentation/widget/journey_progress.dart';
 import 'package:template_flutter/features/journey/presentation/widget/journey_reflection.dart';
 import 'package:template_flutter/gen/assets.gen.dart';
@@ -22,8 +24,125 @@ class JourneyScreen extends StatefulWidget {
 
 
 class _JourneyScreenState extends State<JourneyScreen> {
+  final PageController _sliderController =
+      PageController(initialPage: 1, viewportFraction: 0.88);
+
+  int _activeSlideIndex = 1;
+
+  static const List<_JourneySlideData> _slides = <_JourneySlideData>[
+    _JourneySlideData(
+      titleLight: 'Fasting',
+      titleDark: 'Tracker',
+      widgetTitle: 'Your journey begins here.',
+      widgetSubtitle: 'Track, log, and reflect on your fasting journey',
+      buttonText: 'Start Your First light',
+      slideKind: _JourneySlideKind.fasting,
+    ),
+    _JourneySlideData(
+      titleLight: 'Progress',
+      titleDark: 'Summary',
+      widgetTitle: 'Your progress starts here',
+      widgetSubtitle:
+          'Track your reading, prayers, and milestones — every\nstep counts on your journey.',
+      buttonText: 'Add journey',
+      slideKind: _JourneySlideKind.progress,
+    ),
+    _JourneySlideData(
+      titleLight: 'Set',
+      titleDark: 'Goals',
+      widgetTitle: 'Set Your First Goal',
+      widgetSubtitle:
+          'Choose your focus - reading, prayer, fasting, or\njournaling. Small steps build your faith journey.',
+      buttonText: '+ Add New Goal',
+      slideKind: _JourneySlideKind.goals,
+    ),
+  ];
+
+  @override
+  void dispose() {
+    _sliderController.dispose();
+    super.dispose();
+  }
+
+  void _onSlideChanged(int index) {
+    setState(() {
+      _activeSlideIndex = index;
+    });
+  }
+
+  Widget _buildSlideCard(_JourneySlideData slide) {
+    switch (slide.slideKind) {
+      case _JourneySlideKind.fasting:
+        return FastingTracker(
+          title: slide.widgetTitle,
+          subtitle: slide.widgetSubtitle,
+          buttonText: slide.buttonText,
+        );
+      case _JourneySlideKind.progress:
+        return JourneyProgress(
+          title: slide.widgetTitle,
+          subtitle: slide.widgetSubtitle,
+          buttonText: slide.buttonText,
+        );
+      case _JourneySlideKind.goals:
+        return Goals(
+          title: slide.widgetTitle,
+          subtitle: slide.widgetSubtitle,
+          buttonText: slide.buttonText,
+        );
+    }
+  }
+
+  Widget _buildSliderCard(BuildContext context, int index) {
+    final _JourneySlideData slide = _slides[index];
+    final double page = _sliderController.hasClients
+        ? (_sliderController.page ?? _sliderController.initialPage.toDouble())
+        : _activeSlideIndex.toDouble();
+    final double distance = (page - index).abs().clamp(0.0, 1.0);
+    final double scale = 1 - (distance * 0.06);
+    final double opacity = 0.58 + (1 - distance) * 0.42;
+
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 180),
+      opacity: opacity,
+      child: Transform.scale(
+        scale: scale,
+        child: _buildSlideCard(slide),
+      ),
+    );
+  }
+
+  List<Widget> _buildIndicatorDots() {
+    return List<Widget>.generate(_slides.length, (int index) {
+      final bool isActive = index == _activeSlideIndex;
+      return AnimatedContainer(
+        duration: const Duration(milliseconds: 220),
+        margin: EdgeInsets.symmetric(horizontal: 3.w),
+        width: isActive ? 24.w : 12.w,
+        height: 8.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(999.r),
+          color: isActive
+              ? AppColors.cA29783
+              : AppColors.cD8B698.withValues(alpha: 0.55),
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: AppColors.c513B26.withValues(alpha: 0.14),
+                    blurRadius: 6.r,
+                    offset: Offset(0, 2.h),
+                  ),
+                ]
+              : const <BoxShadow>[],
+        ),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final _JourneySlideData activeSlide = _slides[_activeSlideIndex];
+
     return Scaffold(
       backgroundColor: AppColors.scaffoldColor,
       body: SingleChildScrollView(
@@ -239,41 +358,60 @@ class _JourneyScreenState extends State<JourneyScreen> {
             ),
             Transform.translate(
               offset: Offset(0, -185.h),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        '“Keep steady, Wade — you’re close to\nyour next milestone”',
-                        style: TextFontStyle.textStyle16c238D1AHelveticaNeue400,
-                        textAlign: TextAlign.center,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            '“Keep steady, Wade — you’re close to\nyour next milestone”',
+                            style: TextFontStyle.textStyle16c238D1AHelveticaNeue400,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        UIHelper.verticalSpace(28.h),
+                        JourneyReflection(
+                          mainText:
+                              '“Start your first reflection to see God’s word in your journey.”',
+                          subText:
+                              'Your word is a lamp to my feet, a light to my path.',
+                        ),
+                        UIHelper.verticalSpace(28.h),
+                        DualToneTitle(
+                          lightText: activeSlide.titleLight,
+                          darkText: activeSlide.titleDark,
+                          lightTextStyle:
+                              TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
+                          darkTextStyle:
+                              TextFontStyle.textStyle24c3B230EHelveticaNeue500,
+                        ),
+                        UIHelper.verticalSpace(12.h),
+                      ],
                     ),
-                    UIHelper.verticalSpace(28.h),
-                    JourneyReflection(
-                      mainText: '“Start your first reflection to see God’s word in your journey.”',
-                      subText: 'Your word is a lamp to my feet, a light to my path.',
-                    ),
-                    UIHelper.verticalSpace(28.h),
-                    DualToneTitle(
-                      lightText: 'Progress',
-                      darkText: 'Summary',
-                      lightTextStyle: TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
-                      darkTextStyle: TextFontStyle.textStyle24c3B230EHelveticaNeue500,
-                    ),
-                    UIHelper.verticalSpace(12.h),
-                    JourneyProgress(
-                      title: 'Your progress starts here',
-                      subtitle: 'Track your reading, prayers, and milestones—every step counts on your journey.',
-                      buttonText: 'Add Journey',
-                      onAddJourneyPressed: () {
-                        // Handle button press
+                  ),
+                  SizedBox(
+                    height: 286.h,
+                    child: PageView.builder(
+                      controller: _sliderController,
+                      itemCount: _slides.length,
+                      onPageChanged: _onSlideChanged,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _buildSliderCard(context, index);
                       },
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 12.h),
+                  Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: _buildIndicatorDots(),
+                    ),
+                  ),
+                ],
               ),
             )
           ],
@@ -281,6 +419,26 @@ class _JourneyScreenState extends State<JourneyScreen> {
       ),
     );
   }
+}
+
+enum _JourneySlideKind { fasting, progress, goals }
+
+class _JourneySlideData {
+  const _JourneySlideData({
+    required this.titleLight,
+    required this.titleDark,
+    required this.widgetTitle,
+    required this.widgetSubtitle,
+    required this.buttonText,
+    required this.slideKind,
+  });
+
+  final String titleLight;
+  final String titleDark;
+  final String widgetTitle;
+  final String widgetSubtitle;
+  final String buttonText;
+  final _JourneySlideKind slideKind;
 }
 
 

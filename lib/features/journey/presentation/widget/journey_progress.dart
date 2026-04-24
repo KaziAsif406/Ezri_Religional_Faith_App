@@ -31,7 +31,7 @@ class JourneyProgress extends StatelessWidget {
 					width: 1.w,
 				),
 			),
-			padding: EdgeInsets.fromLTRB(22.w, 32.h, 22.w, 13.h),
+			padding: EdgeInsets.fromLTRB(15.w, 32.h, 15.w, 13.h),
 			child: Column(
 				mainAxisSize: MainAxisSize.min,
 				children: [

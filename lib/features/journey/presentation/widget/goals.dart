@@ -24,32 +24,31 @@ class Goals extends StatelessWidget {
 		return Container(
 			width: double.infinity,
 			decoration: BoxDecoration(
-				color: AppColors.allPrimaryColor,
+				color: AppColors.cC7BFAD,
 				borderRadius: BorderRadius.circular(24.r),
 				border: Border.all(
 					color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
 					width: 1.w,
 				),
 			),
-			padding: EdgeInsets.fromLTRB(22.w, 24.h, 22.w, 26.h),
+			padding: EdgeInsets.fromLTRB(22.w, 27.h, 22.w, 26.h),
 			child: Column(
 				mainAxisSize: MainAxisSize.min,
 				children: [
-					Icon(
-						Icons.track_changes_rounded,
-						size: 66.sp,
-						color: AppColors.c99907A,
-					),
+					Image.asset(
+            'assets/icons/Goal_Empty.png',
+            width: 64.w,
+            height: 64.w,
+          ),
 					SizedBox(height: 8.h),
 					Text(
 						title,
 						textAlign: TextAlign.center,
 						style: TextFontStyle.textStyle24c8C7C68HelveticaNeue400.copyWith(
-							fontSize: 20.sp,
 							fontWeight: FontWeight.w500,
 						),
 					),
-					SizedBox(height: 2.h),
+					SizedBox(height: 6.h),
 					Text(
 						subtitle,
 						textAlign: TextAlign.center,
