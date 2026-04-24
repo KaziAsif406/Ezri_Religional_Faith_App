@@ -249,113 +249,119 @@ class _JourneyScreenState extends State<JourneyScreen> {
               offset: Offset(20, -260.h),
               child: GestureDetector(
                 onTap: () => NavigationService.navigateTo(Routes.journeyMilestone),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Image.asset(
-                      'assets/icons/Union.png',
-                      width: 60.w,
-                      height: 198.h,
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      top: 6.h,
-                      left: 16.w,
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 28.h,
-                            width: 28.w,
-                            padding: EdgeInsets.all(6.w),
-                            decoration: BoxDecoration(
-                              color: AppColors.allsecondaryColor,
-                              shape: BoxShape.circle,
+                child: Container(
+                  width: 250.w,
+                  decoration: BoxDecoration(
+                    color: AppColors.allPrimaryColor.withValues(alpha: 0.00),
+                  ),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Image.asset(
+                        'assets/icons/Union.png',
+                        width: 60.w,
+                        height: 198.h,
+                        fit: BoxFit.cover,
+                      ),
+                      Positioned(
+                        top: 6.h,
+                        left: 16.w,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 28.h,
+                              width: 28.w,
+                              padding: EdgeInsets.all(6.w),
+                              decoration: BoxDecoration(
+                                color: AppColors.allsecondaryColor,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.asset(
+                              //  'assets/icons/Check.png',
+                              Assets.icons.check.path,
+                                width: 16.w,
+                                height: 16.w,
+                              ),
                             ),
-                            child: Image.asset(
-                            //  'assets/icons/Check.png',
-                            Assets.icons.check.path,
-                              width: 16.w,
-                              height: 16.w,
+                            UIHelper.horizontalSpace(26.w),
+                            Text(
+                              'Daily Scripture Habit',
+                              style: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
+                                color: AppColors.cF0F2F1.withValues(alpha: 0.6),
+                              ),
                             ),
-                          ),
-                          UIHelper.horizontalSpace(26.w),
-                          Text(
-                            'Daily Scripture Habit',
-                            style: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
-                              color: AppColors.cF0F2F1.withValues(alpha: 0.6),
+                          ],
+                        )
+                      ),
+                      Positioned(
+                        top: 74.h,
+                        left: 6.w,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 48.h,
+                              width: 48.w,
+                              padding: EdgeInsets.all(12.w),
+                              decoration: BoxDecoration(
+                                color: AppColors.cF0F2F1.withValues(alpha: 0.12),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Image.asset(
+                                'assets/icons/fire.png',
+                                width: 24.w,
+                                height: 24.h,
+                              ),
                             ),
-                          ),
-                        ],
+                            UIHelper.horizontalSpace(16.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '5-Day Prayer Streak',
+                                  style: TextFontStyle.textStyle18cFFFFFFHelveticaNeue400,
+                                ),
+                                UIHelper.verticalSpace(8.h),
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/Restart.png',
+                                      width: 14.w,
+                                      height: 14.h,
+                                    ),
+                                    UIHelper.horizontalSpace(4.w),
+                                    Text(
+                                      'Reset',
+                                      style: TextFontStyle.textStyle14cF2A918HelveticaNeue400,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 167.h,
+                        left: 20.7.w,
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/Lock.png',
+                              width: 18.w,
+                              height: 18.h,
+                            ),
+                            UIHelper.horizontalSpace(32.w),
+                            Text(
+                              'Memorize 10 Verses',
+                              style: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
+                                color: AppColors.cF0F2F1.withValues(alpha: 0.6),
+                              ),
+                            ),
+                          ],
+                        ),
                       )
-                    ),
-                    Positioned(
-                      top: 74.h,
-                      left: 6.w,
-                      child: Row(
-                        children: [
-                          Container(
-                            height: 48.h,
-                            width: 48.w,
-                            padding: EdgeInsets.all(12.w),
-                            decoration: BoxDecoration(
-                              color: AppColors.cF0F2F1.withValues(alpha: 0.12),
-                              shape: BoxShape.circle,
-                            ),
-                            child: Image.asset(
-                              'assets/icons/fire.png',
-                              width: 24.w,
-                              height: 24.h,
-                            ),
-                          ),
-                          UIHelper.horizontalSpace(16.w),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '5-Day Prayer Streak',
-                                style: TextFontStyle.textStyle18cFFFFFFHelveticaNeue400,
-                              ),
-                              UIHelper.verticalSpace(8.h),
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/Restart.png',
-                                    width: 14.w,
-                                    height: 14.h,
-                                  ),
-                                  UIHelper.horizontalSpace(4.w),
-                                  Text(
-                                    'Reset',
-                                    style: TextFontStyle.textStyle14cF2A918HelveticaNeue400,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      top: 167.h,
-                      left: 20.7.w,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/icons/Lock.png',
-                            width: 18.w,
-                            height: 18.h,
-                          ),
-                          UIHelper.horizontalSpace(32.w),
-                          Text(
-                            'Memorize 10 Verses',
-                            style: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
-                              color: AppColors.cF0F2F1.withValues(alpha: 0.6),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
