@@ -27,8 +27,8 @@ class MilestoneHeader extends StatelessWidget {
     final double progress = targetDays == 0 ? 0 : completedDays / targetDays;
     final int remainingDays = (targetDays - completedDays).clamp(0, targetDays);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Stack(
+      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomAppBar(
           titleText: 'Milestone Progress',
@@ -37,7 +37,7 @@ class MilestoneHeader extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Transform.translate(
-            offset: Offset(0, -230.h),
+            offset: Offset(0, 150.h),
             child: Column(
               children: [
                 WeeklyProgressIndicator(
@@ -62,7 +62,6 @@ class MilestoneHeader extends StatelessWidget {
             ),
           ),
         ),
-        
       ],
     );
   }
