@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:template_flutter/common_widgets/custom_switch.dart';
+import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
-import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
 
 class ReminderSection extends StatelessWidget {
@@ -26,20 +26,11 @@ class ReminderSection extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: RichText(
-                text: TextSpan(
-                  style: TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
-                  children: [
-                    TextSpan(
-                      text: 'Set ',
-                      style: TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
-                    ),
-                    TextSpan(
-                      text: 'reminder time',
-                      style: TextFontStyle.textStyle24c3B230EHelveticaNeue500,
-                    ),
-                  ],
-                ),
+              child: DualToneTitle(
+                lightText: 'Set',
+                darkText: 'reminder time',
+                lightTextStyle: TextFontStyle.textStyle24c8C7C68HelveticaNeue400,
+                darkTextStyle: TextFontStyle.textStyle24c3B230EHelveticaNeue500
               ),
             ),
             CustomSwitch(
@@ -51,17 +42,18 @@ class ReminderSection extends StatelessWidget {
           ],
         ),
         if (isReminderEnabled) ...[
-          SizedBox(height: 14.h),
+          SizedBox(height: 12.h),
           GestureDetector(
             onTap: onTimeTap,
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+              height: 60.h,
+              padding: EdgeInsets.fromLTRB(20.w, 8.h, 8.w, 8.h),
               decoration: BoxDecoration(
-                color: AppColors.allPrimaryColor.withValues(alpha: 0.40),
-                borderRadius: BorderRadius.circular(22.r),
+                color: AppColors.allPrimaryColor,
+                borderRadius: BorderRadius.circular(20.r),
                 border: Border.all(
-                  color: AppColors.allsecondaryColor.withValues(alpha: 0.10),
+                  color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
                   width: 1.w,
                 ),
               ),
@@ -74,19 +66,26 @@ class ReminderSection extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    width: 50.w,
-                    height: 50.w,
+                    width: 44.w,
+                    height: 44.w,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.cF5EDD7.withValues(alpha: 0.50),
+                      color: AppColors.cF5F6F5.withValues(alpha: 0.35),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.allsecondaryColor.withValues(alpha: 0.10),
+                          blurRadius: 10,
+                          offset: Offset(0, 3.h),
+                        ),
+                      ],
                     ),
                     child: Center(
-                      child: Image(
-                        image: AssetImage(Assets.icons.calendar.path),
-                        width: 22.w,
-                        height: 22.w,
+                      child: Image.asset(
+                        'assets/icons/clock.png',
+                        width: 20.w,
+                        height: 20.w,
                         fit: BoxFit.contain,
-                      ),
+                      )
                     ),
                   ),
                 ],
