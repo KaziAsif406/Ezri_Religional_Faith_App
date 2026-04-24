@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:template_flutter/features/community/presentation/community_screen.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/add_faith_anchor.dart';
 import 'package:template_flutter/features/goals/presentation/add_goal.dart';
-import 'package:template_flutter/features/journey/presentation/widget/goals.dart';
 import 'package:template_flutter/features/milestone/presentation/milestone_progress.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/add_sacred_entry.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/all_saved_entries.dart';
