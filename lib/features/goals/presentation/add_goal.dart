@@ -39,6 +39,8 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
           data: Theme.of(context).copyWith(
             colorScheme: const ColorScheme.light(
               primary: AppColors.allsecondaryColor,
+              surface: AppColors.scaffoldColor,
+              onSurface: AppColors.allsecondaryColor,
             ),
           ),
           child: child ?? const SizedBox.shrink(),
@@ -151,19 +153,19 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
                   CustomButton(
                     onPressed: () {},
                     title: 'Save Goal',
-                    height: 72.h,
+                    height: 60.h,
                     borderRadius: BorderRadius.circular(999.r),
-                    backgroundGradient: const LinearGradient(
+                    backgroundGradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        AppColors.cC7BFAD,
+                        AppColors.c6B2F45.withValues(alpha: 0.15),
                         AppColors.c6B2F45,
                       ],
                     ),
                     textStyle: TextFontStyle.textStyle32cFFFFFFHelveticaNeue500
                         .copyWith(
-                      fontSize: 24.sp,
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.w700,
                       color: AppColors.cF5EDD7,
                     ),
