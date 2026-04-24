@@ -65,6 +65,7 @@ class GoalTypeSelector extends StatelessWidget {
           itemCount: options.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
+          padding: EdgeInsets.zero,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             crossAxisSpacing: 10.w,
@@ -79,16 +80,18 @@ class GoalTypeSelector extends StatelessWidget {
               onTap: () => onTypeChanged(option.type),
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.allPrimaryColor.withValues(alpha: 0.35),
+                  color: isSelected
+                      ? AppColors.allPrimaryColor
+                      : AppColors.cC7BFAD,
                   borderRadius: BorderRadius.circular(24.r),
                   border: Border.all(
                     color: isSelected
-                        ? AppColors.c796956
+                        ? AppColors.allsecondaryColor.withValues(alpha: 0.60)
                         : AppColors.allsecondaryColor.withValues(alpha: 0.12),
                     width: isSelected ? 1.8.w : 1.w,
                   ),
                 ),
-                padding: EdgeInsets.fromLTRB(10.w, 14.h, 10.w, 12.h),
+                padding: EdgeInsets.all(14.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -98,7 +101,7 @@ class GoalTypeSelector extends StatelessWidget {
                       height: 50.w,
                       fit: BoxFit.contain,
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 8.h),
                     Text(
                       option.label,
                       textAlign: TextAlign.center,
@@ -125,11 +128,11 @@ class GoalTypeSelector extends StatelessWidget {
             alignment: Alignment.center,
             padding: EdgeInsets.symmetric(vertical: 16.h),
             decoration: BoxDecoration(
-              color: AppColors.allPrimaryColor.withValues(alpha: 0.28),
+              color: AppColors.allPrimaryColor,
               borderRadius: BorderRadius.circular(40.r),
               border: Border.all(
                 color: selectedType == GoalType.other
-                    ? AppColors.c796956
+                    ? AppColors.allsecondaryColor.withValues(alpha: 0.60)
                     : AppColors.allsecondaryColor.withValues(alpha: 0.28),
                 width: selectedType == GoalType.other ? 1.8.w : 1.3.w,
               ),
