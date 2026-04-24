@@ -7,10 +7,12 @@ import '/gen/colors.gen.dart';
 
 class CustomAppBar extends StatelessWidget {
   final String? titleText;
+  final double imageHeight;
 
   const CustomAppBar({
     super.key,
     this.titleText,
+    this.imageHeight = 200.0,
   });
 
 
@@ -21,6 +23,7 @@ class CustomAppBar extends StatelessWidget {
         Image.asset(
           'assets/images/header_1.png',
           fit: BoxFit.cover,
+          height: imageHeight,
         ),
         Positioned(
           top: 70.h,
