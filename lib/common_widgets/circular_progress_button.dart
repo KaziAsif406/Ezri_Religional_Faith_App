@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
 
 class CircularProgressButton extends StatelessWidget {

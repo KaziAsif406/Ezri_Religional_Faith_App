@@ -4,9 +4,7 @@ import 'package:template_flutter/common_widgets/circular_progress_button.dart';
 import 'package:template_flutter/common_widgets/custom_appbar.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/milestone/presentation/widget/milestone_summary.dart';
-import 'package:template_flutter/gen/assets.gen.dart';
 import 'package:template_flutter/gen/colors.gen.dart';
-import 'package:template_flutter/helpers/navigation_service.dart';
 
 class MilestoneHeader extends StatelessWidget {
   const MilestoneHeader({
@@ -46,6 +44,9 @@ class MilestoneHeader extends StatelessWidget {
                   completedDays: completedDays,
                   selectedBackgroundColor: AppColors.cF5F6F5.withValues(alpha: 0.12),
                   unselectedBackgroundColor: AppColors.allsecondaryColor.withValues(alpha: 0.28),
+                  dayTextStyle: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
+                    color: AppColors.cF5F6F5.withValues(alpha: 0.6),
+                  ),
                 ),
                 SizedBox(height: 70.h),
                 MilestoneSummaryCard(
