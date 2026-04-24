@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:template_flutter/features/community/presentation/community_screen.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/add_faith_anchor.dart';
+import 'package:template_flutter/features/milestone/presentation/milestone_progress.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/add_sacred_entry.dart';
 import 'package:template_flutter/features/sacred_entry/presentation/all_saved_entries.dart';
 
@@ -33,6 +34,7 @@ final class Routes {
   static const String addSacredEntry = '/add_sacred_entry';
   static const String communityScreen = '/community_screen';
   static const String allSavedEntries = '/all_saved_entries';
+  static const String journeyMilestone = '/journey_milestone';
 }
 
 final class RouteGenerator {
@@ -72,6 +74,13 @@ final class RouteGenerator {
             ? CupertinoPageRoute(builder: (context) => const AllSavedEntriesScreen())
             : _FadedTransitionRoute(
                 widget: const AllSavedEntriesScreen(), settings: settings);
+
+
+      case Routes.journeyMilestone:
+        return defaultTargetPlatform == TargetPlatform.iOS
+            ? CupertinoPageRoute(builder: (context) => const MilestoneProgressScreen())
+            : _FadedTransitionRoute(
+                widget: const MilestoneProgressScreen(), settings: settings);
 
       // case Routes.signUpScreen:
       //   return defaultTargetPlatform == TargetPlatform.iOS
