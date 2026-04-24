@@ -31,7 +31,7 @@ class MilestoneSummaryCard extends StatelessWidget {
       padding: EdgeInsets.all(4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28.r),
-        color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
+        color: AppColors.allPrimaryColor.withValues(alpha: 0.65),
         border: Border.all(
           color: AppColors.c8C7C68.withValues(alpha: 0.48),
           width: 1.2.w,
@@ -43,11 +43,11 @@ class MilestoneSummaryCard extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              AppColors.allsecondaryColor.withValues(alpha: 0.20),
+              AppColors.allsecondaryColor.withValues(alpha: 0.25),
               AppColors.allsecondaryColor.withValues(alpha: 0.40),
             ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
           ),
           borderRadius: BorderRadius.circular(24.r),
           border: Border.all(
@@ -122,6 +122,7 @@ class MilestoneSummaryCard extends StatelessWidget {
             SizedBox(width: 16.w),
             Column(
               children: [
+                SizedBox(height: 8.h),
                 SizedBox(
                   width: 80.w,
                   height: 80.w,
@@ -160,7 +161,7 @@ class MilestoneSummaryCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                UIHelper.verticalSpace(41.h),
+                UIHelper.verticalSpace(35.h),
                 GestureDetector(
                   onTap: onContinueTap,
                   child: Text(
