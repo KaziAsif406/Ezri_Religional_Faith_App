@@ -8,8 +8,7 @@ class SavedGoal {
     required this.subtitle,
     required this.iconPath,
     required this.frequency,
-    required this.progress,
-    required this.isLocked,
+    required this.loggedDays,
     required this.isReminderEnabled,
     required this.selectedDays,
     required this.reminderTimeLabel,
@@ -19,19 +18,39 @@ class SavedGoal {
   final String subtitle;
   final String iconPath;
   final GoalFrequency frequency;
-  final double progress;
-  final bool isLocked;
+  final int loggedDays;
   final bool isReminderEnabled;
   final List<String> selectedDays;
   final String reminderTimeLabel;
+
+  int get totalDaysTarget {
+    final int selectedDayCount = selectedDays.isEmpty ? 1 : selectedDays.length;
+
+    switch (frequency) {
+      case GoalFrequency.daily:
+        return 7;
+      case GoalFrequency.weekly:
+        return selectedDayCount;
+      case GoalFrequency.monthly:
+        return selectedDayCount * 4;
+    }
+  }
+
+  double get progressValue {
+    if (totalDaysTarget == 0) {
+      return 0;
+    }
+    return (loggedDays / totalDaysTarget).clamp(0, 1);
+  }
+
+  String get dayCountLabel => '$loggedDays/$totalDaysTarget days';
 
   SavedGoal copyWith({
     String? title,
     String? subtitle,
     String? iconPath,
     GoalFrequency? frequency,
-    double? progress,
-    bool? isLocked,
+    int? loggedDays,
     bool? isReminderEnabled,
     List<String>? selectedDays,
     String? reminderTimeLabel,
@@ -41,8 +60,7 @@ class SavedGoal {
       subtitle: subtitle ?? this.subtitle,
       iconPath: iconPath ?? this.iconPath,
       frequency: frequency ?? this.frequency,
-      progress: progress ?? this.progress,
-      isLocked: isLocked ?? this.isLocked,
+      loggedDays: loggedDays ?? this.loggedDays,
       isReminderEnabled: isReminderEnabled ?? this.isReminderEnabled,
       selectedDays: selectedDays ?? this.selectedDays,
       reminderTimeLabel: reminderTimeLabel ?? this.reminderTimeLabel,
@@ -58,33 +76,30 @@ final class GoalStore {
   final List<SavedGoal> _goals = <SavedGoal>[
     const SavedGoal(
       title: 'Read 1 Chapter Daily',
-      subtitle: '3/7 days',
+      subtitle: '',
       iconPath: 'assets/icons/bible.png',
       frequency: GoalFrequency.daily,
-      progress: 0.43,
-      isLocked: false,
+      loggedDays: 3,
       isReminderEnabled: false,
       selectedDays: <String>['M', 'T', 'W', 'T', 'F'],
       reminderTimeLabel: '09:00 AM',
     ),
     const SavedGoal(
       title: '5-Day Prayer Streak',
-      subtitle: '3/5 days',
+      subtitle: '',
       iconPath: 'assets/icons/prayer.png',
       frequency: GoalFrequency.weekly,
-      progress: 0.60,
-      isLocked: false,
+      loggedDays: 3,
       isReminderEnabled: true,
       selectedDays: <String>['S', 'M', 'T'],
       reminderTimeLabel: '07:00 AM',
     ),
     const SavedGoal(
       title: 'Memorize 10 Verses',
-      subtitle: '0/10 complete',
+      subtitle: '',
       iconPath: 'assets/icons/memory.png',
       frequency: GoalFrequency.monthly,
-      progress: 0.0,
-      isLocked: true,
+      loggedDays: 0,
       isReminderEnabled: true,
       selectedDays: <String>['W'],
       reminderTimeLabel: '08:30 PM',
@@ -97,39 +112,52 @@ final class GoalStore {
     _goals.insert(0, goal);
   }
 
+  void logGoalAt(int index) {
+    if (index < 0 || index >= _goals.length) {
+      return;
+    }
+
+    final SavedGoal currentGoal = _goals[index];
+
+    final int nextLoggedDays = currentGoal.loggedDays + 1;
+    final int resetAwareLoggedDays =
+        nextLoggedDays >= currentGoal.totalDaysTarget ? 0 : nextLoggedDays;
+
+    _goals[index] = currentGoal.copyWith(
+      loggedDays: resetAwareLoggedDays,
+    );
+  }
+
   void resetToDefaults() {
     _goals
       ..clear()
       ..addAll(<SavedGoal>[
         const SavedGoal(
           title: 'Read 1 Chapter Daily',
-          subtitle: '3/7 days',
+          subtitle: '',
           iconPath: 'assets/icons/bible.png',
           frequency: GoalFrequency.daily,
-          progress: 0.43,
-          isLocked: false,
+          loggedDays: 3,
           isReminderEnabled: false,
           selectedDays: <String>['M', 'T', 'W', 'T', 'F'],
           reminderTimeLabel: '09:00 AM',
         ),
         const SavedGoal(
           title: '5-Day Prayer Streak',
-          subtitle: '3/5 days',
+          subtitle: '',
           iconPath: 'assets/icons/prayer.png',
           frequency: GoalFrequency.weekly,
-          progress: 0.60,
-          isLocked: false,
+          loggedDays: 3,
           isReminderEnabled: true,
           selectedDays: <String>['S', 'M', 'T'],
           reminderTimeLabel: '07:00 AM',
         ),
         const SavedGoal(
           title: 'Memorize 10 Verses',
-          subtitle: '0/10 complete',
+          subtitle: '',
           iconPath: 'assets/icons/memory.png',
           frequency: GoalFrequency.monthly,
-          progress: 0.0,
-          isLocked: true,
+          loggedDays: 0,
           isReminderEnabled: true,
           selectedDays: <String>['W'],
           reminderTimeLabel: '08:30 PM',
@@ -199,16 +227,20 @@ String goalSubtitleForSelection(
   bool isReminderEnabled,
   String reminderTimeLabel,
 ) {
-  final String daySummary =
-      selectedDays.isEmpty ? 'No days selected' : selectedDays.join(', ');
-  final String reminderSummary =
-      isReminderEnabled ? 'Reminder $reminderTimeLabel' : 'No reminder';
+  final int selectedDayCount = selectedDays.isEmpty ? 1 : selectedDays.length;
+  final int totalTarget;
 
   switch (frequency) {
     case GoalFrequency.daily:
-      return '$daySummary · $reminderSummary';
+      totalTarget = 7;
+      break;
     case GoalFrequency.weekly:
+      totalTarget = selectedDayCount;
+      break;
     case GoalFrequency.monthly:
-      return '$daySummary · $reminderSummary';
+      totalTarget = selectedDayCount * 4;
+      break;
   }
+
+  return '0/$totalTarget days';
 }
