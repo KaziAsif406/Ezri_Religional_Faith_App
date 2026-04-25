@@ -14,18 +14,38 @@ import 'package:template_flutter/helpers/navigation_service.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
 
 class AddGoalScreen extends StatefulWidget {
-  const AddGoalScreen({super.key});
+  const AddGoalScreen({
+    super.key,
+    this.existingGoal,
+    this.editIndex,
+  });
+
+  final SavedGoal? existingGoal;
+  final int? editIndex;
 
   @override
   State<AddGoalScreen> createState() => _AddGoalScreenState();
 }
 
 class _AddGoalScreenState extends State<AddGoalScreen> {
-  GoalType _selectedGoalType = GoalType.prayer;
-  GoalFrequency _selectedFrequency = GoalFrequency.weekly;
-  final Set<int> _selectedDays = <int>{2};
-  bool _isReminderOn = true;
-  TimeOfDay _selectedTime = const TimeOfDay(hour: 9, minute: 0);
+  late GoalType _selectedGoalType;
+  late GoalFrequency _selectedFrequency;
+  late Set<int> _selectedDays;
+  late bool _isReminderOn;
+  late TimeOfDay _selectedTime;
+
+  @override
+  void initState() {
+    super.initState();
+    final SavedGoal? existingGoal = widget.existingGoal;
+    _selectedGoalType = existingGoal?.goalType ?? GoalType.prayer;
+    _selectedFrequency = existingGoal?.frequency ?? GoalFrequency.weekly;
+    _selectedDays =
+        _dayLabelsToIndexes(existingGoal?.selectedDays ?? <String>['T']);
+    _isReminderOn = existingGoal?.isReminderEnabled ?? true;
+    _selectedTime = _parseTime(existingGoal?.reminderTimeLabel) ??
+        const TimeOfDay(hour: 9, minute: 0);
+  }
 
   bool get _showDaySelector {
     return _selectedFrequency == GoalFrequency.weekly ||
@@ -88,27 +108,74 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
     }
   }
 
+  Set<int> _dayLabelsToIndexes(List<String> labels) {
+    final Map<String, int> labelToIndex = <String, int>{
+      'S': 0,
+      'M': 1,
+      'T': 2,
+      'W': 3,
+      'F': 5,
+    };
+
+    final Set<int> indexes = <int>{};
+    for (final String label in labels) {
+      final int? index = labelToIndex[label];
+      if (index != null) {
+        indexes.add(index);
+      }
+    }
+    return indexes.isEmpty ? <int>{2} : indexes;
+  }
+
+  TimeOfDay? _parseTime(String? label) {
+    if (label == null || label.isEmpty) {
+      return null;
+    }
+
+    final RegExpMatch? match = RegExp(r'^(\d{1,2}):(\d{2})\s*(AM|PM)$')
+        .firstMatch(label.toUpperCase());
+    if (match == null) {
+      return null;
+    }
+
+    int hour = int.parse(match.group(1)!);
+    final int minute = int.parse(match.group(2)!);
+    final String period = match.group(3)!;
+
+    if (period == 'PM' && hour != 12) {
+      hour += 12;
+    } else if (period == 'AM' && hour == 12) {
+      hour = 0;
+    }
+
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
   Future<void> _saveGoal() async {
     final List<int> selectedDayIndexes = _selectedDays.toList()..sort();
     final List<String> dayLabels = selectedDayIndexes.map(_dayLabel).toList();
-
-    GoalStore.instance.addGoal(
-      SavedGoal(
-        title: goalTitleForSelection(_selectedGoalType, _selectedFrequency),
-        subtitle: goalSubtitleForSelection(
-          _selectedFrequency,
-          dayLabels,
-          _isReminderOn,
-          _selectedTime.format(context),
-        ),
-        iconPath: goalIconPathForType(_selectedGoalType),
-        frequency: _selectedFrequency,
-        loggedDays: 0,
-        isReminderEnabled: _isReminderOn,
-        selectedDays: dayLabels,
-        reminderTimeLabel: _selectedTime.format(context),
+    final SavedGoal goal = SavedGoal(
+      title: goalTitleForSelection(_selectedGoalType, _selectedFrequency),
+      subtitle: goalSubtitleForSelection(
+        _selectedFrequency,
+        dayLabels,
+        _isReminderOn,
+        _selectedTime.format(context),
       ),
+      iconPath: goalIconPathForType(_selectedGoalType),
+      goalType: _selectedGoalType,
+      frequency: _selectedFrequency,
+      loggedDays: widget.existingGoal?.loggedDays ?? 0,
+      isReminderEnabled: _isReminderOn,
+      selectedDays: dayLabels,
+      reminderTimeLabel: _selectedTime.format(context),
     );
+
+    if (widget.editIndex != null) {
+      GoalStore.instance.updateGoalAt(widget.editIndex!, goal);
+    } else {
+      GoalStore.instance.addGoal(goal);
+    }
     await showDialog(
       context: context,
       builder: (context) {

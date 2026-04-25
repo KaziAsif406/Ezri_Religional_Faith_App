@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:template_flutter/features/community/presentation/community_screen.dart';
 import 'package:template_flutter/features/faith_anchors/presentation/add_faith_anchor.dart';
+import 'package:template_flutter/features/goals/data/goal_store.dart';
 import 'package:template_flutter/features/goals/presentation/add_goal.dart';
 import 'package:template_flutter/features/goals/presentation/all_goals.dart';
 import 'package:template_flutter/features/milestone/presentation/milestone_progress.dart';
@@ -90,10 +91,22 @@ final class RouteGenerator {
                 widget: const MilestoneProgressScreen(), settings: settings);
 
       case Routes.addGoal:
+        final Map<String, dynamic>? args =
+            settings.arguments as Map<String, dynamic>?;
         return defaultTargetPlatform == TargetPlatform.iOS
-            ? CupertinoPageRoute(builder: (context) => const AddGoalScreen())
+            ? CupertinoPageRoute(
+                builder: (context) => AddGoalScreen(
+                  existingGoal: args?['goal'] as SavedGoal?,
+                  editIndex: args?['editIndex'] as int?,
+                ),
+              )
             : _FadedTransitionRoute(
-                widget: const AddGoalScreen(), settings: settings);
+                widget: AddGoalScreen(
+                  existingGoal: args?['goal'] as SavedGoal?,
+                  editIndex: args?['editIndex'] as int?,
+                ),
+                settings: settings,
+              );
 
       case Routes.allGoals:
         return defaultTargetPlatform == TargetPlatform.iOS
