@@ -42,8 +42,8 @@ class CurrentGoalsCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 64.w,
-              height: 64.w,
+              width: 50.w,
+              height: 50.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: AppColors.white.withValues(alpha: 0.35),
