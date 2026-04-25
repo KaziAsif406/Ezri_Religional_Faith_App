@@ -44,7 +44,8 @@ class AllGoalsScreenTile extends StatelessWidget {
                       color: AppColors.white.withValues(alpha: 0.32),
                       boxShadow: [
                         BoxShadow(
-                          color: AppColors.allsecondaryColor.withValues(alpha: 0.10),
+                          color: AppColors.allsecondaryColor
+                              .withValues(alpha: 0.10),
                           blurRadius: 15.r,
                           offset: Offset(0, 8.h),
                         ),
@@ -72,16 +73,16 @@ class AllGoalsScreenTile extends StatelessWidget {
                         SizedBox(height: 4.h),
                         Text(
                           goal.title,
-                          style: TextFontStyle
-                              .textStyle18c3B230EHelveticaNeue500,
+                          style:
+                              TextFontStyle.textStyle18c3B230EHelveticaNeue500,
                         ),
                       ],
                     ),
                   ),
                   SizedBox(width: 10.w),
                   _GoalActionChip(
-                    label: goal.isLocked ? 'Locked' : 'Log',
-                    onTap: goal.isLocked ? null : onTap,
+                    label: 'Log',
+                    onTap: onTap,
                   ),
                 ],
               ),
