@@ -9,6 +9,7 @@ import 'package:template_flutter/features/goals/presentation/widget/all_goals_sc
 import 'package:template_flutter/gen/colors.gen.dart';
 import 'package:template_flutter/helpers/all_routes.dart';
 import 'package:template_flutter/helpers/navigation_service.dart';
+import 'package:template_flutter/helpers/ui_helpers.dart';
 
 class AllGoalsScreen extends StatefulWidget {
   const AllGoalsScreen({super.key});
@@ -28,7 +29,7 @@ class _AllGoalsScreenState extends State<AllGoalsScreen> {
       _isAddButtonVisible = isVisible;
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final List<SavedGoal> goals = GoalStore.instance.goals;
@@ -41,13 +42,13 @@ class _AllGoalsScreenState extends State<AllGoalsScreen> {
           if (notification.depth != 0) {
             return false;
           }
-          
+
           if (notification.direction == ScrollDirection.reverse) {
             _setAddButtonVisible(false);
           } else if (notification.direction == ScrollDirection.forward) {
             _setAddButtonVisible(true);
           }
-          
+
           return false;
         },
         child: SingleChildScrollView(
@@ -60,12 +61,20 @@ class _AllGoalsScreenState extends State<AllGoalsScreen> {
                 child: Column(
                   children: [
                     for (int index = 0; index < goals.length; index++) ...[
-                      AllGoalsScreenTile(goal: goals[index]),
+                      AllGoalsScreenTile(
+                        goal: goals[index],
+                        onTap: () {
+                          setState(() {
+                            GoalStore.instance.logGoalAt(index);
+                          });
+                        },
+                      ),
                       if (index != goals.length - 1) SizedBox(height: 14.h),
                     ],
                   ],
                 ),
               ),
+              UIHelper.verticalSpace(30.h),
             ],
           ),
         ),
@@ -92,7 +101,8 @@ class _AllGoalsScreenState extends State<AllGoalsScreen> {
                 AppColors.c6B2F45.withValues(alpha: 0.92),
               ],
             ),
-            textStyle: TextFontStyle.textStyle16cFFFFFFHelveticaNeue500.copyWith(
+            textStyle:
+                TextFontStyle.textStyle16cFFFFFFHelveticaNeue500.copyWith(
               color: AppColors.cF5EDD7,
             ),
           ),

@@ -103,35 +103,35 @@ class _AddGoalScreenState extends State<AddGoalScreen> {
         ),
         iconPath: goalIconPathForType(_selectedGoalType),
         frequency: _selectedFrequency,
-        progress: 0.0,
-        isLocked: false,
+        loggedDays: 0,
         isReminderEnabled: _isReminderOn,
         selectedDays: dayLabels,
         reminderTimeLabel: _selectedTime.format(context),
       ),
     );
     await showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-        backgroundColor: AppColors.scaffoldColor,
-        title: Text('Success'),
-        content: Text('Goal saved successfully!'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // close dialog
-            },
-            child: Text(
-              'OK',
-              style: TextFontStyle.textStyle16c3B230EHelveticaNeue400,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+          backgroundColor: AppColors.scaffoldColor,
+          title: Text('Success'),
+          content: Text('Goal saved successfully!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // close dialog
+              },
+              child: Text(
+                'OK',
+                style: TextFontStyle.textStyle16c3B230EHelveticaNeue400,
+              ),
             ),
-          ),
-        ],
-      );
-    },
-  );
+          ],
+        );
+      },
+    );
     NavigationService.navigateToReplacement(Routes.allGoals);
   }
 
