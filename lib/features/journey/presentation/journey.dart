@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:template_flutter/common_widgets/dual_tone_title.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
+import 'package:template_flutter/features/goals/data/goal_store.dart';
 import 'package:template_flutter/features/journey/presentation/widget/fasting_tracker.dart';
 import 'package:template_flutter/features/journey/presentation/widget/goals.dart';
+import 'package:template_flutter/features/journey/presentation/widget/current_goals.dart';
 import 'package:template_flutter/features/journey/presentation/widget/journey_progress_empty.dart';
 import 'package:template_flutter/features/journey/presentation/widget/journey_reflection.dart';
 import 'package:template_flutter/gen/assets.gen.dart';
@@ -37,7 +39,6 @@ class _JourneyScreenState extends State<JourneyScreen> {
       slideKind: _JourneySlideKind.fasting,
       action: '',
       onActionPressed: null,
-
     ),
     _JourneySlideData(
       titleLight: 'Progress',
@@ -90,6 +91,14 @@ class _JourneyScreenState extends State<JourneyScreen> {
           buttonText: slide.buttonText,
         );
       case _JourneySlideKind.goals:
+        final List<SavedGoal> goals = GoalStore.instance.goals;
+        if (goals.isNotEmpty) {
+          return CurrentGoalsStackedView(
+            goals: goals,
+            onCardTap: (_) => NavigationService.navigateTo(Routes.allGoals),
+          );
+        }
+
         return Goals(
           title: slide.widgetTitle,
           subtitle: slide.widgetSubtitle,
@@ -413,10 +422,10 @@ class _JourneyScreenState extends State<JourneyScreen> {
                             DualToneTitle(
                               lightText: activeSlide.titleLight,
                               darkText: activeSlide.titleDark,
-                              lightTextStyle:
-                                  TextFontStyle.textStyle24c8C7C68HelveticaNeue300,
-                              darkTextStyle:
-                                  TextFontStyle.textStyle24c3B230EHelveticaNeue500,
+                              lightTextStyle: TextFontStyle
+                                  .textStyle24c8C7C68HelveticaNeue300,
+                              darkTextStyle: TextFontStyle
+                                  .textStyle24c3B230EHelveticaNeue500,
                             ),
                             Spacer(),
                             if (activeSlide.action.isNotEmpty)
@@ -425,8 +434,9 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                 child: Text(
                                   activeSlide.action,
                                   style: TextFontStyle
-                                    .textStyle18c3B230EHelveticaNeue700.copyWith(
-                                      decoration: TextDecoration.underline,
+                                      .textStyle18c3B230EHelveticaNeue700
+                                      .copyWith(
+                                    decoration: TextDecoration.underline,
                                   ),
                                 ),
                               ),

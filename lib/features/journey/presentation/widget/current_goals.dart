@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:template_flutter/common_widgets/dual_tone_title.dart';
+import 'package:template_flutter/common_widgets/stacked_cards.dart';
 import 'package:template_flutter/constants/text_font_style.dart';
 import 'package:template_flutter/features/goals/data/goal_store.dart';
 import 'package:template_flutter/gen/assets.gen.dart';
@@ -29,10 +31,10 @@ class CurrentGoalsCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.fromLTRB(14.w, 14.h, 14.w, 14.h),
+        padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
           color: AppColors.allPrimaryColor,
-          borderRadius: BorderRadius.circular(30.r),
+          borderRadius: BorderRadius.circular(24),
           border: Border.all(
             color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
             width: 1.w,
@@ -41,30 +43,36 @@ class CurrentGoalsCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 74.w,
-              height: 74.w,
+              width: 64.w,
+              height: 64.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.cF5EDD7.withValues(alpha: 0.45),
+                color: AppColors.white.withValues(alpha: 0.35),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.allsecondaryColor.withValues(alpha: 0.10),
+                    blurRadius: 10.r,
+                    offset: Offset(0, 5.h),
+                  ),
+                ],
               ),
               child: Center(
                 child: Image(
                   image: AssetImage(goal.iconPath),
-                  width: 32.w,
-                  height: 32.w,
+                  width: 30.w,
+                  height: 30.w,
                   fit: BoxFit.contain,
                 ),
               ),
             ),
-            SizedBox(width: 12.w),
+            SizedBox(width: 10.w),
             Expanded(
               child: Text(
                 goal.title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style:
-                    TextFontStyle.textStyle24c3B230EHelveticaNeue500.copyWith(
-                  fontSize: 22.sp,
+                    TextFontStyle.textStyle18c3B230EHelveticaNeue400.copyWith(
                   height: 1.12,
                 ),
               ),
@@ -74,6 +82,42 @@ class CurrentGoalsCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CurrentGoalsStackedView extends StatelessWidget {
+  const CurrentGoalsStackedView({
+    super.key,
+    required this.goals,
+    this.onCardTap,
+  });
+
+  final List<SavedGoal> goals;
+  final ValueChanged<int>? onCardTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return StackedSwipeDeck<SavedGoal>(
+      items: goals,
+      keyBuilder: (SavedGoal goal) => '${goal.title}_${goal.reminderTimeLabel}',
+      deckHeight: 210.h,
+      maxVisibleCards: 3,
+      topOffsetStep: 16.h,
+      scaleStep: 0.02,
+      horizontalInset: 6.w,
+      emptyBuilder: (BuildContext context, VoidCallback resetDeck) {
+        return _EmptyCurrentGoalCard(
+          onTap: resetDeck,
+        );
+      },
+      cardBuilder: (BuildContext context, SavedGoal goal, bool isTopCard) {
+        final int index = goals.indexOf(goal);
+        return CurrentGoalsCard(
+          goalIndex: index,
+          onTap: onCardTap == null ? null : () => onCardTap!(index),
+        );
+      },
     );
   }
 }
@@ -91,55 +135,56 @@ class _GoalDayCountBadge extends StatelessWidget {
         parts.length > 1 ? parts.sublist(1).join(' ') : 'days';
 
     return Container(
-      padding: EdgeInsets.fromLTRB(16.w, 10.h, 16.w, 10.h),
+      padding: EdgeInsets.all(4.w),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            AppColors.cB4B197,
-            AppColors.cB4B197,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(999.r),
+        borderRadius: BorderRadius.circular(40.r),
         border: Border.all(
-          color: AppColors.cF5EDD7.withValues(alpha: 0.85),
+          color: AppColors.white.withValues(alpha: 0.40),
           width: 1.w,
         ),
+        color: Colors.transparent,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image(
-            image: AssetImage(Assets.icons.fire.path),
-            width: 20.w,
-            height: 20.w,
-            fit: BoxFit.contain,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(8.w, 8.h, 8.w, 8.h),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.cF5EDD7,
+              const Color.fromARGB(255, 182, 173, 148),
+            ],
           ),
-          SizedBox(width: 6.w),
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: ratio,
-                  style:
-                      TextFontStyle.textStyle24c3B230EHelveticaNeue500.copyWith(
-                    fontSize: 20.sp,
-                    height: 1,
-                  ),
-                ),
-                TextSpan(
-                  text: ' $suffix',
-                  style:
-                      TextFontStyle.textStyle24c8C7C68HelveticaNeue400.copyWith(
-                    fontSize: 20.sp,
-                    height: 1,
-                  ),
-                ),
-              ],
+          borderRadius: BorderRadius.circular(999.r),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image(
+              image: AssetImage(Assets.icons.fire.path),
+              width: 18.w,
+              height: 18.w,
+              fit: BoxFit.contain,
             ),
-          ),
-        ],
+            SizedBox(width: 4.w),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: ratio,
+                    style:
+                        TextFontStyle.textStyle18c3B230EHelveticaNeue500,
+                  ),
+                  TextSpan(
+                    text: ' $suffix',
+                    style:
+                        TextFontStyle.textStyle14c8C7C68HelveticaNeue400,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
