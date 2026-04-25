@@ -7,6 +7,7 @@ class SavedGoal {
     required this.title,
     required this.subtitle,
     required this.iconPath,
+    required this.goalType,
     required this.frequency,
     required this.loggedDays,
     required this.isReminderEnabled,
@@ -17,6 +18,7 @@ class SavedGoal {
   final String title;
   final String subtitle;
   final String iconPath;
+  final GoalType goalType;
   final GoalFrequency frequency;
   final int loggedDays;
   final bool isReminderEnabled;
@@ -49,6 +51,7 @@ class SavedGoal {
     String? title,
     String? subtitle,
     String? iconPath,
+    GoalType? goalType,
     GoalFrequency? frequency,
     int? loggedDays,
     bool? isReminderEnabled,
@@ -59,6 +62,7 @@ class SavedGoal {
       title: title ?? this.title,
       subtitle: subtitle ?? this.subtitle,
       iconPath: iconPath ?? this.iconPath,
+      goalType: goalType ?? this.goalType,
       frequency: frequency ?? this.frequency,
       loggedDays: loggedDays ?? this.loggedDays,
       isReminderEnabled: isReminderEnabled ?? this.isReminderEnabled,
@@ -78,6 +82,7 @@ final class GoalStore {
       title: 'Read 1 Chapter Daily',
       subtitle: '',
       iconPath: 'assets/icons/bible.png',
+      goalType: GoalType.bibleReading,
       frequency: GoalFrequency.daily,
       loggedDays: 3,
       isReminderEnabled: false,
@@ -88,6 +93,7 @@ final class GoalStore {
       title: '5-Day Prayer Streak',
       subtitle: '',
       iconPath: 'assets/icons/prayer.png',
+      goalType: GoalType.prayer,
       frequency: GoalFrequency.weekly,
       loggedDays: 3,
       isReminderEnabled: true,
@@ -98,6 +104,7 @@ final class GoalStore {
       title: 'Memorize 10 Verses',
       subtitle: '',
       iconPath: 'assets/icons/memory.png',
+      goalType: GoalType.memoryVerses,
       frequency: GoalFrequency.monthly,
       loggedDays: 0,
       isReminderEnabled: true,
@@ -112,20 +119,47 @@ final class GoalStore {
     _goals.insert(0, goal);
   }
 
-  void logGoalAt(int index) {
+  void updateGoalAt(int index, SavedGoal goal) {
     if (index < 0 || index >= _goals.length) {
       return;
+    }
+
+    _goals[index] = goal;
+  }
+
+  void removeGoalAt(int index) {
+    if (index < 0 || index >= _goals.length) {
+      return;
+    }
+
+    _goals.removeAt(index);
+  }
+
+  void resetGoalAt(int index) {
+    if (index < 0 || index >= _goals.length) {
+      return;
+    }
+
+    _goals[index] = _goals[index].copyWith(loggedDays: 0);
+  }
+
+  bool logGoalAt(int index) {
+    if (index < 0 || index >= _goals.length) {
+      return false;
     }
 
     final SavedGoal currentGoal = _goals[index];
 
     final int nextLoggedDays = currentGoal.loggedDays + 1;
-    final int resetAwareLoggedDays =
-        nextLoggedDays >= currentGoal.totalDaysTarget ? 0 : nextLoggedDays;
+    final int cappedLoggedDays = nextLoggedDays >= currentGoal.totalDaysTarget
+        ? currentGoal.totalDaysTarget
+        : nextLoggedDays;
 
     _goals[index] = currentGoal.copyWith(
-      loggedDays: resetAwareLoggedDays,
+      loggedDays: cappedLoggedDays,
     );
+
+    return cappedLoggedDays >= currentGoal.totalDaysTarget;
   }
 
   void resetToDefaults() {
@@ -136,6 +170,7 @@ final class GoalStore {
           title: 'Read 1 Chapter Daily',
           subtitle: '',
           iconPath: 'assets/icons/bible.png',
+          goalType: GoalType.bibleReading,
           frequency: GoalFrequency.daily,
           loggedDays: 3,
           isReminderEnabled: false,
@@ -146,6 +181,7 @@ final class GoalStore {
           title: '5-Day Prayer Streak',
           subtitle: '',
           iconPath: 'assets/icons/prayer.png',
+          goalType: GoalType.prayer,
           frequency: GoalFrequency.weekly,
           loggedDays: 3,
           isReminderEnabled: true,
@@ -156,6 +192,7 @@ final class GoalStore {
           title: 'Memorize 10 Verses',
           subtitle: '',
           iconPath: 'assets/icons/memory.png',
+          goalType: GoalType.memoryVerses,
           frequency: GoalFrequency.monthly,
           loggedDays: 0,
           isReminderEnabled: true,

@@ -10,114 +10,119 @@ class AllGoalsScreenTile extends StatelessWidget {
     super.key,
     required this.goal,
     this.onTap,
+    this.onLongPress,
   });
 
   final SavedGoal goal;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.allPrimaryColor,
-        borderRadius: BorderRadius.circular(24.r),
-        border: Border.all(
-          color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
-          width: 1.w,
+    return GestureDetector(
+      onLongPress: onLongPress,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.allPrimaryColor,
+          borderRadius: BorderRadius.circular(24.r),
+          border: Border.all(
+            color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
+            width: 1.w,
+          ),
         ),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24.r),
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 14.h),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 60.w,
-                    height: 60.w,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.white.withValues(alpha: 0.32),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.allsecondaryColor
-                              .withValues(alpha: 0.10),
-                          blurRadius: 15.r,
-                          offset: Offset(0, 8.h),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(24.r),
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 14.h),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 60.w,
+                      height: 60.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.white.withValues(alpha: 0.32),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.allsecondaryColor
+                                .withValues(alpha: 0.10),
+                            blurRadius: 15.r,
+                            offset: Offset(0, 8.h),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Image(
+                          image: AssetImage(goal.iconPath),
+                          width: 30.w,
+                          height: 30.w,
+                          fit: BoxFit.contain,
                         ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Image(
-                        image: AssetImage(goal.iconPath),
-                        width: 30.w,
-                        height: 30.w,
-                        fit: BoxFit.contain,
                       ),
                     ),
-                  ),
-                  SizedBox(width: 12.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          goal.dayCountLabel,
-                          style:
-                              TextFontStyle.textStyle14c8C7C68HelveticaNeue400,
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          goal.title,
-                          style:
-                              TextFontStyle.textStyle18c3B230EHelveticaNeue500,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10.w),
-                  _GoalActionChip(
-                    label: 'Log',
-                    onTap: onTap,
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: WavyProgressSeparator(),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 16.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Today progress',
-                    style: TextFontStyle.textStyle16c796956HelveticaNeue400
-                        .copyWith(fontSize: 16.sp),
-                  ),
-                  SizedBox(height: 10.h),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(999.r),
-                    child: LinearProgressIndicator(
-                      value: goal.progressValue,
-                      minHeight: 10.h,
-                      backgroundColor:
-                          AppColors.c238D1A.withValues(alpha: 0.10),
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        AppColors.c238D1A,
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            goal.dayCountLabel,
+                            style:
+                                TextFontStyle.textStyle14c8C7C68HelveticaNeue400,
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            goal.title,
+                            style:
+                                TextFontStyle.textStyle18c3B230EHelveticaNeue500,
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(width: 10.w),
+                    _GoalActionChip(
+                      label: 'Log',
+                      onTap: onTap,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: WavyProgressSeparator(),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 16.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Today progress',
+                      style: TextFontStyle.textStyle16c796956HelveticaNeue400
+                          .copyWith(fontSize: 16.sp),
+                    ),
+                    SizedBox(height: 10.h),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(999.r),
+                      child: LinearProgressIndicator(
+                        value: goal.progressValue,
+                        minHeight: 10.h,
+                        backgroundColor:
+                            AppColors.c238D1A.withValues(alpha: 0.10),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          AppColors.c238D1A,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
