@@ -42,10 +42,10 @@ class MilestoneHeader extends StatelessWidget {
               children: [
                 WeeklyProgressIndicator(
                   completedDays: completedDays,
-                  selectedBackgroundColor: AppColors.cF5F6F5.withValues(alpha: 0.12),
+                  selectedBackgroundColor: AppColors.white.withValues(alpha: 0.12),
                   unselectedBackgroundColor: AppColors.allsecondaryColor.withValues(alpha: 0.28),
                   dayTextStyle: TextFontStyle.textStyle16cFFFFFFHelveticaNeue400.copyWith(
-                    color: AppColors.cF5F6F5.withValues(alpha: 0.6),
+                    color: AppColors.white.withValues(alpha: 0.6),
                   ),
                 ),
                 SizedBox(height: 70.h),

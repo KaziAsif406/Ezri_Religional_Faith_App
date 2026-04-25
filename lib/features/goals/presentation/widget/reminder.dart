@@ -70,7 +70,7 @@ class ReminderSection extends StatelessWidget {
                     height: 44.w,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.cF5F6F5.withValues(alpha: 0.35),
+                      color: AppColors.white.withValues(alpha: 0.35),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.allsecondaryColor.withValues(alpha: 0.10),

@@ -25,7 +25,7 @@ class MilestoneListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool hasProgress = progress != null;
     final Color iconContainerColor = status == MilestoneStatus.completed
-        ? AppColors.cF5F6F5.withValues(alpha: 0.32)
+        ? AppColors.white.withValues(alpha: 0.32)
         : AppColors.cF5EDD7.withValues(alpha: 0.36);
 
     return ClipRRect(
@@ -126,8 +126,8 @@ class _StatusChip extends StatelessWidget {
       case MilestoneStatus.completed:
         fillgradient = LinearGradient(
           colors: [
-            AppColors.cF5F6F5.withValues(alpha: 0.00),
-            AppColors.cF5F6F5.withValues(alpha: 0.00),
+            AppColors.white.withValues(alpha: 0.00),
+            AppColors.white.withValues(alpha: 0.00),
           ],
         );
         textColor = AppColors.allPrimaryColor;

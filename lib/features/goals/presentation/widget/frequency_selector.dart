@@ -45,7 +45,7 @@ class FrequencySelector extends StatelessWidget {
                       : null,
                   color: isSelected
                       ? null
-                      : AppColors.cF5F6F5.withValues(alpha: 0.12),
+                      : AppColors.white.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(40.r),
                   border: Border.all(
                     color: isSelected
@@ -134,7 +134,7 @@ class DaySelector extends StatelessWidget {
                       : null,
                   color: isSelected
                       ? null
-                      : AppColors.cF5F6F5.withValues(alpha: 0.12),
+                      : AppColors.white.withValues(alpha: 0.12),
                   border: Border.all(
                     color: isSelected
                         ? AppColors.allsecondaryColor.withValues(alpha: 0.18)

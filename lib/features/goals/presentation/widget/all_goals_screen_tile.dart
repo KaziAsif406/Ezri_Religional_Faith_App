@@ -21,27 +21,34 @@ class AllGoalsScreenTile extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.allPrimaryColor,
-        borderRadius: BorderRadius.circular(28.r),
+        borderRadius: BorderRadius.circular(24.r),
         border: Border.all(
           color: AppColors.allsecondaryColor.withValues(alpha: 0.12),
           width: 1.w,
         ),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(28.r),
+        borderRadius: BorderRadius.circular(24.r),
         child: Column(
           children: [
             Padding(
               padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 14.h),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    width: 72.w,
-                    height: 72.w,
+                    width: 60.w,
+                    height: 60.w,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColors.cF5EDD7.withValues(alpha: 0.45),
+                      color: AppColors.white.withValues(alpha: 0.32),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.allsecondaryColor.withValues(alpha: 0.10),
+                          blurRadius: 15.r,
+                          offset: Offset(0, 8.h),
+                        ),
+                      ],
                     ),
                     child: Center(
                       child: Image(
@@ -58,31 +65,23 @@ class AllGoalsScreenTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          goal.subtitle,
+                          goal.dayCountLabel,
                           style:
-                              TextFontStyle.textStyle12c99907AHelveticaNeue400,
+                              TextFontStyle.textStyle14c8C7C68HelveticaNeue400,
                         ),
                         SizedBox(height: 4.h),
                         Text(
                           goal.title,
                           style: TextFontStyle
-                              .textStyle20c3B230EHelveticaNeue500
-                              .copyWith(
-                            fontSize: 18.sp,
-                          ),
+                              .textStyle18c3B230EHelveticaNeue500,
                         ),
                       ],
                     ),
                   ),
                   SizedBox(width: 10.w),
                   _GoalActionChip(
-                    label: goal.isLocked
-                        ? 'Locked'
-                        : goal.progress >= 1
-                            ? 'Done'
-                            : 'Log',
-                    onTap: onTap,
-                    isLocked: goal.isLocked,
+                    label: goal.isLocked ? 'Locked' : 'Log',
+                    onTap: goal.isLocked ? null : onTap,
                   ),
                 ],
               ),
@@ -105,7 +104,7 @@ class AllGoalsScreenTile extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(999.r),
                     child: LinearProgressIndicator(
-                      value: goal.progress.clamp(0, 1),
+                      value: goal.progressValue,
                       minHeight: 10.h,
                       backgroundColor:
                           AppColors.cBCD5BC.withValues(alpha: 0.55),
@@ -127,12 +126,10 @@ class AllGoalsScreenTile extends StatelessWidget {
 class _GoalActionChip extends StatelessWidget {
   const _GoalActionChip({
     required this.label,
-    required this.isLocked,
     this.onTap,
   });
 
   final String label;
-  final bool isLocked;
   final VoidCallback? onTap;
 
   @override
@@ -140,20 +137,15 @@ class _GoalActionChip extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: isLocked
-                ? [
-                    AppColors.cCFC7B6,
-                    AppColors.cA29783,
-                  ]
-                : [
-                    AppColors.cCFC7B6,
-                    AppColors.cB4B197,
-                  ],
+            colors: [
+              AppColors.cCFC7B6,
+              AppColors.cB4B197,
+            ],
           ),
           borderRadius: BorderRadius.circular(999.r),
           border: Border.all(
@@ -163,9 +155,7 @@ class _GoalActionChip extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: TextFontStyle.textStyle16c3B230EHelveticaNeue500.copyWith(
-            fontSize: 14.sp,
-          ),
+          style: TextFontStyle.textStyle14c3B230EHelveticaNeue500,
         ),
       ),
     );

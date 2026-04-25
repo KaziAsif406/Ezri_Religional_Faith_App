@@ -169,10 +169,10 @@ Widget build(BuildContext context) {
         colors: [
           isSelected
               ? AppColors.c8F96A0.withValues(alpha: 0.12)
-              : AppColors.cF5F6F5.withValues(alpha: 0.14),
+              : AppColors.white.withValues(alpha: 0.14),
           isSelected
               ? AppColors.c8F96A0.withValues(alpha: 0.32)
-              : AppColors.cF5F6F5.withValues(alpha: 0.34),
+              : AppColors.white.withValues(alpha: 0.34),
         ],
       );
 

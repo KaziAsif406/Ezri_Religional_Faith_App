@@ -67,7 +67,7 @@ class MilestoneSummaryCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40.r),
                       border: Border.all(
-                        color: AppColors.cF5F6F5.withValues(alpha: 0.40),
+                        color: AppColors.white.withValues(alpha: 0.40),
                         width: 1.w,
                       ),
                       color: Colors.transparent,
