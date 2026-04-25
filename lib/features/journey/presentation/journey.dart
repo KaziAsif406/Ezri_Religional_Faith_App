@@ -7,7 +7,6 @@ import 'package:template_flutter/features/goals/data/goal_store.dart';
 import 'package:template_flutter/features/journey/presentation/widget/current_goals_stacked.dart';
 import 'package:template_flutter/features/journey/presentation/widget/fasting_tracker.dart';
 import 'package:template_flutter/features/journey/presentation/widget/goals.dart';
-import 'package:template_flutter/features/journey/presentation/widget/current_goals.dart';
 import 'package:template_flutter/features/journey/presentation/widget/journey_progress_empty.dart';
 import 'package:template_flutter/features/journey/presentation/widget/journey_reflection.dart';
 import 'package:template_flutter/gen/assets.gen.dart';
