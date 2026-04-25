@@ -108,7 +108,7 @@ class AllGoalsScreenTile extends StatelessWidget {
                       value: goal.progressValue,
                       minHeight: 10.h,
                       backgroundColor:
-                          AppColors.cBCD5BC.withValues(alpha: 0.55),
+                          AppColors.c238D1A.withValues(alpha: 0.10),
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         AppColors.c238D1A,
                       ),
